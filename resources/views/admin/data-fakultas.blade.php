@@ -7,6 +7,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manajemen Data Fakultas & Program Studi</h4>
+                    <div class="d-flex justify-content-end mb-3 gap-3">
+                        <button type="button" class="btn btn-sm btn-primary ">Tambah Fakultas</button>
+                    </div>
                     </p>
                     <table class="table">
                         <thead>
@@ -79,4 +82,5 @@
             </div>
         </div>
     </div>
+
 @endsection

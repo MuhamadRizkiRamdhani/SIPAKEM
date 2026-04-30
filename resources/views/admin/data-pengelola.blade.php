@@ -7,6 +7,10 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manajemen Data Pengelola</h4>
+                    <div class="d-flex justify-content-end mb-3 gap-3">
+                        <button type="button" class="btn btn-sm btn-primary ">Tambah Pengelola</button>
+                        <button type="button" class="btn btn-sm btn-success ">Export PDF</button>
+                    </div>
                     </p>
                     <table class="table">
                         <thead>

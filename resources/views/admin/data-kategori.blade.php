@@ -7,6 +7,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manajemen Data Kategori Sertifikat</h4>
+                    <div class="d-flex justify-content-end mb-3 gap-3">
+                        <button type="button" class="btn btn-sm btn-primary ">Tambah Kategori</button>
+                    </div>
                     </p>
                     <table class="table">
                         <thead>
@@ -110,4 +113,5 @@
             </div>
         </div>
     </div>
+
 @endsection

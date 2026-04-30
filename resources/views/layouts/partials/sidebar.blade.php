@@ -25,31 +25,51 @@
         {{-- MENU ADMIN --}}
         @if($user->role === 'admin')
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard-admin') }}">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">
                     <span class="menu-title">Dashboard</span>
                     <i class="mdi mdi-home menu-icon"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#admin-data" aria-expanded="false"
-                    aria-controls="admin-data">
-                    <span class="menu-title">Data Management</span>
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen" aria-expanded="false"
+                    aria-controls="data-manajemen">
+                    <span class="menu-title">Manajemen Data</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-database menu-icon"></i>
                 </a>
-                <div class="collapse" id="admin-data">
+                <div class="collapse" id="data-manajemen">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('data-mahasiswa') }}">Data Mahasiswa</a>
+                            <a class="nav-link" href="{{ route('admin.data-mahasiswa') }}">Data Mahasiswa</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('data-pengelola') }}">Data Pengelola</a>
+                            <a class="nav-link" href="{{ route('admin.data-pengelola') }}">Data Pengelola</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('data-fakultas') }}">Data Fakultas</a>
+                            <a class="nav-link" href="{{ route('admin.data-fakultas') }}">Data Fakultas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('data-kategori') }}">Data Kategori</a>
+                            <a class="nav-link" href="{{ route('admin.data-kategori') }}">Data Kategori</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan" aria-expanded="false"
+                    aria-controls="data-pengajuan">
+                    <span class="menu-title">Data Pengajuan</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-note-text-outline menu-icon"></i>
+                </a>
+                <div class="collapse" id="data-pengajuan">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.data-pengajuan-sertifikat') }}">Data Pengajuan
+                                Sertifikat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.data-pengajuan-skpi') }}">Data Pengajuan
+                                SKPI</a>
                         </li>
                     </ul>
                 </div>
@@ -59,25 +79,54 @@
         {{-- MENU PENGELOLA --}}
         @if($user->role === 'pengelola')
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard-pengelola') }}">
+                <a class="nav-link" href="{{ route('pengelola.dashboard') }}">
                     <span class="menu-title">Dashboard</span>
                     <i class="mdi mdi-home menu-icon"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('data-pengajuan') }}">
-                    <span class="menu-title">Data Pengajuan</span>
-                    <i class="mdi mdi-file-document menu-icon"></i>
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen" aria-expanded="false"
+                    aria-controls="data-manajemen">
+                    <span class="menu-title">Manajemen Data</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-database menu-icon"></i>
                 </a>
+                <div class="collapse" id="data-manajemen">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pengelola.data-mahasiswa') }}">Data Mahasiswa</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan" aria-expanded="false"
+                    aria-controls="data-pengajuan">
+                    <span class="menu-title">Data Pengajuan</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-note-text-outline menu-icon"></i>
+                </a>
+                <div class="collapse" id="data-pengajuan">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-sertifikat') }}">Data Pengajuan
+                                Sertifikat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-skpi') }}">Data Pengajuan
+                                SKPI</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         @endif
 
         {{-- MENU MAHASISWA --}}
         @if($user->role === 'mahasiswa')
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard-mahasiswa') }}">
+                <a class="nav-link" href="{{ route('mahasiswa.dashboard') }}">
                     <span class="menu-title">Dashboard</span>
-                    <i class="mdi mdi-home menu-icon"></i>
+                    <i class=" mdi mdi-home menu-icon"></i>
                 </a>
             </li>
             <li class="nav-item">

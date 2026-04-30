@@ -16,42 +16,70 @@ Route::post('/api/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 // ==================== ADMIN ROUTES ====================
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard-admin');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'role:admin'])
+    ->group(function () {
 
-    Route::get('/data-mahasiswa', function () {
-        return view('admin.data-mahasiswa');
-    })->name('data-mahasiswa');
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
 
-    Route::get('/data-pengelola', function () {
-        return view('admin.data-pengelola');
-    })->name('data-pengelola');
+        Route::get('/data-mahasiswa', function () {
+            return view('admin.data-mahasiswa');
+        })->name('data-mahasiswa');
 
-    Route::get('/data-kategori', function () {
-        return view('admin.data-kategori');
-    })->name('data-kategori');
+        Route::get('/data-pengelola', function () {
+            return view('admin.data-pengelola');
+        })->name('data-pengelola');
 
-    Route::get('/data-fakultas', function () {
-        return view('admin.data-fakultas');
-    })->name('data-fakultas');
-});
+        Route::get('/data-kategori', function () {
+            return view('admin.data-kategori');
+        })->name('data-kategori');
+
+        Route::get('/data-fakultas', function () {
+            return view('admin.data-fakultas');
+        })->name('data-fakultas');
+
+        Route::get('/data-pengajuan-sertifikat', function () {
+            return view('admin.data-pengajuan-sertifikat');
+        })->name('data-pengajuan-sertifikat');
+
+        Route::get('/data-pengajuan-skpi', function () {
+            return view('admin.data-pengajuan-skpi');
+        })->name('data-pengajuan-skpi');
+    });
 
 // ==================== PENGELOLA ROUTES ====================
-Route::prefix('pengelola')->middleware(['auth', 'role:pengelola'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pengelola.dashboard');
-    })->name('dashboard-pengelola');
+Route::prefix('pengelola')
+    ->name('pengelola.')
+    ->middleware(['auth', 'role:pengelola'])
+    ->group(function () {
 
-    Route::get('/data-pengajuan', function () {
-        return view('pengelola.data-pengajuan');
-    })->name('data-pengajuan');
-});
+        Route::get('/dashboard', function () {
+            return view('pengelola.dashboard');
+        })->name('dashboard');
+
+        Route::get('/data-mahasiswa', function () {
+            return view('pengelola.data-mahasiswa');
+        })->name('data-mahasiswa');
+
+        Route::get('/data-pengajuan-sertifikat', function () {
+            return view('pengelola.data-pengajuan-sertifikat');
+        })->name('data-pengajuan-sertifikat');
+
+        Route::get('/data-pengajuan-skpi', function () {
+            return view('pengelola.data-pengajuan-skpi');
+        })->name('data-pengajuan-skpi');
+    });
 
 // ==================== MAHASISWA ROUTES ====================
-Route::prefix('mahasiswa')->middleware(['auth', 'role:mahasiswa'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('mahasiswa.dashboard');
-    })->name('dashboard-mahasiswa');
-});
+Route::prefix('mahasiswa')
+    ->name('mahasiswa.')
+    ->middleware(['auth', 'role:mahasiswa'])
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('mahasiswa.dashboard');
+        })->name('dashboard');
+    });
