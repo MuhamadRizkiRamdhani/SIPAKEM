@@ -25,6 +25,10 @@ Route::prefix('admin')
             return view('admin.dashboard');
         })->name('dashboard');
 
+        Route::get('/data-pengguna', function () {
+            return view('admin.data-pengguna');
+        })->name('data-pengguna');
+
         Route::get('/data-mahasiswa', function () {
             return view('admin.data-mahasiswa');
         })->name('data-mahasiswa');
@@ -82,4 +86,16 @@ Route::prefix('mahasiswa')
         Route::get('/dashboard', function () {
             return view('mahasiswa.dashboard');
         })->name('dashboard');
+
+        Route::get('/riwayat-pengajuan', function () {
+            return view('mahasiswa.riwayat-pengajuan');
+        })->name('riwayat-pengajuan');
+
+        Route::get('/pengajuan-sertifikat', function () {
+            return view('mahasiswa.pengajuan-sertifikat');
+        })->name('pengajuan-sertifikat');
+
+        Route::get('/pengajuan-skpi', function () {
+            return view('mahasiswa.pengajuan-skpi');
+        })->name('pengajuan-skpi');
     });

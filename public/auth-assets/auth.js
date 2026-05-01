@@ -41,7 +41,17 @@ function showFeedback(element, message, isError = false) {
  */
 function validateLoginForm(username, password) {
     if (!username) return { valid: false, message: 'Username harus diisi' };
+
+    if (!/^[a-zA-Z\s]+$/.test(username)) {
+        return { valid: false, message: 'Username hanya boleh huruf dan spasi' };
+    }
+
+    if (username.length > 50) {
+        return { valid: false, message: 'Username maksimal 50 karakter' };
+    }
+
     if (!password) return { valid: false, message: 'Password harus diisi' };
+
     return { valid: true };
 }
 
@@ -49,18 +59,40 @@ function validateLoginForm(username, password) {
  * Validasi input register
  */
 function validateRegisterForm(data) {
+    // NIM: wajib angka & max 10 digit
     if (!data.nim) return { valid: false, message: 'NIM harus diisi' };
+    if (!/^\d+$/.test(data.nim)) return { valid: false, message: 'NIM hanya boleh angka' };
+    if (data.nim.length > 10) return { valid: false, message: 'NIM maksimal 10 digit' };
+
+    // Nama: huruf & spasi saja
     if (!data.fullname) return { valid: false, message: 'Nama lengkap harus diisi' };
+    if (!/^[a-zA-Z\s]+$/.test(data.fullname)) return { valid: false, message: 'Nama hanya boleh huruf dan spasi' };
+
+    // Username: huruf saja, max 50
     if (!data.username) return { valid: false, message: 'Username harus diisi' };
+    if (!/^[a-zA-Z\s]+$/.test(data.username)) {
+        return { valid: false, message: 'Username hanya boleh huruf dan spasi' };
+    }
+    if (data.username.length > 50) return { valid: false, message: 'Username maksimal 50 karakter' };
+
+    // Password
     if (!data.password) return { valid: false, message: 'Password harus diisi' };
-    if (!data.confirmPassword) return { valid: false, message: 'Konfirmasi password harus diisi' };
     if (data.password.length < 6) return { valid: false, message: 'Password minimal 6 karakter' };
+
+    if (!data.confirmPassword) return { valid: false, message: 'Konfirmasi password harus diisi' };
     if (data.password !== data.confirmPassword) return { valid: false, message: 'Password tidak cocok' };
+
+    // Dropdown
     if (!data.fakultasValue) return { valid: false, message: 'Pilih fakultas terlebih dahulu' };
     if (!data.prodi) return { valid: false, message: 'Pilih program studi' };
+
+    // Radio
     if (data.beasiswa === '') return { valid: false, message: 'Pilih status beasiswa' };
+
     return { valid: true };
 }
+
+
 
 // ==================== PROGRAM STUDI DROPDOWN ====================
 
@@ -422,7 +454,36 @@ function init() {
             showRegisterForm();
         });
     }
+
+    const loginUsername = document.getElementById('loginUsername');
+    if (loginUsername) {
+        loginUsername.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+    });
+    }
+
+    const nimInput = document.getElementById('nim');
+    if (nimInput) {
+        nimInput.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+    }
+
+    const usernameInput = document.getElementById('regUsername');
+    if (usernameInput) {
+        usernameInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z]/g, '').slice(0, 50);
+        });
+    }
+
+    const nameInput = document.getElementById('regFullname');
+    if (nameInput) {
+        nameInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    }
 }
+
 
 // Start aplikasi ketika DOM ready
 if (document.readyState === 'loading') {

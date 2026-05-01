@@ -40,6 +40,9 @@
                 <div class="collapse" id="data-manajemen">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.data-pengguna') }}">Data Pengguna</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.data-mahasiswa') }}">Data Mahasiswa</a>
                         </li>
                         <li class="nav-item">
@@ -139,25 +142,17 @@
                 <div class="collapse" id="mhs-menu">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Lihat Pengajuan</a>
+                            <a class="nav-link" href="{{ route('mahasiswa.pengajuan-sertifikat') }}">Ajukan Sertifikat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
+                            <a class="nav-link" href="{{ route('mahasiswa.pengajuan-skpi') }}">Ajukan SKPI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mahasiswa.riwayat-pengajuan') }}">Riwayat Pengajuan</a>
                         </li>
                     </ul>
                 </div>
             </li>
         @endif
-
-        <li class="nav-item">
-            <a class="nav-link" href="#"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <span class="menu-title">Logout</span>
-                <i class="mdi mdi-logout menu-icon"></i>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </li>
     </ul>
 </nav>

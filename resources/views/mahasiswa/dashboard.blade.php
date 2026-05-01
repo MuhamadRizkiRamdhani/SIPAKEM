@@ -1,20 +1,127 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        @php
-            $user = auth()->user();
-            $userName = '';
-            $userRole = ucfirst($user->role);
 
-            if ($user->role === 'admin') {
-                $userName = $user->admin->nama_admin ?? 'Admin';
-            } elseif ($user->role === 'mahasiswa') {
-                $userName = $user->mahasiswa->nama_mhs ?? 'Mahasiswa';
-            } elseif ($user->role === 'pengelola') {
-                $userName = $user->pengelola->nama_pengelola ?? 'Pengelola';
-            }
-        @endphp
-        <h1>Selamat Datang {{ $userName }}</h1>
+    @php
+        $user = auth()->user();
+        $userName = '';
+        $userRole = ucfirst($user->role);
+
+        if ($user->role === 'admin') {
+            $userName = $user->admin->nama_admin ?? 'Admin';
+        } elseif ($user->role === 'mahasiswa') {
+            $userName = $user->mahasiswa->nama_mhs ?? 'Mahasiswa';
+        } elseif ($user->role === 'pengelola') {
+            $userName = $user->pengelola->nama_pengelola ?? 'Pengelola';
+        }
+    @endphp
+
+    <h3 class="mb-4">Selamat Datang {{ $userName }}</h3>
+
+    <div class="page-header">
+        <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                <i class="mdi mdi-home"></i>
+            </span> Dashboard
+        </h3>
     </div>
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg') }}" class="card-img-absolute"
+                            alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Poin <i
+                                class="mdi mdi-star-four-points-outline mdi-24px float-end"></i>
+                        </h4>
+                        <h2 class="mb-5">nanti ganti pake query (10/100) dan beri bar progress</h2>
+                        <a href="{{ route('mahasiswa.pengajuan-skpi') }}" class="btn btn-light">
+                            Ajukan SKPI
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg') }}" class="card-img-absolute"
+                            alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Pengajuan disetujui <i
+                                class="mdi mdi-check-decagram-outline mdi-24px float-end"></i>
+                        </h4>
+                        <h2 class="mb-5">nanti ganti pake query</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg') }}" class="card-img-absolute"
+                            alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Ajukan Sertifikat <i
+                                class="mdi mdi-receipt-send-outline mdi-24px float-end"></i>
+                        </h4>
+                        <h2 class="mb-5">Ajukan sertifikat anda</h2>
+                        <a href="{{ route('mahasiswa.pengajuan-sertifikat') }}" class="btn btn-light">
+                            Ajukan Sertifikat
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 grid-margin ">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Panduan Pengajuan</h4>
+                        <p class="card-description">
+                            Berikut adalah panduan untuk melakukan pengajuan sertifikat dan SKPI.
+                        </p>
+                        <button class="btn btn-primary">Baca Panduan</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Status Pengajuan</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Pengajuan</th>
+                                    <th>Tanggal Pengajuan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SKPI</td>
+                                    <td>2024-06-01</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Sertifikat Kegiatan</td>
+                                    <td>2024-05-20</td>
+                                    <td><span class="badge bg-success">Disetujui</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Sertifikat Kegiatan</td>
+                                    <td>2024-05-15</td>
+                                    <td><span class="badge bg-danger">Ditolak</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
 @endsection

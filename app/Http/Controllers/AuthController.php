@@ -50,10 +50,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
+            'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+            'password' => ['required', 'string'],
         ], [
             'username.required' => 'Username harus diisi',
+            'username.alpha' => 'Username hanya boleh huruf tanpa simbol',
+            'username.max' => 'Username maksimal 50 karakter',
             'password.required' => 'Password harus diisi',
         ]);
 
@@ -89,19 +91,28 @@ class AuthController extends Controller
     {
         try {
             $request->validate([
-                'nama_mahasiswa' => 'required|string|max:255',
-                'username' => 'required|string|unique:users|max:255',
-                'password' => 'required|string|min:6',
-                'nim' => 'required|string|unique:mahasiswa,nim|max:20',
-                'fakultas' => 'required|string',
-                'prodi' => 'required|numeric',
-                'penerima_beasiswa' => 'required|boolean',
+                'nama_mahasiswa' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+
+                'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:50', 'unique:users,username'],
+
+                'password' => ['required', 'string', 'min:6'],
+
+                'nim' => ['required', 'digits_between:1,10', 'unique:mahasiswa,nim'],
+
+                'fakultas' => ['required', 'string'],
+
+                'prodi' => ['required', 'numeric'],
+
+                'penerima_beasiswa' => ['required', 'boolean'],
             ], [
+                'nama_mahasiswa.regex' => 'Nama hanya boleh huruf dan spasi',
+
+                'username.alpha' => 'Username hanya boleh huruf tanpa simbol',
+                'username.max' => 'Username maksimal 50 karakter',
                 'username.unique' => 'Username sudah digunakan',
-                'password.min' => 'Password minimal 6 karakter',
-                'nim.required' => 'NIM harus diisi',
+
+                'nim.digits_between' => 'NIM harus berupa angka maksimal 10 digit',
                 'nim.unique' => 'NIM sudah terdaftar',
-                'prodi.required' => 'Program studi harus dipilih',
             ]);
 
             // Buat user dengan role mahasiswa
