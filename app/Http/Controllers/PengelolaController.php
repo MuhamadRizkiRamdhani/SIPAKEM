@@ -9,7 +9,8 @@ class PengelolaController extends Controller
 {
     public function index()
     {
-        return Pengelola::with('user')->get();
+        $pengelolas = Pengelola::with('user')->get();
+        return view('admin.data-pengelola', compact('pengelolas'));
     }
 
     public function store(Request $request)

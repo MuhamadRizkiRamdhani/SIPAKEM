@@ -9,7 +9,8 @@ class FakultasController extends Controller
 {
     public function index()
     {
-        return Fakultas::with('prodi')->get();
+        $fakultas = Fakultas::with('prodi')->get();
+        return view('admin.data-fakultas', compact('fakultas'));
     }
 
     public function store(Request $request)

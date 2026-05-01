@@ -21,39 +21,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Super Admin</td>
-                                <td>1</td>
-                                <td>
-                                    <span class="badge badge-primary">admin</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">OTP</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>pengelola1</td>
-                                <td>2</td>
-                                <td>
-                                    <span class="badge badge-warning">pengelola</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">OTP</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Muhamad Rizki Ramdhani</td>
-                                <td>3</td>
-                                <td>
-                                    <span class="badge badge-danger">mahasiswa</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">OTP</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse($users as $u)
+                                <tr>
+                                    <td>{{ $u->username }}</td>
+                                    <td>{{ $u->id_user }}</td>
+                                    <td>
+                                        <span
+                                            class="badge badge-{{ $u->role === 'admin' ? 'primary' : ($u->role === 'pengelola' ? 'warning' : 'danger') }}">
+                                            {{ $u->role }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">OTP</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center"><em>Belum ada data</em></td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

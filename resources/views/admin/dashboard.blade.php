@@ -36,7 +36,7 @@
                         <h4 class="font-weight-normal mb-3">Total Mahasiswa <i
                                 class="mdi mdi-account-school mdi-24px float-end"></i>
                         </h4>
-                        <h2 class="mb-5">nanti ganti pake query</h2>
+                        <h2 class="mb-5">{{ $totalMahasiswa }}</h2>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                         <h4 class="font-weight-normal mb-3">Total Pengelola Sistem <i
                                 class="mdi mdi-security mdi-24px float-end"></i>
                         </h4>
-                        <h2 class="mb-5">nanti ganti pake query</h2>
+                        <h2 class="mb-5">{{ $totalPengelola }}</h2>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <h4 class="font-weight-normal mb-3">Total Pengajuan <i
                                 class="mdi mdi-note-check-outline mdi-24px float-end"></i>
                         </h4>
-                        <h2 class="mb-5">nanti ganti pake query</h2>
+                        <h2 class="mb-5">{{ $totalPengajuan }}</h2>
                     </div>
                 </div>
             </div>
@@ -72,66 +72,37 @@
             <div class="col-md-15 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Permintaan Pengajuan</h4>
+                        <h4 class="card-title">Permintaan Pengajuan Terbaru</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nama Mahasiswa</th>
                                         <th>NIM</th>
-                                        <th>Prodi</th>
-                                        <th>Fakultas</th>
-                                        <th>File Sertifikat</th>
+                                        <th>Sertifikat</th>
+                                        <th>Tanggal Pengajuan</th>
                                         <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Joko</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Tinjau</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Joko</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Tinjau</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Joko</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Tinjau</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                        </td>
-                                    </tr>
+                                    @forelse($pengajuanTerbaru as $p)
+                                        <tr>
+                                            <td>{{ $p->mahasiswa->nama_mhs ?? '-' }}</td>
+                                            <td>{{ $p->nim }}</td>
+                                            <td>{{ $p->sertifikat->nama_sertifikat ?? '-' }}</td>
+                                            <td>{{ $p->tgl_pengajuan_sertifikat }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge badge-{{ $p->status === 'diterima' ? 'success' : ($p->status === 'ditolak' ? 'danger' : ($p->status === 'diproses' ? 'warning' : 'secondary')) }}">
+                                                    {{ $p->status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center"><em>Belum ada data</em></td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -152,46 +123,22 @@
                                         <th>Nama</th>
                                         <th>NIM</th>
                                         <th>Program Studi</th>
-                                        <th>Fakultas</th>
                                         <th>Poin</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Agus</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> 95</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Agus</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> 95</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Agus</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> 95</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Agus</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> 95</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Agus</td>
-                                        <td>53275531</td>
-                                        <td> Teknik Informatika</td>
-                                        <td> Fakultas Teknik</td>
-                                        <td> 95</td>
-                                    </tr>
+                                    @forelse($top5Mahasiswa as $m)
+                                        <tr>
+                                            <td>{{ $m->nama_mhs }}</td>
+                                            <td>{{ $m->nim }}</td>
+                                            <td>{{ $m->prodi->nama_prodi ?? '-' }}</td>
+                                            <td>{{ $m->poin_kredit }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center"><em>Belum ada data</em></td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

@@ -1,6 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\PengelolaController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\PengajuanSertifikatController;
+use App\Http\Controllers\PengajuanSKPIController;
+use App\Http\Controllers\PointRulesController;
 use Illuminate\Support\Facades\Route;
 
 // ==================== AUTH ROUTES ====================
@@ -21,37 +31,25 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/data-pengguna', function () {
-            return view('admin.data-pengguna');
-        })->name('data-pengguna');
+        Route::get('/data-pengguna', [UserController::class, 'index'])->name('data-pengguna');
 
-        Route::get('/data-mahasiswa', function () {
-            return view('admin.data-mahasiswa');
-        })->name('data-mahasiswa');
+        Route::get('/data-mahasiswa', [MahasiswaController::class, 'index'])->name('data-mahasiswa');
 
-        Route::get('/data-pengelola', function () {
-            return view('admin.data-pengelola');
-        })->name('data-pengelola');
+        Route::get('/data-pengelola', [PengelolaController::class, 'index'])->name('data-pengelola');
 
-        Route::get('/data-kategori', function () {
-            return view('admin.data-kategori');
-        })->name('data-kategori');
+        Route::get('/data-kategori', [KategoriController::class, 'index'])->name('data-kategori');
 
-        Route::get('/data-fakultas', function () {
-            return view('admin.data-fakultas');
-        })->name('data-fakultas');
+        Route::get('/data-fakultas', [FakultasController::class, 'index'])->name('data-fakultas');
 
-        Route::get('/data-pengajuan-sertifikat', function () {
-            return view('admin.data-pengajuan-sertifikat');
-        })->name('data-pengajuan-sertifikat');
+        Route::get('/data-prodi', [ProdiController::class, 'index'])->name('data-prodi');
 
-        Route::get('/data-pengajuan-skpi', function () {
-            return view('admin.data-pengajuan-skpi');
-        })->name('data-pengajuan-skpi');
+        Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
+
+        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
+
+        Route::get('/data-poin', [PointRulesController::class, 'index'])->name('data-poin');
     });
 
 // ==================== PENGELOLA ROUTES ====================
@@ -75,6 +73,10 @@ Route::prefix('pengelola')
         Route::get('/data-pengajuan-skpi', function () {
             return view('pengelola.data-pengajuan-skpi');
         })->name('data-pengajuan-skpi');
+
+        Route::get('/data-poin', function () {
+            return view('pengelola.data-poin');
+        })->name('data-poin');
     });
 
 // ==================== MAHASISWA ROUTES ====================

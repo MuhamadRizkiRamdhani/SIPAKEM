@@ -9,7 +9,8 @@ class ProdiController extends Controller
 {
     public function index()
     {
-        return Prodi::with(['fakultas', 'mahasiswa'])->get();
+        $prodis = Prodi::with('fakultas')->get();
+        return view('admin.data-prodi', compact('prodis'));
     }
 
     public function store(Request $request)

@@ -30,4 +30,14 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Prodi::class, 'id_prodi');
     }
+
+    public function pengajuanSertifikat()
+    {
+        return $this->hasMany(PengajuanSertifikat::class, 'nim');
+    }
+
+    public function pengajuanSKPI()
+    {
+        return $this->hasMany(PengajuanSKPI::class, 'nim');
+    }
 }

@@ -24,61 +24,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> 85</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> 85</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> 85</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> 85</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> 85</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse($mahasiswas as $m)
+                                <tr>
+                                    <td>{{ $m->nama_mhs }}</td>
+                                    <td>{{ $m->nim }}</td>
+                                    <td>{{ $m->prodi->nama_prodi ?? '-' }}</td>
+                                    <td>{{ $m->prodi->fakultas->nama_fakultas ?? '-' }}</td>
+                                    <td>{{ $m->poin_kredit }}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center"><em>Belum ada data</em></td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

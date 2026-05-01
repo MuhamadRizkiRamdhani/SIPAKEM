@@ -1,39 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Fakultas</h1>
+    <h1>Data Program Studi</h1>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Manajemen Data Fakultas</h4>
+                    <h4 class="card-title">Manajemen Data Program Studi</h4>
                     <div class="d-flex justify-content-end mb-3 gap-3">
-                        <button type="button" class="btn btn-sm btn-primary ">Tambah Fakultas</button>
+                        <button type="button" class="btn btn-sm btn-primary ">Tambah Program Studi</button>
                     </div>
                     </p>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Nama Fakultas</th>
-                                <th>ID_Fakultas</th>
-                                <th>Program Studi</th>
+                                <th>Nama Prodi</th>
+                                <th>ID_Prodi</th>
+                                <th>Fakultas</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($fakultas as $f)
+                            @forelse($prodis as $p)
                                 <tr>
-                                    <td>{{ $f->nama_fakultas }}</td>
-                                    <td>{{ $f->id_fakultas }}</td>
-                                    <td>
-                                        @if($f->prodi->count() > 0)
-                                            @foreach($f->prodi as $p)
-                                                {{ $p->nama_prodi }}<br>
-                                            @endforeach
-                                        @else
-                                            <em>Tidak ada prodi</em>
-                                        @endif
-                                    </td>
+                                    <td>{{ $p->nama_prodi }}</td>
+                                    <td>{{ $p->id_prodi }}</td>
+                                    <td>{{ $p->fakultas->nama_fakultas ?? '-' }}</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm">Edit</button>
                                         <button class="btn btn-danger btn-sm">Delete</button>

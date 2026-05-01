@@ -17,56 +17,26 @@
                             <tr>
                                 <th>Nama Pengelola</th>
                                 <th>ID_Pengelola</th>
-                                <th>Jabatan</th>
+                                <th>Username</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td>Sekertaris Jurusan</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td>Sekertaris Jurusan</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td>Sekertaris Jurusan</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td>Sekertaris Jurusan</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jacob</td>
-                                <td>53275531</td>
-                                <td>Sekertaris Jurusan</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse($pengelolas as $pg)
+                                <tr>
+                                    <td>{{ $pg->nama_pengelola }}</td>
+                                    <td>{{ $pg->id_pengelola }}</td>
+                                    <td>{{ $pg->user->username ?? '-' }}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center"><em>Belum ada data</em></td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -17,96 +17,33 @@
                                 <th>Nama Kategori</th>
                                 <th>ID_Kategori</th>
                                 <th>Sub Kategori</th>
-                                <th>Level</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Perlombaan</td>
-                                <td>0001</td>
-                                <td>Internasional <br>
-                                    Nasional <br>
-                                    Provinsi
-                                </td>
-                                <td>
-                                    Juara 1 <br>
-                                    Juara 2 <br>
-                                    Juara 3
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Perlombaan</td>
-                                <td>0001</td>
-                                <td>Internasional <br>
-                                    Nasional <br>
-                                    Provinsi
-                                </td>
-                                <td>
-                                    Juara 1 <br>
-                                    Juara 2 <br>
-                                    Juara 3
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Perlombaan</td>
-                                <td>0001</td>
-                                <td>Internasional <br>
-                                    Nasional <br>
-                                    Provinsi
-                                </td>
-                                <td>
-                                    Juara 1 <br>
-                                    Juara 2 <br>
-                                    Juara 3
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Perlombaan</td>
-                                <td>0001</td>
-                                <td>Internasional <br>
-                                    Nasional <br>
-                                    Provinsi
-                                </td>
-                                <td>
-                                    Juara 1 <br>
-                                    Juara 2 <br>
-                                    Juara 3
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Perlombaan</td>
-                                <td>0001</td>
-                                <td>Internasional <br>
-                                    Nasional <br>
-                                    Provinsi
-                                </td>
-                                <td>
-                                    Juara 1 <br>
-                                    Juara 2 <br>
-                                    Juara 3
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse($kategoris as $k)
+                                <tr>
+                                    <td>{{ $k->nama_kategori }}</td>
+                                    <td>{{ $k->id_kategori }}</td>
+                                    <td>
+                                        @if($k->subKategori->count() > 0)
+                                            @foreach($k->subKategori as $sk)
+                                                {{ $sk->nama_sub_kategori }}<br>
+                                            @endforeach
+                                        @else
+                                            <em>Tidak ada sub kategori</em>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center"><em>Belum ada data</em></td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

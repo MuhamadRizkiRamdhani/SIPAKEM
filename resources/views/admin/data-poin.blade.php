@@ -1,39 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Fakultas</h1>
+    <h1>Data Poin</h1>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Manajemen Data Fakultas</h4>
+                    <h4 class="card-title">Manajemen Data Poin</h4>
                     <div class="d-flex justify-content-end mb-3 gap-3">
-                        <button type="button" class="btn btn-sm btn-primary ">Tambah Fakultas</button>
+                        <button type="button" class="btn btn-sm btn-primary ">Tambah Point Rules</button>
                     </div>
                     </p>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Nama Fakultas</th>
-                                <th>ID_Fakultas</th>
-                                <th>Program Studi</th>
+                                <th>ID_Rules</th>
+                                <th>Kategori</th>
+                                <th>Sub-Kategori</th>
+                                <th>Level</th>
+                                <th>Poin Akhir</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($fakultas as $f)
+                            @forelse($pointRules as $pr)
                                 <tr>
-                                    <td>{{ $f->nama_fakultas }}</td>
-                                    <td>{{ $f->id_fakultas }}</td>
-                                    <td>
-                                        @if($f->prodi->count() > 0)
-                                            @foreach($f->prodi as $p)
-                                                {{ $p->nama_prodi }}<br>
-                                            @endforeach
-                                        @else
-                                            <em>Tidak ada prodi</em>
-                                        @endif
-                                    </td>
+                                    <td>{{ $pr->id_rules }}</td>
+                                    <td>{{ $pr->kategori->nama_kategori ?? '-' }}</td>
+                                    <td>{{ $pr->subKategori->nama_sub_kategori ?? '-' }}</td>
+                                    <td>{{ $pr->level->nama_level ?? '-' }}</td>
+                                    <td>{{ $pr->poin_akhir }}</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm">Edit</button>
                                         <button class="btn btn-danger btn-sm">Delete</button>
@@ -41,7 +37,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center"><em>Belum ada data</em></td>
+                                    <td colspan="6" class="text-center"><em>Belum ada data</em></td>
                                 </tr>
                             @endforelse
                         </tbody>

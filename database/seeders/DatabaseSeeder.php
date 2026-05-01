@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
             ProdiSeeder::class,
             AdminSeeder::class,
             PengelolaSeeder::class,
-            MahasiswaSeeder::class,
+            KategoriSeeder::class,
+            SubKategoriSeeder::class,
+            LevelSeeder::class,
+            PointRulesSeeder::class,
+            // MahasiswaSeeder::class,
         ]);
         // User::factory(10)->create();
 

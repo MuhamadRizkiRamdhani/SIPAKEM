@@ -9,7 +9,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return Admin::with('user')->get();
+        $admins = Admin::with('user')->get();
+        return view('admin.data-admin', compact('admins'));
     }
 
     public function store(Request $request)

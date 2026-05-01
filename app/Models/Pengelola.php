@@ -18,4 +18,9 @@ class Pengelola extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+
+    public function pengajuanSertifikat()
+    {
+        return $this->hasMany(PengajuanSertifikat::class, 'id_pengelola');
+    }
 }
