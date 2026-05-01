@@ -10,7 +10,7 @@ class ProdiController extends Controller
     public function index()
     {
         $prodis = Prodi::with('fakultas')->get();
-        return view('admin.data-prodi', compact('prodis'));
+        return view('admin.prodi.index', compact('prodis'));
     }
 
     public function store(Request $request)

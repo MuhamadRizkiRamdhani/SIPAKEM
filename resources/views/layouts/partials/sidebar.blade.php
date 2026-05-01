@@ -140,21 +140,6 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-poin" aria-expanded="false"
-                    aria-controls="data-poin">
-                    <span class="menu-title">Kelola Poin</span>
-                    <i class="menu-arrow"></i>
-                    <i class="mdi mdi-star-four-points-outline menu-icon"></i>
-                </a>
-                <div class="collapse" id="data-poin">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pengelola.data-poin') }}">Aturan Poin</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
         @endif
 
         {{-- MENU MAHASISWA --}}

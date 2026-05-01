@@ -13,19 +13,18 @@ use App\Http\Controllers\PengajuanSKPIController;
 use App\Http\Controllers\PointRulesController;
 use Illuminate\Support\Facades\Route;
 
-// ==================== AUTH ROUTES ====================
-
-// Menampilkan halaman login
+// ==================== AUTH ====================
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 
-// API routes untuk login dan register
 Route::post('/api/login', [AuthController::class, 'login']);
 Route::post('/api/register', [AuthController::class, 'register']);
 
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
-// ==================== ADMIN ROUTES ====================
+
+// ==================== ADMIN ====================
 Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'role:admin'])
@@ -52,7 +51,8 @@ Route::prefix('admin')
         Route::get('/data-poin', [PointRulesController::class, 'index'])->name('data-poin');
     });
 
-// ==================== PENGELOLA ROUTES ====================
+
+// ==================== PENGELOLA ====================
 Route::prefix('pengelola')
     ->name('pengelola.')
     ->middleware(['auth', 'role:pengelola'])
@@ -63,23 +63,24 @@ Route::prefix('pengelola')
         })->name('dashboard');
 
         Route::get('/data-mahasiswa', function () {
-            return view('pengelola.data-mahasiswa');
+            return view('pengelola.mahasiswa.index');
         })->name('data-mahasiswa');
 
         Route::get('/data-pengajuan-sertifikat', function () {
-            return view('pengelola.data-pengajuan-sertifikat');
+            return view('pengelola.pengajuan.sertifikat');
         })->name('data-pengajuan-sertifikat');
 
         Route::get('/data-pengajuan-skpi', function () {
-            return view('pengelola.data-pengajuan-skpi');
+            return view('pengelola.pengajuan.skpi');
         })->name('data-pengajuan-skpi');
 
         Route::get('/data-poin', function () {
-            return view('pengelola.data-poin');
+            return view('pengelola.poin.index');
         })->name('data-poin');
     });
 
-// ==================== MAHASISWA ROUTES ====================
+
+// ==================== MAHASISWA ====================
 Route::prefix('mahasiswa')
     ->name('mahasiswa.')
     ->middleware(['auth', 'role:mahasiswa'])
@@ -90,14 +91,14 @@ Route::prefix('mahasiswa')
         })->name('dashboard');
 
         Route::get('/riwayat-pengajuan', function () {
-            return view('mahasiswa.riwayat-pengajuan');
+            return view('mahasiswa.riwayat.index');
         })->name('riwayat-pengajuan');
 
         Route::get('/pengajuan-sertifikat', function () {
-            return view('mahasiswa.pengajuan-sertifikat');
+            return view('mahasiswa.pengajuan.sertifikat');
         })->name('pengajuan-sertifikat');
 
         Route::get('/pengajuan-skpi', function () {
-            return view('mahasiswa.pengajuan-skpi');
+            return view('mahasiswa.pengajuan.skpi');
         })->name('pengajuan-skpi');
     });

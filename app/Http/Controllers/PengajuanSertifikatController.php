@@ -22,7 +22,10 @@ class PengajuanSertifikatController extends Controller
             'pengelola',
             'pointRules'
         ])->get();
-        return view('pengajuan-sertifikat.index', compact('pengajuanSertifikats'));
+
+        $role = auth()->user()->role;
+
+        return view("$role.pengajuan.sertifikat", compact('pengajuanSertifikats'));
     }
 
     /**

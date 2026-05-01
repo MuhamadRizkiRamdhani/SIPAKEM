@@ -12,8 +12,12 @@ class MahasiswaController extends Controller
 {
     public function index()
     {
+
         $mahasiswas = Mahasiswa::with(['user', 'prodi'])->get();
-        return view('admin.data-mahasiswa', compact('mahasiswas'));
+
+        $role = auth()->user()->role;
+
+        return view("$role.mahasiswa.index", compact('mahasiswas'));
     }
 
     public function store(Request $request)

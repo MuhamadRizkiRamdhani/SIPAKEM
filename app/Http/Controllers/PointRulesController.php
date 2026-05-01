@@ -16,7 +16,8 @@ class PointRulesController extends Controller
     public function index()
     {
         $pointRules = PointRules::with(['kategori', 'subKategori', 'level'])->get();
-        return view('point-rules.index', compact('pointRules'));
+
+        return view("admin.poin.index", compact('pointRules'));
     }
 
     /**

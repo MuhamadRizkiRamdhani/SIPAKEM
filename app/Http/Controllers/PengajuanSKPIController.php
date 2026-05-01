@@ -14,7 +14,10 @@ class PengajuanSKPIController extends Controller
     public function index()
     {
         $pengajuanSKPIs = PengajuanSKPI::with('mahasiswa')->get();
-        return view('pengajuan-skpi.index', compact('pengajuanSKPIs'));
+
+        $role = auth()->user()->role;
+
+        return view("$role.pengajuan.skpi", compact('pengajuanSKPIs'));
     }
 
     /**
