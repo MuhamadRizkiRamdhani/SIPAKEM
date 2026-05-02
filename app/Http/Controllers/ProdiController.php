@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Prodi;
+use App\Models\Fakultas;
 
 class ProdiController extends Controller
 {
@@ -13,9 +14,21 @@ class ProdiController extends Controller
         return view('admin.prodi.index', compact('prodis'));
     }
 
+    public function create()
+    {
+        $fakultas = Fakultas::all();
+        return view('admin.prodi.create', compact('fakultas'));
+    }
+
     public function store(Request $request)
     {
-        return Prodi::create($request->all());
+        $validated = $request->validate([
+            'nama_prodi' => 'required|string|max:255',
+            'id_fakultas' => 'required|exists:fakultas,id_fakultas'
+        ]);
+
+        Prodi::create($validated);
+        return redirect()->route('admin.prodi.index')->with('success', 'Prodi berhasil ditambahkan');
     }
 
     public function show($id)
@@ -23,16 +36,28 @@ class ProdiController extends Controller
         return Prodi::findOrFail($id);
     }
 
+    public function edit($id)
+    {
+        $prodi = Prodi::findOrFail($id);
+        $fakultas = Fakultas::all();
+        return view('admin.prodi.edit', compact('prodi', 'fakultas'));
+    }
+
     public function update(Request $request, $id)
     {
-        $data = Prodi::findOrFail($id);
-        $data->update($request->all());
-        return $data;
+        $validated = $request->validate([
+            'nama_prodi' => 'required|string|max:255',
+            'id_fakultas' => 'required|exists:fakultas,id_fakultas'
+        ]);
+
+        $prodi = Prodi::findOrFail($id);
+        $prodi->update($validated);
+        return redirect()->route('admin.prodi.index')->with('success', 'Prodi berhasil diupdate');
     }
 
     public function destroy($id)
     {
         Prodi::destroy($id);
-        return response()->json(['message' => 'Deleted']);
+        return redirect()->route('admin.prodi.index')->with('success', 'Prodi berhasil dihapus');
     }
 }

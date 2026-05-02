@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -13,9 +14,23 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
     public function store(Request $request)
     {
-        return User::create($request->all());
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:admin,pengelola,mahasiswa'
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+        User::create($validated);
+
+        return redirect()->route('admin.pengguna.index')->with('success', 'User berhasil ditambahkan');
     }
 
     public function show($id)
@@ -23,16 +38,35 @@ class UserController extends Controller
         return User::findOrFail($id);
     }
 
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
     public function update(Request $request, $id)
     {
-        $data = User::findOrFail($id);
-        $data->update($request->all());
-        return $data;
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_user',
+            'password' => 'nullable|string|min:8',
+            'role' => 'required|in:admin,pengelola,mahasiswa'
+        ]);
+
+        if ($validated['password']) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        return redirect()->route('admin.pengguna.index')->with('success', 'User berhasil diupdate');
     }
 
     public function destroy($id)
     {
         User::destroy($id);
-        return response()->json(['message' => 'Deleted']);
+        return redirect()->route('admin.pengguna.index')->with('success', 'User berhasil dihapus');
     }
 }

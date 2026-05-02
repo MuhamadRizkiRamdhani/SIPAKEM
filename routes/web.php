@@ -33,17 +33,82 @@ Route::prefix('admin')
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/data-pengguna', [UserController::class, 'index'])->name('data-pengguna');
+        // Admin CRUD Routes
+        Route::resource('admin', \App\Http\Controllers\AdminController::class)->names([
+            'index' => 'admin.index',
+            'create' => 'admin.create',
+            'store' => 'admin.store',
+            'show' => 'admin.show',
+            'edit' => 'admin.edit',
+            'update' => 'admin.update',
+            'destroy' => 'admin.destroy'
+        ])->parameters(['admin' => 'id_admin']);
 
-        Route::get('/data-mahasiswa', [MahasiswaController::class, 'index'])->name('data-mahasiswa');
+        // User CRUD Routes
+        Route::resource('pengguna', UserController::class)->names([
+            'index' => 'pengguna.index',
+            'create' => 'pengguna.create',
+            'store' => 'pengguna.store',
+            'show' => 'pengguna.show',
+            'edit' => 'pengguna.edit',
+            'update' => 'pengguna.update',
+            'destroy' => 'pengguna.destroy'
+        ])->parameters(['pengguna' => 'id_user']);
 
-        Route::get('/data-pengelola', [PengelolaController::class, 'index'])->name('data-pengelola');
+        // Fakultas CRUD Routes
+        Route::resource('fakultas', FakultasController::class)->names([
+            'index' => 'fakultas.index',
+            'create' => 'fakultas.create',
+            'store' => 'fakultas.store',
+            'show' => 'fakultas.show',
+            'edit' => 'fakultas.edit',
+            'update' => 'fakultas.update',
+            'destroy' => 'fakultas.destroy'
+        ])->parameters(['fakultas' => 'id_fakultas']);
 
-        Route::get('/data-kategori', [KategoriController::class, 'index'])->name('data-kategori');
+        // Prodi CRUD Routes
+        Route::resource('prodi', ProdiController::class)->names([
+            'index' => 'prodi.index',
+            'create' => 'prodi.create',
+            'store' => 'prodi.store',
+            'show' => 'prodi.show',
+            'edit' => 'prodi.edit',
+            'update' => 'prodi.update',
+            'destroy' => 'prodi.destroy'
+        ])->parameters(['prodi' => 'id_prodi']);
 
-        Route::get('/data-fakultas', [FakultasController::class, 'index'])->name('data-fakultas');
+        // Kategori CRUD Routes
+        Route::resource('kategori', KategoriController::class)->names([
+            'index' => 'kategori.index',
+            'create' => 'kategori.create',
+            'store' => 'kategori.store',
+            'show' => 'kategori.show',
+            'edit' => 'kategori.edit',
+            'update' => 'kategori.update',
+            'destroy' => 'kategori.destroy'
+        ])->parameters(['kategori' => 'id_kategori']);
 
-        Route::get('/data-prodi', [ProdiController::class, 'index'])->name('data-prodi');
+        // Mahasiswa CRUD Routes
+        Route::resource('mahasiswa', MahasiswaController::class)->names([
+            'index' => 'mahasiswa.index',
+            'create' => 'mahasiswa.create',
+            'store' => 'mahasiswa.store',
+            'show' => 'mahasiswa.show',
+            'edit' => 'mahasiswa.edit',
+            'update' => 'mahasiswa.update',
+            'destroy' => 'mahasiswa.destroy'
+        ])->parameters(['mahasiswa' => 'nim']);
+
+        // Pengelola CRUD Routes
+        Route::resource('pengelola', PengelolaController::class)->names([
+            'index' => 'pengelola.index',
+            'create' => 'pengelola.create',
+            'store' => 'pengelola.store',
+            'show' => 'pengelola.show',
+            'edit' => 'pengelola.edit',
+            'update' => 'pengelola.update',
+            'destroy' => 'pengelola.destroy'
+        ])->parameters(['pengelola' => 'id_pengelola']);
 
         Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
 

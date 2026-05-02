@@ -40,22 +40,22 @@
                 <div class="collapse" id="data-manajemen">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-pengguna') }}">Data Pengguna</a>
+                            <a class="nav-link" href="{{ route('admin.pengguna.index') }}">Data Pengguna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-mahasiswa') }}">Data Mahasiswa</a>
+                            <a class="nav-link" href="{{ route('admin.mahasiswa.index') }}">Data Mahasiswa</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-pengelola') }}">Data Pengelola</a>
+                            <a class="nav-link" href="{{ route('admin.pengelola.index') }}">Data Pengelola</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-fakultas') }}">Data Fakultas</a>
+                            <a class="nav-link" href="{{ route('admin.fakultas.index') }}">Data Fakultas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-prodi') }}">Data Program Studi</a>
+                            <a class="nav-link" href="{{ route('admin.prodi.index') }}">Data Program Studi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-kategori') }}">Data Kategori</a>
+                            <a class="nav-link" href="{{ route('admin.kategori.index') }}">Data Kategori</a>
                         </li>
                     </ul>
                 </div>

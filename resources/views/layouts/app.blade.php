@@ -28,6 +28,7 @@
 <body>
 
     <div class="container-scroller">
+        @include('sweetalert::alert')
 
         <!-- NAVBAR -->
         <!-- partial:partials/_navbar.html -->
@@ -70,6 +71,7 @@
     <!-- Plugin js for this page -->
     <script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
     <script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
@@ -81,6 +83,7 @@
     <!-- Custom js for this page -->
     <script src=" {{ asset('assets/js/dashboard.js') }}"></script>
     <!-- End custom js for this page -->
+    @stack('scripts')
 </body>
 
 </html>

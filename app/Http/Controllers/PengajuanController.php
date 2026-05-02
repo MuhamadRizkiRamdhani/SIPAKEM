@@ -72,7 +72,7 @@ class PengajuanController extends Controller
 
             return redirect()
                 ->route('mahasiswa.riwayat-pengajuan')
-                ->with('success', 'Pengajuan berhasil dikirim 🎉');
+                ->with('success', 'Pengajuan berhasil dikirim');
 
         } catch (\Exception $e) {
             return back()
