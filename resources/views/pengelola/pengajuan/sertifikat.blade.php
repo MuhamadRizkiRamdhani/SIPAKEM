@@ -16,89 +16,35 @@
                             <tr>
                                 <th>Nama Mahasiswa</th>
                                 <th>NIM</th>
-                                <th>Prodi</th>
-                                <th>Fakultas</th>
-                                <th>File Sertifikat</th>
+                                <th>Sertifikat</th>
+                                <th>Tanggal Pengajuan</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Ahmad Baihaqi</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary">Disetujui</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Tinjau</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ahmad Baihaqi</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary">Disetujui</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Tinjau</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ahmad Baihaqi</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary">Disetujui</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Tinjau</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ahmad Baihaqi</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary">Disetujui</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Tinjau</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ahmad Baihaqi</td>
-                                <td>53275531</td>
-                                <td> Teknik Informatika</td>
-                                <td> Fakultas Teknik</td>
-                                <td> <button class="btn btn-info btn-sm">Lihat File</button>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary">Disetujui</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Tinjau</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse($pengajuanSertifikats as $ps)
+                                <tr>
+                                    <td>{{ $ps->mahasiswa->nama_mhs ?? '-' }}</td>
+                                    <td>{{ $ps->nim }}</td>
+                                    <td>{{ $ps->sertifikat->nama_sertifikat ?? '-' }}</td>
+                                    <td>{{ $ps->tgl_pengajuan_sertifikat }}</td>
+                                    <td>
+                                        <span
+                                            class="badge badge-{{ $ps->status === 'diterima' ? 'success' : ($ps->status === 'ditolak' ? 'danger' : ($ps->status === 'diproses' ? 'warning' : 'secondary')) }}">
+                                            {{ $ps->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Tinjau</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center"><em>Belum ada data</em></td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

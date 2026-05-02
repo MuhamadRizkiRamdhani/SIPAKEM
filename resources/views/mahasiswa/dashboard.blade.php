@@ -36,8 +36,17 @@
                         <h4 class="font-weight-normal mb-3">Total Poin <i
                                 class="mdi mdi-star-four-points-outline mdi-24px float-end"></i>
                         </h4>
-                        <h2 class="mb-5">nanti ganti pake query (10/100) dan beri bar progress</h2>
-                        <a href="{{ route('mahasiswa.pengajuan-skpi') }}" class="btn btn-light">
+                        <h2 class="mb-3">{{ $totalPoin }}/{{ $maxPoin }}</h2>
+                        <div class="progress mb-3" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: {{ min(($totalPoin / $maxPoin) * 100, 100) }}%;"
+                                aria-valuenow="{{ $totalPoin }}" aria-valuemin="0" aria-valuemax="{{ $maxPoin }}"></div>
+                        </div>
+                        <small class="text-white">
+                            {{ $mahasiswa->beasiswa ? 'Penerima Beasiswa (Min Capaian 150 Poin)' : 'Bukan Penerima Beasiswa (Min Capaian 100 Poin)' }}
+                        </small>
+                        <br>
+                        <a href="{{ route('mahasiswa.pengajuan-skpi') }}" class="btn btn-light mt-2">
                             Ajukan SKPI
                         </a>
                     </div>
@@ -52,7 +61,7 @@
                         <h4 class="font-weight-normal mb-3">Total Pengajuan disetujui <i
                                 class="mdi mdi-check-decagram-outline mdi-24px float-end"></i>
                         </h4>
-                        <h2 class="mb-5">nanti ganti pake query</h2>
+                        <h2 class="mb-5">{{ $totalApproved }}</h2>
                     </div>
                 </div>
             </div>
@@ -101,24 +110,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>SKPI</td>
-                                    <td>2024-06-01</td>
-                                    <td><span class="badge bg-warning">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Sertifikat Kegiatan</td>
-                                    <td>2024-05-20</td>
-                                    <td><span class="badge bg-success">Disetujui</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Sertifikat Kegiatan</td>
-                                    <td>2024-05-15</td>
-                                    <td><span class="badge bg-danger">Ditolak</span></td>
-                                </tr>
+                                @forelse($statusPengajuan as $item)
+                                    <tr>
+                                        <td>{{ $item->jenis }}</td>
+                                        <td>{{ $item->tanggal->format('Y-m-d') }}</td>
+                                        <td>
+                                            @if($item->status === 'pending')
+                                                <span class="badge bg-warning">Pending</span>
+                                            @elseif($item->status === 'disetujui')
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @elseif($item->status === 'ditolak')
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @else
+                                                <span class="badge bg-secondary">{{ ucfirst($item->status) }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center">Belum ada pengajuan</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

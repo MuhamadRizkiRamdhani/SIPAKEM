@@ -58,25 +58,14 @@ Route::prefix('pengelola')
     ->middleware(['auth', 'role:pengelola'])
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('pengelola.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'pengelolaDashboard'])->name('dashboard');
 
-        Route::get('/data-mahasiswa', function () {
-            return view('pengelola.mahasiswa.index');
-        })->name('data-mahasiswa');
+        Route::get('/data-mahasiswa', [MahasiswaController::class, 'index'])->name('data-mahasiswa');
 
-        Route::get('/data-pengajuan-sertifikat', function () {
-            return view('pengelola.pengajuan.sertifikat');
-        })->name('data-pengajuan-sertifikat');
+        Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
 
-        Route::get('/data-pengajuan-skpi', function () {
-            return view('pengelola.pengajuan.skpi');
-        })->name('data-pengajuan-skpi');
+        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
 
-        Route::get('/data-poin', function () {
-            return view('pengelola.poin.index');
-        })->name('data-poin');
     });
 
 
@@ -86,9 +75,7 @@ Route::prefix('mahasiswa')
     ->middleware(['auth', 'role:mahasiswa'])
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('mahasiswa.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'mahasiswaDashboard'])->name('dashboard');
 
         Route::get('/riwayat-pengajuan', function () {
             return view('mahasiswa.riwayat.index');
