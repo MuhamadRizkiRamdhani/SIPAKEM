@@ -11,6 +11,7 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\PengajuanSertifikatController;
 use App\Http\Controllers\PengajuanSKPIController;
 use App\Http\Controllers\PointRulesController;
+use App\Http\Controllers\PengajuanController;
 use Illuminate\Support\Facades\Route;
 
 // ==================== AUTH ====================
@@ -77,15 +78,20 @@ Route::prefix('mahasiswa')
 
         Route::get('/dashboard', [DashboardController::class, 'mahasiswaDashboard'])->name('dashboard');
 
-        Route::get('/riwayat-pengajuan', function () {
-            return view('mahasiswa.riwayat.index');
-        })->name('riwayat-pengajuan');
+        Route::get('/riwayat-pengajuan', [PengajuanController::class, 'riwayat'])
+            ->name('riwayat-pengajuan');
 
-        Route::get('/pengajuan-sertifikat', function () {
-            return view('mahasiswa.pengajuan.sertifikat');
-        })->name('pengajuan-sertifikat');
+        Route::get('/pengajuan-sertifikat', [PengajuanController::class, 'formSertifikat'])->name('pengajuan-sertifikat');
 
-        Route::get('/pengajuan-skpi', function () {
-            return view('mahasiswa.pengajuan.skpi');
-        })->name('pengajuan-skpi');
+        Route::post('/pengajuan-sertifikat', [PengajuanController::class, 'storeSertifikat'])->name('pengajuan-sertifikat.store');
+
+        Route::get('/pengajuan-skpi', [PengajuanController::class, 'formSKPI'])->name('pengajuan-skpi');
+
+        Route::post('/pengajuan-skpi', [PengajuanController::class, 'storeSKPI'])->name('pengajuan-skpi.store');
     });
+
+// ==================== AJAX ENDPOINTS ====================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/sub-kategori/{id_kategori}', [PengajuanController::class, 'getSubKategori']);
+    Route::get('/api/level', [PengajuanController::class, 'getLevel']);
+});

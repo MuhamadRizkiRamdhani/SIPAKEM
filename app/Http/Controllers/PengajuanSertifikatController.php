@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\PengajuanSertifikat;
 use App\Models\Mahasiswa;
-use App\Models\Sertifikat;
 use App\Models\Pengelola;
 use App\Models\PointRules;
 use Illuminate\Http\Request;
@@ -18,7 +17,6 @@ class PengajuanSertifikatController extends Controller
     {
         $pengajuanSertifikats = PengajuanSertifikat::with([
             'mahasiswa',
-            'sertifikat',
             'pengelola',
             'pointRules'
         ])->get();
@@ -34,10 +32,9 @@ class PengajuanSertifikatController extends Controller
     public function create()
     {
         $mahasiswas = Mahasiswa::all();
-        $sertifikats = Sertifikat::all();
         $pengelolas = Pengelola::all();
         $pointRules = PointRules::all();
-        return view('pengajuan-sertifikat.create', compact('mahasiswas', 'sertifikats', 'pengelolas', 'pointRules'));
+        return view('pengajuan-sertifikat.create', compact('mahasiswas', 'pengelolas', 'pointRules'));
     }
 
     /**
@@ -47,7 +44,6 @@ class PengajuanSertifikatController extends Controller
     {
         $validated = $request->validate([
             'nim' => 'required|exists:mahasiswa,nim',
-            'id_sertifikat' => 'required|exists:sertifikat,id_sertifikat',
             'status' => 'required|in:pending,diproses,diterima,ditolak',
             'tgl_pengajuan_sertifikat' => 'required|date',
             'id_pengelola' => 'nullable|exists:pengelola,id_pengelola',
@@ -75,10 +71,9 @@ class PengajuanSertifikatController extends Controller
     public function edit(PengajuanSertifikat $pengajuanSertifikat)
     {
         $mahasiswas = Mahasiswa::all();
-        $sertifikats = Sertifikat::all();
         $pengelolas = Pengelola::all();
         $pointRules = PointRules::all();
-        return view('pengajuan-sertifikat.edit', compact('pengajuanSertifikat', 'mahasiswas', 'sertifikats', 'pengelolas', 'pointRules'));
+        return view('pengajuan-sertifikat.edit', compact('pengajuanSertifikat', 'mahasiswas', 'pengelolas', 'pointRules'));
     }
 
     /**

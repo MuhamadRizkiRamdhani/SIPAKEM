@@ -72,47 +72,35 @@
             <div class="col-md-15 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Permintaan Pengajuan</h4>
+                        <h4 class="card-title">Permintaan Pengajuan Terbaru</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nama Mahasiswa</th>
                                         <th>NIM</th>
-                                        <th>Prodi</th>
-                                        <th>Fakultas</th>
-                                        <th>Jenis Sertifikat</th>
+                                        <th>Sertifikat</th>
+                                        <th>Tanggal Pengajuan</th>
                                         <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($pengajuanTerbaru as $pengajuan)
+                                    @forelse($pengajuanTerbaru as $p)
                                         <tr>
-                                            <td>{{ $pengajuan->mahasiswa->nama_mhs }}</td>
-                                            <td>{{ $pengajuan->nim }}</td>
-                                            <td>{{ $pengajuan->mahasiswa->prodi->nama_prodi ?? '-' }}</td>
-                                            <td>{{ $pengajuan->mahasiswa->prodi->fakultas->nama_fakultas ?? '-' }}</td>
-                                            <td>{{ $pengajuan->sertifikat->nama_sertifikat ?? '-' }}</td>
+                                            <td>{{ $p->mahasiswa->nama_mhs ?? '-' }}</td>
+                                            <td>{{ $p->nim }}</td>
+                                            <td>{{ $p->nama_sertifikat }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($p->tgl_pengajuan_sertifikat)->format('d-m-Y') }}</td>
                                             <td>
-                                                @if($pengajuan->status === 'pending')
-                                                    <span class="badge badge-warning">Pending</span>
-                                                @elseif($pengajuan->status === 'disetujui')
-                                                    <span class="badge badge-success">Disetujui</span>
-                                                @elseif($pengajuan->status === 'ditolak')
-                                                    <span class="badge badge-danger">Ditolak</span>
-                                                @else
-                                                    <span class="badge badge-secondary">{{ ucfirst($pengajuan->status) }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm">Tinjau</button>
-                                                <button class="btn btn-danger btn-sm">Delete</button>
+                                                <span
+                                                    class="badge badge-{{ $p->status === 'diterima' ? 'success' : ($p->status === 'ditolak' ? 'danger' : ($p->status === 'diproses' ? 'warning' : 'secondary')) }}">
+                                                    {{ $p->status }}
+                                                </span>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">Belum ada pengajuan</td>
+                                            <td colspan="5" class="text-center"><em>Belum ada data</em></td>
                                         </tr>
                                     @endforelse
                                 </tbody>

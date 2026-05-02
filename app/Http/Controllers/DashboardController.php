@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    // ==================== ADMIN ====================
     public function index()
     {
         $totalMahasiswa = Mahasiswa::count();
@@ -18,13 +19,12 @@ class DashboardController extends Controller
         $totalPengajuanSKPI = PengajuanSKPI::count();
         $totalPengajuan = $totalPengajuanSertifikat + $totalPengajuanSKPI;
 
-        // Permintaan pengajuan terbaru (5 data terakhir)
-        $pengajuanTerbaru = PengajuanSertifikat::with(['mahasiswa', 'sertifikat'])
+        // 🔥 FIX: hapus relasi sertifikat
+        $pengajuanTerbaru = PengajuanSertifikat::with(['mahasiswa'])
             ->latest()
             ->take(5)
             ->get();
 
-        // Top 5 mahasiswa dengan poin tertinggi
         $top5Mahasiswa = Mahasiswa::orderBy('poin_kredit', 'desc')
             ->with('prodi')
             ->take(5)
@@ -39,19 +39,22 @@ class DashboardController extends Controller
         ));
     }
 
+    // ==================== PENGELOLA ====================
     public function pengelolaDashboard()
     {
         $totalMahasiswa = Mahasiswa::count();
         $totalPengajuanSertifikat = PengajuanSertifikat::count();
         $totalPengajuanSKPI = PengajuanSKPI::count();
 
-        // Permintaan pengajuan terbaru (5 data terakhir)
-        $pengajuanTerbaru = PengajuanSertifikat::with(['mahasiswa.prodi', 'mahasiswa.prodi.fakultas', 'sertifikat'])
+        // 🔥 FIX: hapus relasi sertifikat
+        $pengajuanTerbaru = PengajuanSertifikat::with([
+            'mahasiswa.prodi',
+            'mahasiswa.prodi.fakultas'
+        ])
             ->latest()
             ->take(5)
             ->get();
 
-        // Top 5 mahasiswa dengan poin tertinggi
         $top5Mahasiswa = Mahasiswa::orderBy('poin_kredit', 'desc')
             ->with('prodi.fakultas')
             ->take(5)
@@ -66,15 +69,14 @@ class DashboardController extends Controller
         ));
     }
 
+    // ==================== MAHASISWA ====================
     public function mahasiswaDashboard()
     {
         $user = auth()->user();
         $mahasiswa = $user->mahasiswa;
 
-        // Total poin dan total approved
         $totalPoin = $mahasiswa->poin_kredit ?? 0;
 
-        // Total pengajuan yang disetujui
         $totalApprovedSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim)
             ->where('status', 'disetujui')
             ->count();
@@ -85,7 +87,7 @@ class DashboardController extends Controller
 
         $totalApproved = $totalApprovedSertifikat + $totalApprovedSKPI;
 
-        // Status pengajuan terbaru (5 pengajuan terakhir dari sertifikat dan SKPI)
+        // Ambil data pengajuan
         $pengajuanSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim)
             ->latest()
             ->get();
@@ -94,8 +96,9 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
-        // Merge dan sort by date
+        // Merge data
         $statusPengajuan = collect();
+
         foreach ($pengajuanSertifikat as $p) {
             $statusPengajuan->push((object) [
                 'jenis' => 'Sertifikat',
@@ -103,6 +106,7 @@ class DashboardController extends Controller
                 'status' => $p->status
             ]);
         }
+
         foreach ($pengajuanSKPI as $p) {
             $statusPengajuan->push((object) [
                 'jenis' => 'SKPI',
@@ -110,9 +114,9 @@ class DashboardController extends Controller
                 'status' => $p->status
             ]);
         }
+
         $statusPengajuan = $statusPengajuan->sortByDesc('tanggal')->take(5);
 
-        // Tentukan maksimal poin berdasarkan status beasiswa
         $maxPoin = $mahasiswa->beasiswa ? 150 : 100;
 
         return view('mahasiswa.dashboard', compact(

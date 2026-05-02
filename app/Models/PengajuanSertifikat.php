@@ -11,7 +11,11 @@ class PengajuanSertifikat extends Model
 
     protected $fillable = [
         'nim',
-        'id_sertifikat',
+        'nama_sertifikat', // 🔥 WAJIB
+        'file_path',
+        'id_kategori',
+        'id_sub_kategori',
+        'id_level',
         'status',
         'tgl_pengajuan_sertifikat',
         'id_pengelola',
@@ -20,18 +24,14 @@ class PengajuanSertifikat extends Model
         'poin_akhir'
     ];
 
-    protected $dates = [
-        'tgl_pengajuan_sertifikat'
+    protected $casts = [
+        'tgl_pengajuan_sertifikat' => 'date'
     ];
 
+    // 🔗 RELASI
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'nim');
-    }
-
-    public function sertifikat()
-    {
-        return $this->belongsTo(Sertifikat::class, 'id_sertifikat');
     }
 
     public function pengelola()
@@ -42,5 +42,20 @@ class PengajuanSertifikat extends Model
     public function pointRules()
     {
         return $this->belongsTo(PointRules::class, 'id_rules');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+
+    public function subKategori()
+    {
+        return $this->belongsTo(SubKategori::class, 'id_sub_kategori');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'id_level');
     }
 }

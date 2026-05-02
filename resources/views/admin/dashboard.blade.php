@@ -89,8 +89,8 @@
                                         <tr>
                                             <td>{{ $p->mahasiswa->nama_mhs ?? '-' }}</td>
                                             <td>{{ $p->nim }}</td>
-                                            <td>{{ $p->sertifikat->nama_sertifikat ?? '-' }}</td>
-                                            <td>{{ $p->tgl_pengajuan_sertifikat }}</td>
+                                            <td>{{ $p->nama_sertifikat }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($p->tgl_pengajuan_sertifikat)->format('d-m-Y') }}</td>
                                             <td>
                                                 <span
                                                     class="badge badge-{{ $p->status === 'diterima' ? 'success' : ($p->status === 'ditolak' ? 'danger' : ($p->status === 'diproses' ? 'warning' : 'secondary')) }}">
