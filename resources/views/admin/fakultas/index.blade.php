@@ -38,12 +38,17 @@
                                         <td>
                                             <a href="{{ route('admin.fakultas.edit', $f->id_fakultas) }}"
                                                 class="btn btn-primary btn-sm">Edit</a>
-                                            <form action="{{ route('admin.fakultas.destroy', $f->id_fakultas) }}" method="POST"
-                                                style="display:inline;">
+
+                                            <button type="button" class="btn btn-danger btn-sm delete-btn"
+                                                data-id="{{ $f->id_fakultas }}" data-nama="{{ $f->nama_fakultas }}">
+                                                Delete
+                                            </button>
+
+                                            <form id="delete-form-{{ $f->id_fakultas }}"
+                                                action="{{ route('admin.fakultas.destroy', $f->id_fakultas) }}" method="POST"
+                                                style="display:none;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Yakin ingin menghapus?')">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -61,3 +66,51 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // SUCCESS
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 2500,
+                showConfirmButton: true
+            });
+        @endif
+
+        // ERROR (optional global)
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}'
+            });
+        @endif
+    </script>
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const nama = this.getAttribute('data-nama');
+
+                Swal.fire({
+                    title: 'Hapus Fakultas?',
+                    text: `Fakultas "${nama}" akan dihapus`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(`delete-form-${id}`).submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

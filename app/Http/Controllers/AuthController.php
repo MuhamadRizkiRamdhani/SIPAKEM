@@ -91,46 +91,61 @@ class AuthController extends Controller
     {
         try {
             $request->validate([
-                'nama_mahasiswa' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+                'nama_mahasiswa' => ['required', 'string', 'max:255'],
 
-                'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:50', 'unique:users,username'],
+                'username' => ['required', 'string', 'max:50', 'unique:users,username'],
 
                 'password' => ['required', 'string', 'min:6'],
 
                 'nim' => ['required', 'digits_between:1,10', 'unique:mahasiswa,nim'],
 
-                'fakultas' => ['required', 'string'],
-
-                'prodi' => ['required', 'numeric'],
+                'prodi' => ['required', 'exists:prodi,id_prodi'],
 
                 'penerima_beasiswa' => ['required', 'boolean'],
-            ], [
-                'nama_mahasiswa.regex' => 'Nama hanya boleh huruf dan spasi',
 
-                'username.alpha' => 'Username hanya boleh huruf tanpa simbol',
-                'username.max' => 'Username maksimal 50 karakter',
+                // kalau mau manual isi, aktifkan ini:
+                // 'tahun_angkatan' => ['required','digits:4','integer','min:2000','max:' . date('Y')],
+            ], [
+                'nama_mahasiswa.required' => 'Nama harus diisi',
+                'nama_mahasiswa.max' => 'Nama maksimal 255 karakter',
+
+                'username.required' => 'Username harus diisi',
                 'username.unique' => 'Username sudah digunakan',
 
-                'nim.digits_between' => 'NIM harus berupa angka maksimal 10 digit',
+                'password.required' => 'Password harus diisi',
+                'password.min' => 'Password minimal 6 karakter',
+
+                'nim.required' => 'NIM harus diisi',
+                'nim.digits_between' => 'NIM maksimal 10 digit',
                 'nim.unique' => 'NIM sudah terdaftar',
+
+                'prodi.required' => 'Program studi harus dipilih',
+                'prodi.exists' => 'Prodi tidak valid',
+
+                'penerima_beasiswa.required' => 'Status beasiswa harus dipilih',
             ]);
 
-            // Buat user dengan role mahasiswa
+            // BUAT USER
             $user = User::create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
                 'role' => 'mahasiswa'
             ]);
 
-            // Buat data mahasiswa
+            // BUAT MAHASISWA
             Mahasiswa::create([
                 'nim' => $request->nim,
                 'nama_mhs' => $request->nama_mahasiswa,
                 'id_user' => $user->id_user,
                 'id_prodi' => $request->prodi,
                 'poin_kredit' => 0,
-                'beasiswa' => $request->penerima_beasiswa ? true : false,
+                'beasiswa' => (bool) $request->penerima_beasiswa,
+
+                // 👉 AUTO (RECOMMENDED)
                 'tahun_angkatan' => now()->year
+
+                // 👉 ATAU kalau mau dari input:
+                // 'tahun_angkatan' => $request->tahun_angkatan
             ]);
 
             return response()->json([
@@ -138,14 +153,14 @@ class AuthController extends Controller
                 'message' => 'Registrasi berhasil! Silakan login.',
                 'username' => $request->username
             ]);
+
         } catch (ValidationException $e) {
-            Log::warning('Register validation error', ['errors' => $e->errors()]);
             return response()->json([
                 'success' => false,
                 'message' => $e->errors()
             ], 422);
+
         } catch (\Exception $e) {
-            Log::error('Register error: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             return response()->json([
                 'success' => false,
                 'message' => 'Registrasi gagal: ' . $e->getMessage()

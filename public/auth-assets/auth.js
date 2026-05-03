@@ -82,12 +82,19 @@ function validateRegisterForm(data) {
     if (!data.confirmPassword) return { valid: false, message: 'Konfirmasi password harus diisi' };
     if (data.password !== data.confirmPassword) return { valid: false, message: 'Password tidak cocok' };
 
+    // Tahun Angkatan
+    if (!data.tahunAngkatan) return { valid: false, message: 'Tahun angkatan harus diisi' };
+    if (!/^\d{4}$/.test(data.tahunAngkatan)) return { valid: false, message: 'Format tahun harus 4 digit (YYYY)' };
+    
+
     // Dropdown
     if (!data.fakultasValue) return { valid: false, message: 'Pilih fakultas terlebih dahulu' };
     if (!data.prodi) return { valid: false, message: 'Pilih program studi' };
 
     // Radio
-    if (data.beasiswa === '') return { valid: false, message: 'Pilih status beasiswa' };
+    if (data.beasiswa === undefined || data.beasiswa === null) {
+    return { valid: false, message: 'Pilih status beasiswa' };
+    }
 
     return { valid: true };
 }
@@ -238,6 +245,7 @@ async function handleRegisterSubmit(e) {
     
     const beasiswaRadio = document.querySelector('input[name="statusBeasiswa"]:checked');
     const beasiswa = beasiswaRadio ? beasiswaRadio.value : '';
+    const tahunAngkatan = document.getElementById('tahunAngkatan')?.value;
     
     const feedbackReg = document.getElementById('registerFeedback');
 
@@ -250,7 +258,8 @@ async function handleRegisterSubmit(e) {
         confirmPassword,
         fakultasValue,
         prodi,
-        beasiswa
+        beasiswa,
+        tahunAngkatan
     });
 
     if (!validation.valid) {
@@ -275,7 +284,8 @@ async function handleRegisterSubmit(e) {
                 password: password,
                 fakultas: fakultasSelectEl?.options[fakultasSelectEl.selectedIndex]?.text || '',
                 prodi: prodi,
-                penerima_beasiswa: parseInt(beasiswa)
+                penerima_beasiswa: parseInt(beasiswa),
+                tahun_angkatan: parseInt(tahunAngkatan)
             })
         });
 
@@ -453,6 +463,13 @@ function init() {
             e.preventDefault();
             showRegisterForm();
         });
+    }
+
+    const tahunInput = document.getElementById('tahunAngkatan');
+    if (tahunInput) {
+    tahunInput.addEventListener('input', function () {
+        this.value = this.value.replace(/\D/g, '').slice(0, 4);
+    });
     }
 
     const loginUsername = document.getElementById('loginUsername');

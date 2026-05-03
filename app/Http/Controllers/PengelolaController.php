@@ -8,9 +8,23 @@ use App\Models\User;
 
 class PengelolaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pengelolas = Pengelola::with('user')->get();
+        $query = Pengelola::with('user');
+
+        // SEARCH
+        if ($request->search) {
+            $query->where('nama_pengelola', 'like', "%{$request->search}%");
+        }
+
+        // SORT
+        if ($request->sort == 'latest') {
+            $query->latest();
+        }
+
+        // PAGINATION
+        $pengelolas = $query->paginate(6)->withQueryString();
+
         return view('admin.pengelola.index', compact('pengelolas'));
     }
 
@@ -57,7 +71,10 @@ class PengelolaController extends Controller
 
     public function destroy($id)
     {
-        Pengelola::destroy($id);
-        return redirect()->route('admin.pengelola.index')->with('success', 'Pengelola berhasil dihapus');
+        $pengelola = Pengelola::findOrFail($id);
+        $pengelola->delete();
+
+        return redirect()->route('admin.pengelola.index')
+            ->with('success', 'Pengelola berhasil dihapus');
     }
 }

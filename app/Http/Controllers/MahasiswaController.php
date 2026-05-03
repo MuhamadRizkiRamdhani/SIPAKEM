@@ -6,20 +6,63 @@ use Illuminate\Http\Request;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Prodi;
+use App\Models\Fakultas;
 
 class MahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswas = Mahasiswa::with(['user', 'prodi.fakultas'])->get();
-        return view("admin.mahasiswa.index", compact('mahasiswas'));
+        $query = Mahasiswa::with(['user', 'prodi.fakultas']);
+        $prodis = Prodi::all();
+        $fakultas = Fakultas::all();
+
+        // SEARCH (nama / NIM)
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mhs', 'like', "%{$request->search}%")
+                    ->orWhere('nim', 'like', "%{$request->search}%");
+            });
+        }
+
+        // FILTER PRODI
+        if ($request->prodi) {
+            $query->where('id_prodi', $request->prodi);
+        }
+
+
+        // FILTER FAKULTAS
+        if ($request->fakultas) {
+            $query->whereHas('prodi', function ($q) use ($request) {
+                $q->where('id_fakultas', $request->fakultas);
+            });
+        }
+
+        // FILTER TAHUN ANGKATAN
+        if ($request->tahun_angkatan) {
+            $query->where('tahun_angkatan', $request->tahun_angkatan);
+        }
+
+        // SORT (opsional)
+        if ($request->sort == 'latest') {
+            $query->latest();
+        }
+
+        // PAGINATION
+        $mahasiswas = $query->paginate(6)->withQueryString();
+
+        $role = auth()->user()->role;
+
+        return view("$role.mahasiswa.index", compact('mahasiswas', 'prodis', 'fakultas', 'role'));
     }
 
     public function create()
     {
         $users = User::where('role', 'mahasiswa')->doesntHave('mahasiswa')->get();
         $prodis = Prodi::all();
-        return view('admin.mahasiswa.create', compact('users', 'prodis'));
+
+        $role = auth()->user()->role;
+
+        return view("$role.mahasiswa.create", compact('users', 'prodis', 'role'));
     }
 
     public function store(Request $request)
@@ -39,7 +82,9 @@ class MahasiswaController extends Controller
 
         Mahasiswa::create($validated);
 
-        return redirect()->route('admin.mahasiswa.index')
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.mahasiswa.index")
             ->with('success', 'Mahasiswa berhasil ditambahkan!');
     }
 
@@ -55,7 +100,10 @@ class MahasiswaController extends Controller
         // Untuk edit, tampilkan semua user mahasiswa termasuk yang sudah dipakai
         $users = User::where('role', 'mahasiswa')->get();
         $prodis = Prodi::all();
-        return view('admin.mahasiswa.edit', compact('mahasiswa', 'users', 'prodis'));
+
+        $role = auth()->user()->role;
+
+        return view("$role.mahasiswa.edit", compact('mahasiswa', 'users', 'prodis', 'role'));
     }
 
     public function update(Request $request, $id)
@@ -77,7 +125,9 @@ class MahasiswaController extends Controller
 
         $mahasiswa->update($validated);
 
-        return redirect()->route('admin.mahasiswa.index')
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.mahasiswa.index")
             ->with('success', 'Mahasiswa berhasil diupdate!');
     }
 
@@ -87,7 +137,9 @@ class MahasiswaController extends Controller
         $nama = $mahasiswa->nama_mhs;
         $mahasiswa->delete();
 
-        return redirect()->route('admin.mahasiswa.index')
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.mahasiswa.index")
             ->with('success', "Mahasiswa {$nama} berhasil dihapus!");
     }
 }

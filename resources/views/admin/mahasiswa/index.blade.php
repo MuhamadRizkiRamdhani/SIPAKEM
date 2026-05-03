@@ -7,6 +7,69 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manajemen Data Mahasiswa</h4>
+                    
+                    <form method="GET" class="mb-3">
+                    <div class="d-flex flex-wrap gap-2 align-items-stretch">
+
+                        {{-- SEARCH --}}
+                        <div style="flex: 1; min-width: 220px;">
+                            <input type="text"
+                                name="search"
+                                class="form-control  h-100"
+                                placeholder="Cari nama / NIM..."
+                                value="{{ request('search') }}">
+                        </div>
+
+                        {{-- FILTER FAKULTAS --}}
+                        <div style="width: 200px;">
+                            <select name="fakultas" id="fakultas" class="form-control  h-100">
+                                <option value="">Semua Fakultas</option>
+                                @foreach($fakultas as $f)
+                                    <option value="{{ $f->id_fakultas }}"
+                                        {{ request('fakultas') == $f->id_fakultas ? 'selected' : '' }}>
+                                        {{ $f->nama_fakultas }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- FILTER PRODI --}}
+                        <div style="width: 200px;">
+                            <select name="prodi" id="prodi" class="form-control  h-100">
+                                <option value="">Semua Prodi</option>
+                                @foreach($prodis as $p)
+                                    <option value="{{ $p->id_prodi }}"
+                                        data-fakultas="{{ $p->id_fakultas }}"
+                                        {{ request('prodi') == $p->id_prodi ? 'selected' : '' }}>
+                                        {{ $p->nama_prodi }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- FILTER TAHUN --}}
+                        <div style="width: 200px;">
+                            <input type="text"
+                                name="tahun_angkatan"
+                                class="form-control  h-100"
+                                placeholder="Tahun Angkatan"
+                                value="{{ request('tahun_angkatan') }}">
+                        </div>
+
+                        {{-- BUTTON --}}
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary">Search</button>
+
+                            @if(request()->hasAny(['search','prodi','fakultas','tahun_angkatan']))
+                                <a href="{{ route($role.'.mahasiswa.index') }}"
+                                class="btn btn-danger">
+                                    Clear
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    </form>
+
                     <div class="d-flex justify-content-end mb-3 gap-3">
                         <a href="{{ route('admin.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a>
                         <button type="button" class="btn btn-sm btn-success">Export PDF</button>
@@ -17,6 +80,7 @@
                                 <tr>
                                     <th>Nama Mahasiswa</th>
                                     <th>NIM</th>
+                                    <th>Tahun Angkatan</th>
                                     <th>Prodi</th>
                                     <th>Fakultas</th>
                                     <th>Poin Kredit</th>
@@ -28,6 +92,7 @@
                                     <tr>
                                         <td>{{ $m->nama_mhs }}</td>
                                         <td>{{ $m->nim }}</td>
+                                        <td>{{ $m->tahun_angkatan }}</td>
                                         <td>{{ $m->prodi->nama_prodi ?? '-' }}</td>
                                         <td>{{ $m->prodi->fakultas->nama_fakultas ?? '-' }}</td>
                                         <td>{{ $m->poin_kredit }}</td>
@@ -53,6 +118,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-end mt-3">
+                            {{ $mahasiswas->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,5 +164,27 @@
                 });
             });
         });
+    </script>
+
+    <script>
+    const fakultasSelect = document.getElementById('fakultas');
+    const prodiSelect = document.getElementById('prodi');
+
+    fakultasSelect.addEventListener('change', function () {
+        const selectedFakultas = this.value;
+
+        Array.from(prodiSelect.options).forEach(option => {
+            if (!option.value) return;
+
+            if (!selectedFakultas || option.dataset.fakultas === selectedFakultas) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        // reset prodi kalau tidak sesuai
+        prodiSelect.value = '';
+    });
     </script>
 @endpush

@@ -60,21 +60,28 @@
                     <i class="fas fa-id-card"></i>
                     <input type="text" name="nim" id="nim" class="form-control" placeholder="NIM" required>
                 </div>
+
                 <!-- Nama Mahasiswa -->
                 <div class="form-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="regFullname" placeholder="Nama Mahasiswa" required autocomplete="name">
+                    <input type="text" name="nama_mahasiswa" id="regFullname" placeholder="Nama Mahasiswa" required
+                        autocomplete="name">
                 </div>
+
                 <!-- Username -->
                 <div class="form-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" id="regUsername" placeholder="Username" required autocomplete="username">
+                    <input type="text" name="username" id="regUsername" placeholder="Username" required
+                        autocomplete="username">
                 </div>
+
                 <!-- Password -->
                 <div class="form-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="regPassword" placeholder="Password" required autocomplete="new-password">
+                    <input type="password" name="password" id="regPassword" placeholder="Password" required
+                        autocomplete="new-password">
                 </div>
+
                 <!-- Konfirmasi Password -->
                 <div class="form-group">
                     <i class="fas fa-check-circle"></i>
@@ -82,25 +89,30 @@
                         autocomplete="new-password">
                 </div>
 
-                <!-- FAKULTAS (Dropdown) -->
+                <!-- TAHUN ANGKATAN -->
+                <div class="form-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="number" name="tahun_angkatan" id="tahunAngkatan" placeholder="Tahun Angkatan (YYYY)"
+                        required>
+                </div>
+
+                <!-- FAKULTAS -->
                 <div class="form-group has-label">
                     <label for="fakultasSelect">Fakultas <span style="color:#e53e3e;">*</span></label>
                     <select id="fakultasSelect" required>
-                        <!-- panggil dari database -->
                     </select>
                 </div>
 
-                <!-- PROGRAM STUDI (Dropdown dinamis) -->
+                <!-- PRODI -->
                 <div class="form-group has-label">
                     <label for="prodiSelect">Program Studi <span style="color:#e53e3e;">*</span></label>
-                    <select id="prodiSelect" required disabled>
+                    <select id="prodiSelect" name="prodi" required disabled>
                         <option value="" disabled selected>-- Pilih Fakultas terlebih dahulu --</option>
-                        <!-- panggil dari database -->
                     </select>
                     <div class="info-hint" id="prodiHint"></div>
                 </div>
 
-                <!-- Status Beasiswa Radio -->
+                <!-- BEASISWA -->
                 <div class="form-group has-label">
                     <label>Status Beasiswa</label>
                     <div class="radio-group">
