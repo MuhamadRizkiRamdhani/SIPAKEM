@@ -14,6 +14,7 @@
                                 <th>Nama Sertifikat</th>
                                 <th>ID_Pengajuan</th>
                                 <th>Jenis Pengajuan</th>
+                                <th>Estimasi Perolehan Poin</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -25,6 +26,7 @@
                                     <td>{{ $p->nama_sertifikat }}</td>
                                     <td>{{ $p->id_pengajuan }}</td>
                                     <td>Sertifikat</td>
+                                    <td>{{ $p->poin_akhir ?? '-' }}</td>
                                     <td>
                                         @if($p->status == 'pending')
                                             <span class="badge badge-warning">Pending</span>
@@ -52,9 +54,10 @@
                             {{-- Pengajuan SKPI --}}
                             @forelse($pengajuanSKPI as $s)
                                 <tr>
-                                    <td>-</td>
+                                    <td>SKPI</td>
                                     <td>{{ $s->id_pengajuan_skpi }}</td>
                                     <td>SKPI</td>
+                                    <td>-</td>
                                     <td>
                                         @if($s->status == 'pending')
                                             <span class="badge badge-warning">Pending</span>

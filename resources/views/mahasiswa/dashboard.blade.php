@@ -113,7 +113,7 @@
                                 @forelse($statusPengajuan as $item)
                                     <tr>
                                         <td>{{ $item->jenis }}</td>
-                                        <td>{{ $item->tanggal->format('Y-m-d') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y')}}</td>
                                         <td>
                                             @if($item->status === 'pending')
                                                 <span class="badge bg-warning">Pending</span>

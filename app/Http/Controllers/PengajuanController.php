@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\SubKategori;
 use App\Models\Level;
+use App\Models\PointRules;
 use App\Models\PengajuanSertifikat;
 use App\Models\PengajuanSKPI;
 use Illuminate\Http\Request;
@@ -58,6 +59,20 @@ class PengajuanController extends Controller
                 $filePath = $file->storeAs('pengajuan_sertifikat', $filename, 'public');
             }
 
+            // 🔥 CARI POINT RULES BERDASARKAN KATEGORI, SUB-KATEGORI, DAN LEVEL
+            $pointRule = PointRules::where('id_kategori', $validated['id_kategori'])
+                ->when($validated['id_sub_kategori'] ?? null, function ($q) use ($validated) {
+                    return $q->where('id_sub_kategori', $validated['id_sub_kategori']);
+                }, function ($q) {
+                    return $q->whereNull('id_sub_kategori');
+                })
+                ->when($validated['id_level'] ?? null, function ($q) use ($validated) {
+                    return $q->where('id_level', $validated['id_level']);
+                }, function ($q) {
+                    return $q->whereNull('id_level');
+                })
+                ->first();
+
             // Simpan ke pengajuan
             PengajuanSertifikat::create([
                 'nim' => $mahasiswa->nim,
@@ -66,8 +81,10 @@ class PengajuanController extends Controller
                 'id_kategori' => $validated['id_kategori'],
                 'id_sub_kategori' => $validated['id_sub_kategori'] ?? null,
                 'id_level' => $validated['id_level'] ?? null,
-                'tgl_pengajuan_sertifikat' => now()->toDateString(), // 🔥 fix
-                'status' => 'pending'
+                'tgl_pengajuan_sertifikat' => now()->toDateString(),
+                'status' => 'pending',
+                'id_rules' => $pointRule?->id_rules,
+                'poin_akhir' => $pointRule?->poin_akhir
             ]);
 
             return redirect()
