@@ -111,7 +111,7 @@ Route::prefix('admin')
             'edit' => 'level.edit',
             'update' => 'level.update',
             'destroy' => 'level.destroy'
-        ])->parameters(['level' => 'id_level']);
+        ]);
 
         // Mahasiswa CRUD Routes
         Route::resource('mahasiswa', MahasiswaController::class)->names([
@@ -139,7 +139,19 @@ Route::prefix('admin')
 
         Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
 
-        Route::get('/data-poin', [PointRulesController::class, 'index'])->name('data-poin');
+        Route::resource('poin', PointRulesController::class)
+            ->names([
+                'index' => 'poin.index',
+                'create' => 'poin.create',
+                'store' => 'poin.store',
+                'show' => 'poin.show',
+                'edit' => 'poin.edit',
+                'update' => 'poin.update',
+                'destroy' => 'poin.destroy'
+            ])
+            ->parameters([
+                'poin' => 'pointRules'
+            ]);
     });
 
 

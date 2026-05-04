@@ -4,15 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategoris = Kategori::with('subKategori')->get();
+        $query = Kategori::with('subKategori');
+
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_kategori', 'like', "%{$request->search}%")
+                    ->orWhere('id_kategori', 'like', "%{$request->search}%");
+            });
+        }
+
+        // PAGINATION
+        $kategoris = $query->paginate(5)->withQueryString();
+
         return view('admin.kategori.index', compact('kategoris'));
     }
 
@@ -29,13 +43,22 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_kategori' => 'required|string|max:255|unique:kategori,nama_kategori'
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama_kategori' => 'required|string|max:255|unique:kategori,nama_kategori'
+            ]);
 
-        Kategori::create($validated);
+            Kategori::create($validated);
 
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan');
+            return redirect()->route('admin.kategori.index')
+                ->with('success', 'Kategori berhasil ditambahkan');
+
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'Data sudah ada atau tidak valid!');
+        }
     }
 
     /**

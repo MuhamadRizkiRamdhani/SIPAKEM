@@ -7,9 +7,20 @@ use App\Models\Fakultas;
 
 class FakultasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fakultas = Fakultas::with('prodi')->get();
+        $query = Fakultas::with('prodi');
+
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_fakultas', 'like', "%{$request->search}%")
+                    ->orWhere('id_fakultas', 'like', "%{$request->search}%");
+            });
+        }
+
+        // PAGINATION
+        $fakultas = $query->paginate(5)->withQueryString();
 
         return view("admin.fakultas.index", compact('fakultas'));
     }

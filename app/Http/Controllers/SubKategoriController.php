@@ -11,12 +11,31 @@ class SubKategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $subkategoris = SubKategori::with('kategori')->get();
-        return view('admin.sub-kategori.index', compact('subkategoris'));
-    }
+        $query = SubKategori::with('kategori');
 
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_sub_kategori', 'like', "%{$request->search}%")
+                    ->orWhere('id_sub_kategori', 'like', "%{$request->search}%");
+            });
+        }
+
+        // FILTER KATEGORI
+        if ($request->kategori) {
+            $query->where('id_kategori', $request->kategori);
+        }
+
+        // PAGINATION
+        $subkategoris = $query->paginate(5)->withQueryString();
+
+        // dropdown
+        $kategoris = Kategori::all();
+
+        return view('admin.sub-kategori.index', compact('subkategoris', 'kategoris'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -32,7 +51,7 @@ class SubKategoriController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_sub_kategori' => 'required|string|max:255',
+            'nama_sub_kategori' => 'required|string|max:255|unique:sub_kategori,nama_sub_kategori',
             'id_kategori' => 'required|exists:kategori,id_kategori'
         ]);
 

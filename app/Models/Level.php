@@ -17,4 +17,9 @@ class Level extends Model
     {
         return $this->hasMany(PointRules::class, 'id_level');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'id_level';
+    }
 }

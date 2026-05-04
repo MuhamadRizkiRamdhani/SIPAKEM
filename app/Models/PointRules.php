@@ -16,6 +16,12 @@ class PointRules extends Model
         'poin_akhir'
     ];
 
+    // 🔥 WAJIB TAMBAH INI
+    public function getRouteKeyName()
+    {
+        return 'id_rules';
+    }
+
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');

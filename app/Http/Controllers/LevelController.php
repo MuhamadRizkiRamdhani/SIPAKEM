@@ -10,10 +10,19 @@ class LevelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $levels = Level::with(['pointRules'])->get();
-        // return view('admin.level.index', compact('levels'));
+        $query = Level::query();
+
+        // SEARCH
+        if ($request->search) {
+            $query->where('nama_level', 'like', "%{$request->search}%")
+                ->orWhere('id_level', 'like', "%{$request->search}%");
+        }
+
+        $levels = $query->paginate(5)->withQueryString();
+
+        return view('admin.level.index', compact('levels'));
     }
 
     /**
@@ -21,7 +30,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        return view('level.create');
+        return view('admin.level.create');
     }
 
     /**
@@ -35,7 +44,8 @@ class LevelController extends Controller
 
         Level::create($validated);
 
-        return redirect()->route('level.index')->with('success', 'Level berhasil ditambahkan');
+        return redirect()->route('admin.level.index')
+            ->with('success', 'Level berhasil ditambahkan');
     }
 
     /**
@@ -43,7 +53,7 @@ class LevelController extends Controller
      */
     public function show(Level $level)
     {
-        return view('level.show', compact('level'));
+        return view('admin.level.show', compact('level'));
     }
 
     /**
@@ -51,7 +61,7 @@ class LevelController extends Controller
      */
     public function edit(Level $level)
     {
-        return view('level.edit', compact('level'));
+        return view('admin.level.edit', compact('level'));
     }
 
     /**
@@ -65,7 +75,8 @@ class LevelController extends Controller
 
         $level->update($validated);
 
-        return redirect()->route('level.index')->with('success', 'Level berhasil diperbarui');
+        return redirect()->route('admin.level.index')
+            ->with('success', 'Level berhasil diperbarui');
     }
 
     /**
@@ -75,6 +86,6 @@ class LevelController extends Controller
     {
         $level->delete();
 
-        return redirect()->route('level.index')->with('success', 'Level berhasil dihapus');
+        return redirect()->route('admin.level.index')->with('success', 'Level berhasil dihapus');
     }
 }

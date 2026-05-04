@@ -84,6 +84,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.sub-kategori.index') }}">Data Sub-Kategori</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.level.index') }}">Data Level</a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -109,16 +112,16 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-poin" aria-expanded="false"
-                    aria-controls="data-poin">
+                <a class="nav-link" data-bs-toggle="collapse" href="#menu-poin" aria-expanded="false"
+                    aria-controls="menu-poin">
                     <span class="menu-title">Kelola Poin</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-star-four-points-outline menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-poin">
+                <div class="collapse" id="menu-poin">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-poin') }}">Aturan Poin</a>
+                            <a class="nav-link" href="{{ route('admin.poin.index') }}">Aturan Poin</a>
                         </li>
                     </ul>
                 </div>

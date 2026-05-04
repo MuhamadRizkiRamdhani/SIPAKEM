@@ -8,10 +8,30 @@ use App\Models\Fakultas;
 
 class ProdiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prodis = Prodi::with('fakultas')->get();
-        return view('admin.prodi.index', compact('prodis'));
+        $query = Prodi::with('fakultas');
+
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_prodi', 'like', "%{$request->search}%")
+                    ->orWhere('id_prodi', 'like', "%{$request->search}%");
+            });
+        }
+
+        // FILTER FAKULTAS
+        if ($request->fakultas) {
+            $query->where('id_fakultas', $request->fakultas);
+        }
+
+        // PAGINATION
+        $prodis = $query->paginate(5)->withQueryString();
+
+        // buat dropdown filter
+        $fakultas = Fakultas::all();
+
+        return view('admin.prodi.index', compact('prodis', 'fakultas'));
     }
 
     public function create()

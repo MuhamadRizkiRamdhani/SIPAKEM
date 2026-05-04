@@ -8,10 +8,28 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $query = User::query();
+
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('username', 'like', "%{$request->search}%")
+                    ->orWhere('id_user', 'like', "%{$request->search}%");
+            });
+        }
+
+        // FILTER ROLE
+        if ($request->role) {
+            $query->where('role', $request->role);
+        }
+
+        // PAGINATION
+        $users = $query->paginate(6)->withQueryString();
+
         return view('admin.users.index', compact('users'));
+
     }
 
     public function create()

@@ -7,17 +7,39 @@ use App\Models\Kategori;
 use App\Models\SubKategori;
 use App\Models\Level;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class PointRulesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pointRules = PointRules::with(['kategori', 'subKategori', 'level'])->get();
+        $query = PointRules::with(['kategori', 'subKategori', 'level']);
 
-        return view("admin.poin.index", compact('pointRules'));
+        // SEARCH
+        if ($request->search) {
+            $query->where('poin_akhir', 'like', "%{$request->search}%");
+        }
+
+        // FILTER KATEGORI
+        if ($request->kategori) {
+            $query->where('id_kategori', $request->kategori);
+        }
+
+        // FILTER LEVEL
+        if ($request->level) {
+            $query->where('id_level', $request->level);
+        }
+
+        $pointRules = $query->paginate(5)->withQueryString();
+
+        $kategoris = Kategori::all();
+        $levels = Level::all();
+
+        return view("admin.poin.index", compact('pointRules', 'kategoris', 'levels'));
     }
 
     /**
@@ -28,7 +50,7 @@ class PointRulesController extends Controller
         $kategoris = Kategori::all();
         $subKategoris = SubKategori::all();
         $levels = Level::all();
-        return view('point-rules.create', compact('kategoris', 'subKategoris', 'levels'));
+        return view('admin.poin.create', compact('kategoris', 'subKategoris', 'levels'));
     }
 
     /**
@@ -43,17 +65,40 @@ class PointRulesController extends Controller
             'poin_akhir' => 'required|integer|min:0'
         ]);
 
+        // ✅ VALIDASI RELASI
+        if ($request->id_sub_kategori) {
+            $sub = SubKategori::find($request->id_sub_kategori);
+
+            if ($sub->id_kategori != $request->id_kategori) {
+                return back()
+                    ->withErrors(['id_sub_kategori' => 'Sub kategori tidak sesuai dengan kategori'])
+                    ->withInput();
+            }
+        }
+
+        // ✅ VALIDASI DUPLIKAT KOMBINASI
+        $exists = PointRules::where('id_kategori', $request->id_kategori)
+            ->where('id_sub_kategori', $request->id_sub_kategori)
+            ->where('id_level', $request->id_level)
+            ->exists();
+
+        if ($exists) {
+            return back()
+                ->withErrors(['duplicate' => 'Kombinasi kategori, sub kategori, dan level sudah ada'])
+                ->withInput();
+        }
+
         PointRules::create($validated);
 
-        return redirect()->route('point-rules.index')->with('success', 'Point Rules berhasil ditambahkan');
+        return redirect()->route('admin.poin.index')
+            ->with('success', 'Point Rules berhasil ditambahkan');
     }
-
     /**
      * Display the specified resource.
      */
     public function show(PointRules $pointRules)
     {
-        return view('point-rules.show', compact('pointRules'));
+        return view('admin.poin.show', compact('pointRules'));
     }
 
     /**
@@ -64,7 +109,8 @@ class PointRulesController extends Controller
         $kategoris = Kategori::all();
         $subKategoris = SubKategori::all();
         $levels = Level::all();
-        return view('point-rules.edit', compact('pointRules', 'kategoris', 'subKategoris', 'levels'));
+
+        return view('admin.poin.edit', compact('pointRules', 'kategoris', 'subKategoris', 'levels'));
     }
 
     /**
@@ -79,9 +125,34 @@ class PointRulesController extends Controller
             'poin_akhir' => 'required|integer|min:0'
         ]);
 
+        // ✅ VALIDASI RELASI
+        if ($request->id_sub_kategori) {
+            $sub = SubKategori::find($request->id_sub_kategori);
+
+            if ($sub->id_kategori != $request->id_kategori) {
+                return back()
+                    ->withErrors(['id_sub_kategori' => 'Sub kategori tidak sesuai dengan kategori'])
+                    ->withInput();
+            }
+        }
+
+        // ✅ VALIDASI DUPLIKAT (kecuali data sendiri)
+        $exists = PointRules::where('id_kategori', $request->id_kategori)
+            ->where('id_sub_kategori', $request->id_sub_kategori)
+            ->where('id_level', $request->id_level)
+            ->where('id_rules', '!=', $pointRules->id_rules)
+            ->exists();
+
+        if ($exists) {
+            return back()
+                ->withErrors(['duplicate' => 'Kombinasi kategori, sub kategori, dan level sudah ada'])
+                ->withInput();
+        }
+
         $pointRules->update($validated);
 
-        return redirect()->route('point-rules.index')->with('success', 'Point Rules berhasil diperbarui');
+        return redirect()->route('admin.poin.index')
+            ->with('success', 'Point Rules berhasil diperbarui');
     }
 
     /**
@@ -91,6 +162,6 @@ class PointRulesController extends Controller
     {
         $pointRules->delete();
 
-        return redirect()->route('point-rules.index')->with('success', 'Point Rules berhasil dihapus');
+        return redirect()->route('admin.poin.index')->with('success', 'Point Rules berhasil dihapus');
     }
 }
