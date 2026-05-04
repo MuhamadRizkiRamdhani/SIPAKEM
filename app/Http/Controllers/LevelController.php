@@ -12,8 +12,8 @@ class LevelController extends Controller
      */
     public function index()
     {
-        $levels = Level::with(['sertifikat', 'pointRules'])->get();
-        return view('level.index', compact('levels'));
+        $levels = Level::with(['pointRules'])->get();
+        // return view('admin.level.index', compact('levels'));
     }
 
     /**

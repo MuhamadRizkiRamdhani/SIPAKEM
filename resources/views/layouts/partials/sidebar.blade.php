@@ -33,7 +33,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen" aria-expanded="false"
                     aria-controls="data-manajemen">
-                    <span class="menu-title">Manajemen Data</span>
+                    <span class="menu-title">Data Pengguna</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-database menu-icon"></i>
                 </a>
@@ -48,18 +48,46 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.pengelola.index') }}">Data Pengelola</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.fakultas.index') }}">Data Fakultas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.prodi.index') }}">Data Program Studi</a>
-                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-fakultas" aria-expanded="false"
+                    aria-controls="data-fakultas">
+                    <span class="menu-title">Data Fakultas</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-domain menu-icon"></i>
+                </a>
+                <div class="collapse" id="data-fakultas">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.fakultas.index') }}">Data
+                                Fakultas</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.prodi.index') }}">Data Program
+                                Studi</a> </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen-kategori" aria-expanded="false"
+                    aria-controls="data-manajemen-kategori">
+                    <span class="menu-title">Data Kategori</span>
+                    <i class="menu-arrow"></i>
+                    <i class="mdi mdi-shape-plus-outline menu-icon"></i>
+                </a>
+                <div class="collapse" id="data-manajemen-kategori">
+                    <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.kategori.index') }}">Data Kategori</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.sub-kategori.index') }}">Data Sub-Kategori</a>
                         </li>
                     </ul>
                 </div>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan" aria-expanded="false"
                     aria-controls="data-pengajuan">

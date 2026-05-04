@@ -19,10 +19,10 @@ class SubKategori extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
-    public function sertifikat()
-    {
-        return $this->hasMany(Sertifikat::class, 'id_sub_kategori');
-    }
+    // public function sertifikat()
+    // {
+    //     return $this->hasMany(Sertifikat::class, 'id_sub_kategori');
+    // }
 
     public function pointRules()
     {

@@ -13,11 +13,6 @@ class Level extends Model
         'nama_level'
     ];
 
-    public function sertifikat()
-    {
-        return $this->hasMany(Sertifikat::class, 'id_level');
-    }
-
     public function pointRules()
     {
         return $this->hasMany(PointRules::class, 'id_level');

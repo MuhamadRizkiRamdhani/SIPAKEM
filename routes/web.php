@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LevelController;
+use App\Http\Controllers\SubKategoriController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PengelolaController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\PengajuanSertifikatController;
 use App\Http\Controllers\PengajuanSKPIController;
 use App\Http\Controllers\PointRulesController;
 use App\Http\Controllers\PengajuanController;
+use App\Models\SubKategori;
 use Illuminate\Support\Facades\Route;
 
 // ==================== AUTH ====================
@@ -87,6 +90,28 @@ Route::prefix('admin')
             'update' => 'kategori.update',
             'destroy' => 'kategori.destroy'
         ])->parameters(['kategori' => 'id_kategori']);
+
+        //Sub Kategori CRUD
+        Route::resource('sub-kategori', SubKategoriController::class)->names([
+            'index' => 'sub-kategori.index',
+            'create' => 'sub-kategori.create',
+            'store' => 'sub-kategori.store',
+            'show' => 'sub-kategori.show',
+            'edit' => 'sub-kategori.edit',
+            'update' => 'sub-kategori.update',
+            'destroy' => 'sub-kategori.destroy'
+        ])->parameters(['sub-kategori' => 'id_sub-kategori']);
+
+        //Level CRUD
+        Route::resource('level', LevelController::class)->names([
+            'index' => 'level.index',
+            'create' => 'level.create',
+            'store' => 'level.store',
+            'show' => 'level.show',
+            'edit' => 'level.edit',
+            'update' => 'level.update',
+            'destroy' => 'level.destroy'
+        ])->parameters(['level' => 'id_level']);
 
         // Mahasiswa CRUD Routes
         Route::resource('mahasiswa', MahasiswaController::class)->names([
