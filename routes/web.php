@@ -137,6 +137,8 @@ Route::prefix('admin')
 
         Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
 
+        Route::resource('pengajuan-sertifikat', PengajuanSertifikatController::class);
+
         Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
 
         Route::resource('poin', PointRulesController::class)

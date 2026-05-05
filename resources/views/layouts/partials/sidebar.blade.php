@@ -98,10 +98,12 @@
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-note-text-outline menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-pengajuan">
+                <div class="collapse {{ request()->routeIs('admin.pengajuan-sertifikat.*') || request()->routeIs('admin.data-pengajuan-sertifikat') ? 'show' : '' }}"
+                    id="data-pengajuan">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-pengajuan-sertifikat') }}">Data Pengajuan
+                            <a class="nav-link {{ request()->routeIs('admin.pengajuan-sertifikat.*') ? 'active' : '' }}"
+                                href="{{ route('admin.data-pengajuan-sertifikat') }}">Data Pengajuan
                                 Sertifikat</a>
                         </li>
                         <li class="nav-item">

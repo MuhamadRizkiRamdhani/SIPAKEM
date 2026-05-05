@@ -15,15 +15,33 @@ class PengajuanSertifikatController extends Controller
      */
     public function index()
     {
-        $pengajuanSertifikats = PengajuanSertifikat::with([
+        $query = PengajuanSertifikat::with([
             'mahasiswa',
             'pengelola',
             'pointRules'
-        ])->get();
+        ]);
+
+        // SEARCH (nama / nim / sertifikat)
+        if (request('search')) {
+            $query->where(function ($q) {
+                $q->where('nim', 'like', '%' . request('search') . '%')
+                    ->orWhere('nama_sertifikat', 'like', '%' . request('search') . '%')
+                    ->orWhereHas('mahasiswa', function ($q2) {
+                        $q2->where('nama_mhs', 'like', '%' . request('search') . '%');
+                    });
+            });
+        }
+
+        // FILTER STATUS
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
+
+        $pengajuanSertifikats = $query->latest()->paginate(6);
 
         $role = auth()->user()->role;
 
-        return view("$role.pengajuan.sertifikat", compact('pengajuanSertifikats'));
+        return view("$role.pengajuan.sertifikat", compact('pengajuanSertifikats', 'role'));
     }
 
     /**
@@ -46,7 +64,6 @@ class PengajuanSertifikatController extends Controller
             'nim' => 'required|exists:mahasiswa,nim',
             'status' => 'required|in:pending,diproses,diterima,ditolak',
             'tgl_pengajuan_sertifikat' => 'required|date',
-            'id_pengelola' => 'nullable|exists:pengelola,id_pengelola',
             'feedback' => 'nullable|string',
             'id_rules' => 'nullable|exists:point_rules,id_rules',
             'poin_akhir' => 'nullable|integer|min:0'
@@ -54,15 +71,27 @@ class PengajuanSertifikatController extends Controller
 
         PengajuanSertifikat::create($validated);
 
-        return redirect()->route('pengajuan-sertifikat.index')->with('success', 'Pengajuan Sertifikat berhasil ditambahkan');
+        return redirect()->route('admin.pengajuan-sertifikat.index')
+            ->with('success', 'Pengajuan Sertifikat berhasil ditambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(PengajuanSertifikat $pengajuanSertifikat)
+    public function show($id)
     {
-        return view('pengajuan-sertifikat.show', compact('pengajuanSertifikat'));
+        $pengajuan = PengajuanSertifikat::with([
+            'mahasiswa',
+            'pengelola',
+            'pointRules',
+            'kategori',
+            'subKategori',
+            'level'
+        ])->findOrFail($id);
+
+        $role = auth()->user()->role;
+
+        return view("$role.pengajuan.detail-sertifikat", compact('pengajuan'));
     }
 
     /**
@@ -81,20 +110,36 @@ class PengajuanSertifikatController extends Controller
      */
     public function update(Request $request, PengajuanSertifikat $pengajuanSertifikat)
     {
-        $validated = $request->validate([
-            'nim' => 'required|exists:mahasiswa,nim',
-            'id_sertifikat' => 'required|exists:sertifikat,id_sertifikat',
+        $request->validate([
             'status' => 'required|in:pending,diproses,diterima,ditolak',
-            'tgl_pengajuan_sertifikat' => 'required|date',
-            'id_pengelola' => 'nullable|exists:pengelola,id_pengelola',
-            'feedback' => 'nullable|string',
-            'id_rules' => 'nullable|exists:point_rules,id_rules',
-            'poin_akhir' => 'nullable|integer|min:0'
+            'feedback' => 'nullable|string'
         ]);
 
-        $pengajuanSertifikat->update($validated);
+        // 🧠 SIMPAN STATUS LAMA
+        $statusLama = $pengajuanSertifikat->status;
 
-        return redirect()->route('pengajuan-sertifikat.index')->with('success', 'Pengajuan Sertifikat berhasil diperbarui');
+        // UPDATE DATA
+        $pengajuanSertifikat->update([
+            'status' => $request->status,
+            'feedback' => $request->feedback,
+            'id_pengelola' => auth()->id()
+        ]);
+
+        // TAMBAH POIN HANYA JIKA BARU DITERIMA & ADA POIN
+        if (
+            $statusLama !== 'diterima' &&
+            $request->status === 'diterima' &&
+            $pengajuanSertifikat->poin_akhir
+        ) {
+            $mahasiswa = $pengajuanSertifikat->mahasiswa;
+
+            if ($mahasiswa) {
+                $mahasiswa->increment('poin_kredit', $pengajuanSertifikat->poin_akhir);
+            }
+        }
+
+        return redirect()->route('admin.pengajuan-sertifikat.index')
+            ->with('success', 'Status berhasil diperbarui');
     }
 
     /**
@@ -104,6 +149,9 @@ class PengajuanSertifikatController extends Controller
     {
         $pengajuanSertifikat->delete();
 
-        return redirect()->route('pengajuan-sertifikat.index')->with('success', 'Pengajuan Sertifikat berhasil dihapus');
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.pengajuan-sertifikat.index")
+            ->with('success', 'Pengajuan Sertifikat berhasil dihapus');
     }
 }

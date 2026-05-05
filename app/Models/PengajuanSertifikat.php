@@ -31,7 +31,7 @@ class PengajuanSertifikat extends Model
     // 🔗 RELASI
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
     }
 
     public function pengelola()
