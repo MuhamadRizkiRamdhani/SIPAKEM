@@ -11,44 +11,46 @@
                         <button type="button" class="btn btn-sm btn-success ">Export PDF</button>
                     </div>
                     </p>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nama Mahasiswa</th>
-                                <th>NIM</th>
-                                <th>Prodi</th>
-                                <th>Fakultas</th>
-                                <th>Poin Kredit</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($pengajuanSKPIs as $psk)
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $psk->mahasiswa->nama_mhs ?? '-' }}</td>
-                                    <td>{{ $psk->nim }}</td>
-                                    <td>{{ $psk->mahasiswa->prodi->nama_prodi ?? '-' }}</td>
-                                    <td>{{ $psk->mahasiswa->prodi->fakultas->nama_fakultas ?? '-' }}</td>
-                                    <td>{{ $psk->mahasiswa->poin_kredit ?? '-' }}</td>
-                                    <td>
-                                        <span
-                                            class="badge badge-{{ $psk->status === 'diterima' ? 'success' : ($psk->status === 'ditolak' ? 'danger' : ($psk->status === 'diproses' ? 'warning' : 'secondary')) }}">
-                                            {{ $psk->status }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Tinjau</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>NIM</th>
+                                    <th>Prodi</th>
+                                    <th>Fakultas</th>
+                                    <th>Poin Kredit</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center"><em>Belum ada data</em></td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($pengajuanSKPIs as $psk)
+                                    <tr>
+                                        <td>{{ $psk->mahasiswa->nama_mhs ?? '-' }}</td>
+                                        <td>{{ $psk->nim }}</td>
+                                        <td>{{ $psk->mahasiswa->prodi->nama_prodi ?? '-' }}</td>
+                                        <td>{{ $psk->mahasiswa->prodi->fakultas->nama_fakultas ?? '-' }}</td>
+                                        <td>{{ $psk->mahasiswa->poin_kredit ?? '-' }}</td>
+                                        <td>
+                                            <span
+                                                class="badge badge-{{ $psk->status === 'diterima' ? 'success' : ($psk->status === 'ditolak' ? 'danger' : ($psk->status === 'diproses' ? 'warning' : 'secondary')) }}">
+                                                {{ $psk->status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm">Tinjau</button>
+                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center"><em>Belum ada data</em></td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

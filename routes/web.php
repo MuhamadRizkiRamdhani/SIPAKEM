@@ -165,9 +165,19 @@ Route::prefix('pengelola')
 
         Route::get('/dashboard', [DashboardController::class, 'pengelolaDashboard'])->name('dashboard');
 
-        Route::get('/data-mahasiswa', [MahasiswaController::class, 'index'])->name('data-mahasiswa');
+        Route::resource('mahasiswa', MahasiswaController::class)->names([
+            'index' => 'mahasiswa.index',
+            'create' => 'mahasiswa.create',
+            'store' => 'mahasiswa.store',
+            'show' => 'mahasiswa.show',
+            'edit' => 'mahasiswa.edit',
+            'update' => 'mahasiswa.update',
+            'destroy' => 'mahasiswa.destroy'
+        ])->parameters(['mahasiswa' => 'nim']);
 
         Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
+
+        Route::resource('pengajuan-sertifikat', PengajuanSertifikatController::class);
 
         Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
 

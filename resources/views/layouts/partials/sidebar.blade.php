@@ -148,7 +148,7 @@
                 <div class="collapse" id="data-manajemen">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pengelola.data-mahasiswa') }}">Data Mahasiswa</a>
+                            <a class="nav-link" href="{{ route('pengelola.mahasiswa.index') }}">Data Mahasiswa</a>
                         </li>
                     </ul>
                 </div>

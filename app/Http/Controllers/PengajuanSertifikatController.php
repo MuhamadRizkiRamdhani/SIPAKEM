@@ -122,7 +122,7 @@ class PengajuanSertifikatController extends Controller
         $pengajuanSertifikat->update([
             'status' => $request->status,
             'feedback' => $request->feedback,
-            'id_pengelola' => auth()->id()
+            'id_pengelola' => Pengelola::where('id_user', auth()->id())->value('id_pengelola')
         ]);
 
         // TAMBAH POIN HANYA JIKA BARU DITERIMA & ADA POIN
@@ -138,7 +138,9 @@ class PengajuanSertifikatController extends Controller
             }
         }
 
-        return redirect()->route('admin.pengajuan-sertifikat.index')
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.pengajuan-sertifikat.index")
             ->with('success', 'Status berhasil diperbarui');
     }
 
