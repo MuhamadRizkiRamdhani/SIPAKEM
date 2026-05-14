@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Fakultas;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MahasiswaController extends Controller
 {
@@ -141,5 +142,41 @@ class MahasiswaController extends Controller
 
         return redirect()->route("$role.mahasiswa.index")
             ->with('success', "Mahasiswa {$nama} berhasil dihapus!");
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $role = auth()->user()->role;
+
+        $query = Mahasiswa::with(['user', 'prodi.fakultas']);
+
+        // Terapkan filter yang sama seperti index
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mhs', 'like', "%{$request->search}%")
+                    ->orWhere('nim', 'like', "%{$request->search}%");
+            });
+        }
+
+        if ($request->filled('fakultas')) {
+            $query->whereHas('prodi', function ($q) use ($request) {
+                $q->where('id_fakultas', $request->fakultas);
+            });
+        }
+
+        if ($request->filled('prodi')) {
+            $query->where('id_prodi', $request->prodi);
+        }
+
+        if ($request->filled('tahun_angkatan')) {
+            $query->where('tahun_angkatan', $request->tahun_angkatan);
+        }
+
+        $mahasiswas = $query->orderBy('nama_mhs')->get();
+
+        // Pakai $role untuk menentukan view
+        $pdf = Pdf::loadView("{$role}.mahasiswa.pdf", compact('mahasiswas'));
+
+        return $pdf->download('data-mahasiswa.pdf');
     }
 }

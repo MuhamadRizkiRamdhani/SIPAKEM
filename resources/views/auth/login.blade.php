@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('auth-assets/auth.css') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo_sipakem.png') }}" type="image/png">
 </head>
 
 <body>
@@ -29,6 +30,9 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" id="loginPassword" placeholder="Password" required
                             autocomplete="current-password">
+                        <button type="button" class="password-toggle" data-target="loginPassword" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                     <button type="submit" class="btn" id="signInBtn">Masuk</button>
                     <div id="loginFeedback" class="demo-message" style="display: none;"></div>
@@ -80,6 +84,9 @@
                     <i class="fas fa-lock"></i>
                     <input type="password" name="password" id="regPassword" placeholder="Password" required
                         autocomplete="new-password">
+                    <button type="button" class="password-toggle" data-target="regPassword" tabindex="-1">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
 
                 <!-- Konfirmasi Password -->
@@ -87,6 +94,9 @@
                     <i class="fas fa-check-circle"></i>
                     <input type="password" id="regConfirmPassword" placeholder="Konfirmasi Password" required
                         autocomplete="new-password">
+                    <button type="button" class="password-toggle" data-target="regConfirmPassword" tabindex="-1">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
 
                 <!-- TAHUN ANGKATAN -->

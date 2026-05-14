@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pengelola;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PengelolaController extends Controller
 {
@@ -76,5 +77,28 @@ class PengelolaController extends Controller
 
         return redirect()->route('admin.pengelola.index')
             ->with('success', 'Pengelola berhasil dihapus');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $role = auth()->user()->role;
+
+        $query = Pengelola::with('user');
+
+        // SEARCH
+        if ($request->filled('search')) {
+            $query->where('nama_pengelola', 'like', "%{$request->search}%");
+        }
+
+        // SORT
+        if ($request->sort == 'latest') {
+            $query->latest();
+        }
+
+        $pengelolas = $query->orderBy('nama_pengelola')->get();
+
+        $pdf = Pdf::loadView("{$role}.pengelola.pdf", compact('pengelolas'));
+
+        return $pdf->download('data-pengelola.pdf');
     }
 }

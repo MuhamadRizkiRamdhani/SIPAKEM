@@ -36,6 +36,14 @@ function showFeedback(element, message, isError = false) {
     }, timeout);
 }
 
+function resetButton(button, originalText) {
+    if (!button) return;
+    button.disabled = false;
+    button.innerHTML = originalText;
+    button.style.opacity = '1';
+    button.style.cursor = 'pointer';
+}
+
 /**
  * Validasi input login
  */
@@ -99,6 +107,31 @@ function validateRegisterForm(data) {
     return { valid: true };
 }
 
+
+// ==================== PASSWORD TOGGLE ====================
+document.addEventListener('click', function(e) {
+    const toggleBtn = e.target.closest('.password-toggle');
+    if (!toggleBtn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const targetId = toggleBtn.getAttribute('data-target');
+    const passwordInput = document.getElementById(targetId);
+    const icon = toggleBtn.querySelector('i');
+
+    if (!passwordInput || !icon) return;
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
 
 
 // ==================== PROGRAM STUDI DROPDOWN ====================
@@ -174,19 +207,24 @@ function initRegistrationForm(regFormContainer) {
 async function handleLoginSubmit(e) {
     e.preventDefault();
     
+    const submitBtn = document.getElementById('signInBtn');
     const username = document.getElementById('loginUsername')?.value.trim();
     const password = document.getElementById('loginPassword')?.value;
     const feedback = document.getElementById('loginFeedback');
 
-    // Validasi
     const validation = validateLoginForm(username, password);
     if (!validation.valid) {
         showFeedback(feedback, validation.message, true);
         return;
     }
 
-    // Show loading state
-    showFeedback(feedback, '⏳ Memproses login...', false);
+    // Disable + loading
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
+    }
 
     try {
         const response = await fetch('/api/login', {
@@ -201,17 +239,18 @@ async function handleLoginSubmit(e) {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            showFeedback(feedback, '✓ Login berhasil! Mengalihkan...', false);
-            // Redirect ke dashboard sesuai role
+            showFeedback(feedback, 'Login berhasil! Mengalihkan...', false);
             setTimeout(() => {
                 window.location.href = result.redirect;
             }, 1000);
         } else {
             showFeedback(feedback, result.message || 'Login gagal', true);
+            resetButton(submitBtn, 'Masuk');
         }
     } catch (err) {
         console.error('Login error:', err);
         showFeedback(feedback, 'Kesalahan jaringan. Coba lagi.', true);
+        resetButton(submitBtn, 'Masuk');
     }
 }
 
@@ -231,6 +270,7 @@ function attachLoginEvent() {
 async function handleRegisterSubmit(e) {
     e.preventDefault();
 
+    const submitBtn = document.getElementById('signUpBtn');
     const nim = document.getElementById('nim')?.value.trim();
     const fullname = document.getElementById('regFullname')?.value.trim();
     const username = document.getElementById('regUsername')?.value.trim();
@@ -249,17 +289,9 @@ async function handleRegisterSubmit(e) {
     
     const feedbackReg = document.getElementById('registerFeedback');
 
-    // Validasi
     const validation = validateRegisterForm({
-        nim,
-        fullname,
-        username,
-        password,
-        confirmPassword,
-        fakultasValue,
-        prodi,
-        beasiswa,
-        tahunAngkatan
+        nim, fullname, username, password, confirmPassword,
+        fakultasValue, prodi, beasiswa, tahunAngkatan
     });
 
     if (!validation.valid) {
@@ -267,8 +299,13 @@ async function handleRegisterSubmit(e) {
         return;
     }
 
-    // Show loading state
-    showFeedback(feedbackReg, '⏳ Memproses pendaftaran...', false);
+    // Disable + loading
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mendaftarkan...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
+    }
 
     try {
         const response = await fetch('/api/register', {
@@ -293,8 +330,6 @@ async function handleRegisterSubmit(e) {
 
         if (response.ok && result.success) {
             showFeedback(feedbackReg, '✓ Pendaftaran berhasil! Silakan login.', false);
-            
-            // Switch ke login form
             setTimeout(() => {
                 const loginUserField = document.getElementById('loginUsername');
                 if (loginUserField) loginUserField.value = result.username;
@@ -303,11 +338,9 @@ async function handleRegisterSubmit(e) {
                 if (loginFeedback) showFeedback(loginFeedback, 'Akun berhasil dibuat. Silakan masuk.', false);
             }, 1500);
         } else {
-            // Handle error message - bisa berupa string atau object (validation errors)
             let errorMessage = 'Registrasi gagal';
             if (result.message) {
                 if (typeof result.message === 'object') {
-                    // Jika berupa object, ambil pesan pertama dari setiap field
                     const errors = Object.values(result.message);
                     if (errors.length > 0 && Array.isArray(errors[0])) {
                         errorMessage = errors[0][0];
@@ -319,10 +352,12 @@ async function handleRegisterSubmit(e) {
                 }
             }
             showFeedback(feedbackReg, errorMessage, true);
+            resetButton(submitBtn, 'Daftar');
         }
     } catch (err) {
         console.error('Register error:', err);
         showFeedback(feedbackReg, 'Kesalahan jaringan. Coba lagi.', true);
+        resetButton(submitBtn, 'Daftar');
     }
 }
 
@@ -404,6 +439,7 @@ function showRegisterForm() {
 function updateRightPanelForLogin() {
     rightPanelContainer.innerHTML = `
         <h2>SIPAKEM</h2>
+        <p class="sipakem-subtitle">Sistem Informasi Poin Aktivitas & Kredit Mahasiswa</p>
         <div class="welcome-message">
             Belum punya akun? Daftar sekarang!
         </div>
@@ -424,8 +460,9 @@ function updateRightPanelForLogin() {
  * Update right panel untuk register mode
  */
 function updateRightPanelForRegister() {
-    rightPanelContainer.innerHTML = `
+     rightPanelContainer.innerHTML = `
         <h2>SIPAKEM</h2>
+        <p class="sipakem-subtitle">SIstem Informasi Poin Aktivitas & Kredit Mahasiswa</p>
         <div class="welcome-message">
             Sudah punya akun? Masuk sekarang!
         </div>

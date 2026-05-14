@@ -113,6 +113,9 @@ Route::prefix('admin')
             'destroy' => 'level.destroy'
         ]);
 
+        Route::get('/mahasiswa/export-pdf', [MahasiswaController::class, 'exportPdf'])
+            ->name('mahasiswa.exportPdf');
+
         // Mahasiswa CRUD Routes
         Route::resource('mahasiswa', MahasiswaController::class)->names([
             'index' => 'mahasiswa.index',
@@ -123,6 +126,10 @@ Route::prefix('admin')
             'update' => 'mahasiswa.update',
             'destroy' => 'mahasiswa.destroy'
         ])->parameters(['mahasiswa' => 'nim']);
+
+        // Pengelola Export PDF
+        Route::get('/pengelola/export-pdf', [PengelolaController::class, 'exportPdf'])
+            ->name('pengelola.exportPdf');
 
         // Pengelola CRUD Routes
         Route::resource('pengelola', PengelolaController::class)->names([
@@ -170,6 +177,9 @@ Route::prefix('pengelola')
     ->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'pengelolaDashboard'])->name('dashboard');
+
+        Route::get('/mahasiswa/export-pdf', [MahasiswaController::class, 'exportPdf'])
+            ->name('mahasiswa.exportPdf');
 
         Route::resource('mahasiswa', MahasiswaController::class)->names([
             'index' => 'mahasiswa.index',

@@ -71,7 +71,8 @@
 
                     <div class="d-flex justify-content-end mb-3 gap-3">
                         <a href="{{ route('pengelola.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a>
-                        <button type="button" class="btn btn-sm btn-success">Export PDF</button>
+                        <a href="{{ route($role.'.mahasiswa.exportPdf', request()->query()) }}" 
+                        class="btn btn-sm btn-success">Export PDF</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-borderless">

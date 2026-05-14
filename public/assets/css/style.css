@@ -113,6 +113,34 @@
     background: #ffffff;
 }
 
+.logo-mini-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain; /* ini yang penting, menjaga proporsi */
+    display: block;
+    flex-shrink: 0; /* mencegah gambar mengecil */
+}
+
+.navbar-brand-wrapper {
+    justify-content: flex-start !important; /* dorong ke kiri */
+    padding-left: 20px !important; /* kasih jarak dari kiri (sesuaikan) */
+}
+
+.navbar-brand.brand-logo {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand.brand-logo .logo-mini-img,
+.navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini .logo-mini-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    max-width: 40px;
+    max-height: 40px;
+    flex-shrink: 0;
+}
+
 .logo-mini-box {
     background: linear-gradient(135deg, #1989ff, #43e4ff);
     color: #ffffff !important;
@@ -28335,7 +28363,7 @@ dl li {
     line-height: 48px;
     margin-right: 0;
     padding: 0.25rem 0;
-    width: 100%;
+    width: auto !important;
     text-align: left;
     padding-left: 2.25rem;
 }

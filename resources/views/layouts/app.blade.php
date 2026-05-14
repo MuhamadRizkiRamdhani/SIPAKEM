@@ -22,8 +22,191 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo_sipakem.png') }}" />
 </head>
+<style>
+    /* ===== PERBAIKAN NAVBAR & SIDEBAR ===== */
+
+    /* Navbar full width - override col-lg-12 */
+    .navbar.default-layout-navbar {
+        width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        height: 63px;
+        z-index: 1030;
+    }
+
+    /* Brand wrapper - fixed width samain sidebar */
+    .navbar .navbar-brand-wrapper {
+        width: 260px !important;
+        min-width: 260px !important;
+        height: 63px !important;
+        flex-shrink: 0;
+        justify-content: flex-start !important;
+        padding-left: 25px !important;
+    }
+
+    /* Menu wrapper - ngisi sisa ruang */
+    .navbar .navbar-menu-wrapper {
+        flex: 1 !important;
+        width: auto !important;
+    }
+
+    /* Page body wrapper */
+    .page-body-wrapper {
+        padding-top: 63px !important;
+    }
+
+    /* Main panel - dorong ke kanan */
+    .main-panel {
+        margin-left: 260px !important;
+        width: calc(100% - 260px) !important;
+        transition: all 0.3s ease;
+    }
+
+    .content-wrapper {
+        padding: 25px 20px !important;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 260px !important;
+        position: fixed !important;
+        top: 63px !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        height: calc(100vh - 63px) !important;
+        z-index: 1020;
+        padding-top: 0 !important;
+    }
+
+    /* === SAAT SIDEBAR MINIMIZE === */
+    .sidebar-mini .navbar-brand-wrapper,
+    .sidebar-icon-only .navbar-brand-wrapper {
+        width: 70px !important;
+        min-width: 70px !important;
+        padding-left: 15px !important;
+    }
+
+    .sidebar-mini .main-panel,
+    .sidebar-icon-only .main-panel {
+        margin-left: 70px !important;
+        width: calc(100% - 70px) !important;
+    }
+
+    .sidebar-mini .sidebar,
+    .sidebar-icon-only .sidebar {
+        width: 70px !important;
+    }
+
+    /* Logo brand */
+    .brand-logo-mini {
+        display: none !important;
+    }
+
+    .sidebar-mini .brand-logo,
+    .sidebar-icon-only .brand-logo {
+        display: none !important;
+    }
+
+    .sidebar-mini .brand-logo-mini,
+    .sidebar-icon-only .brand-logo-mini {
+        display: flex !important;
+    }
+
+    /* Logo image */
+    .logo-mini-img {
+        width: 35px;
+        height: 35px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+        margin-left: 0 !important;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-mini .footer,
+    .sidebar-icon-only .footer {
+        margin-left: 0 !important;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 991px) {
+        .navbar.default-layout-navbar {
+            width: 100vw !important;
+            height: 60px;
+        }
+
+        .navbar .navbar-brand-wrapper {
+            width: auto !important;
+            min-width: auto !important;
+            padding-left: 15px !important;
+            flex: 1;
+            justify-content: flex-start !important;
+        }
+
+        /* Logo + text di kiri */
+        .navbar .brand-logo {
+            display: flex !important;
+        }
+
+        .navbar .brand-logo-mini {
+            display: none !important;
+        }
+
+        /* Menu wrapper di kanan */
+        .navbar .navbar-menu-wrapper {
+            flex: 0 !important;
+            width: auto !important;
+            padding-right: 10px !important;
+        }
+
+        /* Tombol hamburger & logout */
+        .navbar-toggler {
+            margin-right: 5px !important;
+        }
+
+        .nav-logout {
+            margin-left: 5px !important;
+        }
+
+        .main-panel {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        .sidebar {
+            left: -260px !important;
+            top: 60px !important;
+        }
+
+        .sidebar.show,
+        .sidebar-offcanvas.active {
+            left: 0 !important;
+        }
+
+        /* Logo ukuran mobile */
+        .logo-mini-img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .brand-text {
+            font-size: 16px;
+        }
+
+        /* Sembunyikan teks logout di mobile, tampilin icon doang */
+        .logout-text {
+            display: none !important;
+        }
+    }
+</style>
 
 <body>
 

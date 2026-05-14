@@ -36,9 +36,10 @@
                         <a href="{{ route('admin.pengelola.create') }}" class="btn btn-sm btn-primary">
                             Tambah Pengelola
                         </a>
-                        <button type="button" class="btn btn-sm btn-success">
+                        <a href="{{ route('admin.pengelola.exportPdf', request()->query()) }}"
+                            class="btn btn-sm btn-success">
                             Export PDF
-                        </button>
+                        </a>
                     </div>
 
                     <div class="table-responsive">

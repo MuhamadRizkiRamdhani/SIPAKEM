@@ -5,13 +5,48 @@
 }
 
 body {
-    font-family: "ubuntu", sans-serif !important;
-    background: linear-gradient(135deg, #fdfdfd 0%, #eef1f5 100%);
+    font-family: "Ubuntu", sans-serif !important;
+    background: linear-gradient(135deg, #f8f9fc 0%, #e8ecf2 50%, #f0e6ff 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background decorative elements */
+body::before {
+    content: "";
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+        circle,
+        rgba(182, 109, 255, 0.08) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(
+        circle,
+        rgba(182, 109, 255, 0.06) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 /* MAIN CARD CONTAINER */
@@ -19,12 +54,18 @@ body {
     max-width: 1000px;
     width: 100%;
     background: #fff;
-    border-radius: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+    border-radius: 28px;
+    box-shadow:
+        0 20px 60px -15px rgba(182, 109, 255, 0.25),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    min-height: auto; /* ikutin konten */
+    align-items: stretch; /* samain tinggi panel */
 }
 
 /* Both panels share base styling */
@@ -37,34 +78,86 @@ body {
 /* LEFT PANEL (SIGN IN) */
 .panel-left {
     background-color: #ffffff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 85vh;
 }
 
 /* RIGHT PANEL (WELCOME + REGISTER) */
 .panel-right {
-    background: linear-gradient(145deg, #5b47b0, #3f2e7a);
+    background: linear-gradient(
+        160deg,
+        #b66dff 0%,
+        #9b4de0 30%,
+        #7c3ac9 70%,
+        #5f2da8 100%
+    );
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+}
+
+/* Decorative circles on right panel */
+.panel-right::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.panel-right::after {
+    content: "";
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 /* Headings & text */
 h2 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     letter-spacing: -0.3px;
 }
 
 .panel-left h2 {
     color: #1a1e2b;
+    position: relative;
 }
+
+/* .panel-left h2::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #b66dff, #9b4de0);
+    border-radius: 2px;
+    margin-top: 10px;
+} */
 
 .panel-right h2 {
     color: white;
     font-weight: 700;
+    font-size: 34px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
 }
 
 .sub-text {
@@ -75,25 +168,55 @@ h2 {
 }
 
 .panel-right .sub-text {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 32px;
 }
 
 /* Form group styling */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     position: relative;
 }
 
-.form-group i {
+.form-group > i {
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #a0aec0;
-    font-size: 18px;
-    transition: color 0.2s;
+    color: #b0b8c8;
+    font-size: 16px;
+    transition: all 0.2s;
     z-index: 1;
+    pointer-events: none;
+}
+
+/* Password toggle icon */
+.password-toggle {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b0b8c8;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 3;
+    pointer-events: auto;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: #b66dff;
+}
+
+.password-toggle i {
+    pointer-events: none; /* biar klik tetap ke button */
 }
 
 /* khusus untuk label & select tanpa icon kiri */
@@ -106,7 +229,7 @@ h2 {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: #334155;
+    color: #374151;
     margin-bottom: 6px;
     margin-left: 4px;
 }
@@ -114,26 +237,32 @@ h2 {
 input,
 select {
     width: 100%;
-    padding: 14px 16px;
-    font-size: 15px;
+    padding: 13px 16px;
+    font-size: 14px;
     font-weight: 500;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 28px;
-    background-color: #fefefe;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    background-color: #fafbfc;
     outline: none;
-    font-family: "Inter", sans-serif;
-    transition: all 0.2s ease;
+    font-family: "Ubuntu", sans-serif;
+    transition: all 0.25s ease;
     color: #1e293b;
 }
 
 /* khusus input dengan icon */
 .form-group:not(.has-label) input {
-    padding-left: 48px;
+    padding-left: 46px;
+}
+
+/* Input password: kasih ruang buat icon mata */
+.form-group:not(.has-label) input[type="password"],
+.form-group:not(.has-label) input[type="text"].password-field {
+    padding-right: 46px;
 }
 
 select {
     appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236c47ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23b66dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
     background-repeat: no-repeat;
     background-position: right 18px center;
     background-size: 16px;
@@ -142,23 +271,23 @@ select {
 
 input:focus,
 select:focus {
-    border-color: #6c47ff;
-    box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
+    border-color: #b66dff;
+    box-shadow: 0 0 0 3px rgba(182, 109, 255, 0.12);
     background-color: #fff;
 }
 
 input::placeholder {
-    color: #94a3b8;
+    color: #9ca3af;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* Radio group */
 .radio-group {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 6px;
     flex-wrap: wrap;
 }
 .radio-group label {
@@ -166,15 +295,23 @@ input::placeholder {
     align-items: center;
     gap: 8px;
     font-weight: 500;
-    font-size: 14px;
-    color: #1e293b;
+    font-size: 13px;
+    color: #374151;
     cursor: pointer;
     margin-bottom: 0;
+    padding: 8px 16px;
+    border-radius: 10px;
+    /* border: 1.5px solid #e5e7eb; */
+    transition: all 0.2s;
+}
+.radio-group label:has(input:checked) {
+    border-color: #d4d4d8;
+    background-color: #fafafa;
 }
 .radio-group input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #6c47ff;
+    width: 16px;
+    height: 16px;
+    accent-color: #b66dff;
     margin: 0;
     padding: 0;
 }
@@ -182,50 +319,59 @@ input::placeholder {
 /* Buttons */
 .btn {
     width: 100%;
-    padding: 14px 0;
-    border-radius: 40px;
-    font-weight: 700;
-    font-size: 16px;
+    padding: 13px 0;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 15px;
     cursor: pointer;
-    transition: 0.25s;
+    transition: all 0.3s;
     border: none;
-    font-family: "Inter", sans-serif;
-    background: #6c47ff;
+    font-family: "Ubuntu", sans-serif;
+    background: linear-gradient(135deg, #b66dff 0%, #9b4de0 100%);
     color: white;
-    box-shadow: 0 8px 16px -6px rgba(108, 71, 255, 0.3);
+    box-shadow: 0 6px 20px -8px rgba(182, 109, 255, 0.4);
     letter-spacing: 0.3px;
+    margin-top: 4px;
 }
 
 .btn:hover {
-    background: #5336d6;
+    background: linear-gradient(135deg, #9b4de0 0%, #8538d4 100%);
     transform: translateY(-2px);
-    box-shadow: 0 12px 20px -8px rgba(108, 71, 255, 0.4);
+    box-shadow: 0 10px 25px -8px rgba(182, 109, 255, 0.5);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .btn-outline {
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     box-shadow: none;
     color: white;
     width: auto;
-    padding: 12px 32px;
-    font-size: 15px;
+    padding: 12px 28px;
+    font-size: 14px;
     margin-top: 8px;
+    position: relative;
+    z-index: 1;
 }
 
 .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     border-color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .welcome-message {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
     max-width: 260px;
-    margin: 16px auto 24px;
+    margin: 12px auto 20px;
     opacity: 0.9;
+    position: relative;
+    z-index: 1;
 }
 
 .panel-right .btn-outline {
@@ -239,25 +385,31 @@ input::placeholder {
 @media (max-width: 780px) {
     .container {
         flex-direction: column;
-        max-width: 500px;
-        border-radius: 28px;
+        max-width: 440px;
+        border-radius: 22px;
     }
     .panel {
-        padding: 36px 28px;
+        padding: 32px 24px;
     }
     .panel-right {
-        padding: 40px 28px;
+        padding: 36px 24px;
+    }
+    h2 {
+        font-size: 26px;
+    }
+    .panel-right h2 {
+        font-size: 28px;
     }
 }
 
 .fade-switch {
-    animation: fadeEffect 0.25s ease-in-out;
+    animation: fadeEffect 0.3s ease-in-out;
 }
 
 @keyframes fadeEffect {
     from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateY(8px);
     }
     to {
         opacity: 1;
@@ -266,25 +418,60 @@ input::placeholder {
 }
 
 .demo-message {
-    margin-top: 16px;
+    margin-top: 14px;
     font-size: 13px;
     text-align: center;
     font-weight: 500;
-    padding: 8px;
-    border-radius: 40px;
-    background: #e6f7e6;
-    color: #2e7d32;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: #ecfdf5;
+    color: #065f46;
     transition: 0.2s;
+    border: 1px solid #a7f3d0;
 }
 
 .error-message {
-    background: #ffe6e5;
-    color: #c62828;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
 .info-hint {
     font-size: 12px;
-    color: #6c757d;
-    margin-top: 5px;
+    color: #6b7280;
+    margin-top: 4px;
     margin-left: 8px;
+}
+
+/* Subtitle SIPAKEM */
+.sipakem-subtitle {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: -4px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    max-width: 280px;
+    position: relative;
+    z-index: 1;
+}
+
+.sipakem-subtitle::before {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 1px;
+    margin: 0 auto 10px;
+}
+
+/* Button disabled */
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
 }
