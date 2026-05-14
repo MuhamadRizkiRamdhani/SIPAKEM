@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Fakultas</h1>
-
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -40,7 +38,7 @@
 
                     {{-- TABLE --}}
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-hover table-borderless">
                             <thead>
                                 <tr>
                                     <th>Nama Fakultas</th>

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Mahasiswa</h1>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -75,7 +74,7 @@
                         <button type="button" class="btn btn-sm btn-success">Export PDF</button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-hover table-borderless">
                             <thead>
                                 <tr>
                                     <th>Nama Mahasiswa</th>

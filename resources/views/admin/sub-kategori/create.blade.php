@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Tambah Sub Kategori</h1>
-
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">

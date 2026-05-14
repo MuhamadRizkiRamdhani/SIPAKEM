@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Level</h1>
-
     <div class="card">
         <div class="card-body">
+            <h4 class="card-title">Manajemen Data Level</h4>
 
             {{-- SEARCH --}}
             <form method="GET" class="mb-3 d-flex gap-2">
@@ -26,43 +25,45 @@
             </div>
 
             {{-- TABLE --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama Level</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($levels as $level)
+            <div class="table-responsive">
+                <table class="table table-hover table-borderless">
+                    <thead>
                         <tr>
-                            <td>{{ $level->id_level }}</td>
-                            <td>{{ $level->nama_level }}</td>
-                            <td>
-                                <a href="{{ route('admin.level.edit', $level->id_level) }}"
-                                    class="btn btn-primary btn-sm">Edit</a>
-
-                                <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $level->id_level }}"
-                                    data-nama="{{ $level->nama_level }}">
-                                    Delete
-                                </button>
-
-                                <form id="delete-form-{{ $level->id_level }}"
-                                    action="{{ route('admin.level.destroy', $level->id_level) }}" method="POST"
-                                    style="display:none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </td>
+                            <th>ID</th>
+                            <th>Nama Level</th>
+                            <th>Action</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center">Belum ada data</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse($levels as $level)
+                            <tr>
+                                <td>{{ $level->id_level }}</td>
+                                <td>{{ $level->nama_level }}</td>
+                                <td>
+                                    <a href="{{ route('admin.level.edit', $level->id_level) }}"
+                                        class="btn btn-primary btn-sm">Edit</a>
+
+                                    <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $level->id_level }}"
+                                        data-nama="{{ $level->nama_level }}">
+                                        Delete
+                                    </button>
+
+                                    <form id="delete-form-{{ $level->id_level }}"
+                                        action="{{ route('admin.level.destroy', $level->id_level) }}" method="POST"
+                                        style="display:none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Belum ada data</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
             {{ $levels->links() }}
 

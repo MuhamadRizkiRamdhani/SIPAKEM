@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Pengajuan SKPI</h1>
-
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -19,13 +17,8 @@
 
                             {{-- SEARCH --}}
                             <div style="flex:1; min-width:220px;">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    class="form-control h-100"
-                                    placeholder="Cari nama / NIM..."
-                                    value="{{ request('search') }}"
-                                >
+                                <input type="text" name="search" class="form-control h-100" placeholder="Cari nama / NIM..."
+                                    value="{{ request('search') }}">
                             </div>
 
                             {{-- STATUS --}}
@@ -33,18 +26,15 @@
                                 <select name="status" class="form-control h-100">
                                     <option value="">Semua Status</option>
 
-                                    <option value="pending"
-                                        {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
                                         Pending
                                     </option>
 
-                                    <option value="diterima"
-                                        {{ request('status') == 'diterima' ? 'selected' : '' }}>
+                                    <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>
                                         Diterima
                                     </option>
 
-                                    <option value="ditolak"
-                                        {{ request('status') == 'ditolak' ? 'selected' : '' }}>
+                                    <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>
                                         Ditolak
                                     </option>
                                 </select>
@@ -57,8 +47,7 @@
                                 </button>
 
                                 @if(request()->hasAny(['search', 'status']))
-                                    <a href="{{ route($role . '.pengajuan-skpi.index') }}"
-                                        class="btn btn-danger">
+                                    <a href="{{ route($role . '.pengajuan-skpi.index') }}" class="btn btn-danger">
                                         Clear
                                     </a>
                                 @endif
@@ -71,7 +60,7 @@
                     {{-- TABLE --}}
                     <div class="table-responsive">
 
-                        <table class="table">
+                        <table class="table table-hover table-borderless">
 
                             <thead>
                                 <tr>
@@ -142,20 +131,14 @@
                                                 Tinjau
                                             </a>
 
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger btn-sm delete-btn"
-                                                data-id="{{ $psk->id_pengajuan_skpi }}"
-                                            >
+                                            <button type="button" class="btn btn-danger btn-sm delete-btn"
+                                                data-id="{{ $psk->id_pengajuan_skpi }}">
                                                 Delete
                                             </button>
 
-                                            <form
-                                                id="delete-form-{{ $psk->id_pengajuan_skpi }}"
+                                            <form id="delete-form-{{ $psk->id_pengajuan_skpi }}"
                                                 action="{{ route($role . '.pengajuan-skpi.destroy', $psk->id_pengajuan_skpi) }}"
-                                                method="POST"
-                                                style="display:none;"
-                                            >
+                                                method="POST" style="display:none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
@@ -193,49 +176,49 @@
 
 @push('scripts')
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+    <script>
 
-    // SUCCESS
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '{{ session('success') }}',
-            timer: 3000,
-            showConfirmButton: true
-        });
-    @endif
-
-    // DELETE
-    document.querySelectorAll('.delete-btn').forEach(button => {
-
-        button.addEventListener('click', function () {
-
-            const id = this.getAttribute('data-id');
-
+        // SUCCESS
+        @if(session('success'))
             Swal.fire({
-                title: 'Yakin hapus?',
-                text: 'Data pengajuan akan dihapus permanen',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: true
+            });
+        @endif
 
-                if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${id}`).submit();
-                }
+        // DELETE
+        document.querySelectorAll('.delete-btn').forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                const id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: 'Data pengajuan akan dihapus permanen',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        document.getElementById(`delete-form-${id}`).submit();
+                    }
+
+                });
 
             });
 
         });
 
-    });
-
-</script>
+    </script>
 
 @endpush

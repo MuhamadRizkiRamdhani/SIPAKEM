@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Data Pengguna</h1>
-
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -54,27 +52,27 @@
 
                     {{-- TABLE --}}
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-hover table-borderless">
                             <thead>
                                 <tr>
-                                    <th>Username</th>
-                                    <th>ID_User</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
+                                    <th class="text-nowrap">Username</th>
+                                    <th class="text-nowrap">ID_User</th>
+                                    <th class="text-nowrap">Role</th>
+                                    <th class="text-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($users as $u)
                                     <tr>
-                                        <td>{{ $u->username }}</td>
-                                        <td>{{ $u->id_user }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ $u->username }}</td>
+                                        <td class="align-middle">{{ $u->id_user }}</td>
+                                        <td class="align-middle">
                                             <span
                                                 class="badge badge-{{ $u->role === 'admin' ? 'primary' : ($u->role === 'pengelola' ? 'warning' : 'danger') }}">
                                                 {{ $u->role }}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td class="align-middle text-nowrap">
                                             <a href="{{ route('admin.pengguna.edit', $u->id_user) }}"
                                                 class="btn btn-primary btn-sm">Edit</a>
 

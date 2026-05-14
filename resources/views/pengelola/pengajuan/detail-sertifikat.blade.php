@@ -75,9 +75,9 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button class="btn btn-success">Simpan</button>
+                        <button class="btn btn-primary">Simpan</button>
 
-                        <a href="{{ route('pengelola.pengajuan-sertifikat.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('pengelola.pengajuan-sertifikat.index') }}" class="btn btn-danger">
                             Batal
                         </a>
                     </div>

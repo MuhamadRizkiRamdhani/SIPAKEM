@@ -101,9 +101,9 @@
                         </div>
 
                         <div class="mt-4 d-flex">
-                            <button class="btn btn-success me-2">Simpan Perubahan</button>
+                            <button class="btn btn-primary me-2">Simpan Perubahan</button>
                             <a href="{{ route(auth()->user()->role . '.pengajuan-skpi.index') }}"
-                                class="btn btn-light border">Kembali</a>
+                                class="btn btn-danger border">Kembali</a>
                         </div>
                     </form>
 
