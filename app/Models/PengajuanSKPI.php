@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PengajuanSKPI extends Model
 {
     protected $table = 'pengajuan_skpi';
+
     protected $primaryKey = 'id_pengajuan_skpi';
 
     protected $fillable = [
@@ -15,8 +16,8 @@ class PengajuanSKPI extends Model
         'tgl_pengajuan_skpi'
     ];
 
-    protected $dates = [
-        'tgl_pengajuan_skpi'
+    protected $casts = [
+        'tgl_pengajuan_skpi' => 'datetime'
     ];
 
     public function mahasiswa()

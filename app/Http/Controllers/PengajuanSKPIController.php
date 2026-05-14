@@ -13,53 +13,49 @@ class PengajuanSKPIController extends Controller
      */
     public function index()
     {
-        $pengajuanSKPIs = PengajuanSKPI::with('mahasiswa')->get();
+        $query = PengajuanSKPI::with([
+            'mahasiswa.prodi.fakultas'
+        ]);
+
+        // SEARCH
+        if (request('search')) {
+            $query->where(function ($q) {
+                $q->where('nim', 'like', '%' . request('search') . '%')
+                    ->orWhereHas('mahasiswa', function ($q2) {
+                        $q2->where('nama_mhs', 'like', '%' . request('search') . '%');
+                    });
+            });
+        }
+
+        // FILTER STATUS
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
+
+        $pengajuanSKPIs = $query->latest()->paginate(6);
 
         $role = auth()->user()->role;
 
-        return view("$role.pengajuan.skpi", compact('pengajuanSKPIs'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $mahasiswas = Mahasiswa::all();
-        return view('pengajuan-skpi.create', compact('mahasiswas'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nim' => 'required|exists:mahasiswa,nim',
-            'status' => 'required|in:pending,diproses,diterima,ditolak',
-            'tgl_pengajuan_skpi' => 'required|date'
-        ]);
-
-        PengajuanSKPI::create($validated);
-
-        return redirect()->route('pengajuan-skpi.index')->with('success', 'Pengajuan SKPI berhasil ditambahkan');
+        return view("$role.pengajuan.skpi", compact(
+            'pengajuanSKPIs',
+            'role'
+        ));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(PengajuanSKPI $pengajuanSKPI)
+    public function show($id)
     {
-        return view('pengajuan-skpi.show', compact('pengajuanSKPI'));
-    }
+        $pengajuan = PengajuanSKPI::with([
+            'mahasiswa.prodi.fakultas'
+        ])->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PengajuanSKPI $pengajuanSKPI)
-    {
-        $mahasiswas = Mahasiswa::all();
-        return view('pengajuan-skpi.edit', compact('pengajuanSKPI', 'mahasiswas'));
+        $role = auth()->user()->role;
+
+        return view("$role.pengajuan.detail-skpi", compact(
+            'pengajuan'
+        ));
     }
 
     /**
@@ -67,15 +63,18 @@ class PengajuanSKPIController extends Controller
      */
     public function update(Request $request, PengajuanSKPI $pengajuanSKPI)
     {
-        $validated = $request->validate([
-            'nim' => 'required|exists:mahasiswa,nim',
+        $request->validate([
             'status' => 'required|in:pending,diproses,diterima,ditolak',
-            'tgl_pengajuan_skpi' => 'required|date'
         ]);
 
-        $pengajuanSKPI->update($validated);
+        $pengajuanSKPI->update([
+            'status' => $request->status,
+        ]);
 
-        return redirect()->route('pengajuan-skpi.index')->with('success', 'Pengajuan SKPI berhasil diperbarui');
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.pengajuan-skpi.index")
+            ->with('success', 'Status berhasil diperbarui');
     }
 
     /**
@@ -85,6 +84,9 @@ class PengajuanSKPIController extends Controller
     {
         $pengajuanSKPI->delete();
 
-        return redirect()->route('pengajuan-skpi.index')->with('success', 'Pengajuan SKPI berhasil dihapus');
+        $role = auth()->user()->role;
+
+        return redirect()->route("$role.pengajuan-skpi.index")
+            ->with('success', 'Pengajuan SKPI berhasil dihapus');
     }
 }

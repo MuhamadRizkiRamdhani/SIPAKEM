@@ -139,7 +139,13 @@ Route::prefix('admin')
 
         Route::resource('pengajuan-sertifikat', PengajuanSertifikatController::class);
 
-        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
+        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])
+            ->name('data-pengajuan-skpi');
+
+        Route::resource('pengajuan-skpi', PengajuanSKPIController::class)
+            ->parameters([
+                'pengajuan-skpi' => 'pengajuanSKPI'
+            ]);
 
         Route::resource('poin', PointRulesController::class)
             ->names([
@@ -175,12 +181,18 @@ Route::prefix('pengelola')
             'destroy' => 'mahasiswa.destroy'
         ])->parameters(['mahasiswa' => 'nim']);
 
-        Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])->name('data-pengajuan-sertifikat');
+        Route::get('/data-pengajuan-sertifikat', [PengajuanSertifikatController::class, 'index'])
+            ->name('data-pengajuan-sertifikat');
 
         Route::resource('pengajuan-sertifikat', PengajuanSertifikatController::class);
 
-        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])->name('data-pengajuan-skpi');
+        Route::get('/data-pengajuan-skpi', [PengajuanSKPIController::class, 'index'])
+            ->name('data-pengajuan-skpi');
 
+        Route::resource('pengajuan-skpi', PengajuanSKPIController::class)
+            ->parameters([
+                'pengajuan-skpi' => 'pengajuanSKPI'
+            ]);
     });
 
 

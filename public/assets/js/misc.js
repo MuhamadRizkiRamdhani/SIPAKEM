@@ -45,7 +45,16 @@ var lightColor = getComputedStyle(document.body).getPropertyValue('--light');
       }
     }
 
-    var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+    var pathSegments = location.pathname.split("/").filter(s => s);
+    var current = pathSegments[pathSegments.length - 1];
+    
+    // Jika segment terakhir adalah numeric (detail page), ambil segment sebelumnya
+    if (/^\d+$/.test(current) && pathSegments.length > 1) {
+      current = pathSegments[pathSegments.length - 2];
+    }
+    
+    current = current.replace(/^\/|\/$/g, '');
+    
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
       addActiveClass($this);

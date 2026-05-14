@@ -31,13 +31,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen" aria-expanded="false"
-                    aria-controls="data-manajemen">
+                <a class="nav-link" data-bs-toggle="collapse" href="#admin-data-manajemen" aria-expanded="false"
+                    aria-controls="admin-data-manajemen">
                     <span class="menu-title">Data Pengguna</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-database menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-manajemen">
+                <div class="collapse" id="admin-data-manajemen">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.pengguna.index') }}">Data Pengguna</a>
@@ -53,13 +53,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-fakultas" aria-expanded="false"
-                    aria-controls="data-fakultas">
+                <a class="nav-link" data-bs-toggle="collapse" href="#admin-data-fakultas" aria-expanded="false"
+                    aria-controls="admin-data-fakultas">
                     <span class="menu-title">Data Fakultas</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-domain menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-fakultas">
+                <div class="collapse" id="admin-data-fakultas">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ route('admin.fakultas.index') }}">Data
                                 Fakultas</a> </li>
@@ -70,13 +70,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen-kategori" aria-expanded="false"
-                    aria-controls="data-manajemen-kategori">
+                <a class="nav-link" data-bs-toggle="collapse" href="#admin-data-kategori" aria-expanded="false"
+                    aria-controls="admin-data-kategori">
                     <span class="menu-title">Data Kategori</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-shape-plus-outline menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-manajemen-kategori">
+                <div class="collapse" id="admin-data-kategori">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.kategori.index') }}">Data Kategori</a>
@@ -91,24 +91,22 @@
                 </div>
             </li>
 
+
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan" aria-expanded="false"
-                    aria-controls="data-pengajuan">
+                <a class="nav-link" data-bs-toggle="collapse" href="#admin-data-pengajuan" aria-expanded="false"
+                    aria-controls="admin-data-pengajuan">
                     <span class="menu-title">Data Pengajuan</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-note-text-outline menu-icon"></i>
                 </a>
-                <div class="collapse {{ request()->routeIs('admin.pengajuan-sertifikat.*') || request()->routeIs('admin.data-pengajuan-sertifikat') ? 'show' : '' }}"
-                    id="data-pengajuan">
+                <div class="collapse" id="admin-data-pengajuan">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.pengajuan-sertifikat.*') ? 'active' : '' }}"
-                                href="{{ route('admin.data-pengajuan-sertifikat') }}">Data Pengajuan
+                            <a class="nav-link" href="{{ route('admin.data-pengajuan-sertifikat') }}">Data Pengajuan
                                 Sertifikat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.data-pengajuan-skpi') }}">Data Pengajuan
-                                SKPI</a>
+                            <a class="nav-link" href="{{ route('admin.data-pengajuan-skpi') }}">Data Pengajuan SKPI</a>
                         </li>
                     </ul>
                 </div>
@@ -139,13 +137,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen" aria-expanded="false"
-                    aria-controls="data-manajemen">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-manajemen-pengelola" aria-expanded="false"
+                    aria-controls="data-manajemen-pengelola">
                     <span class="menu-title">Manajemen Data</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-database menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-manajemen">
+                <div class="collapse" id="data-manajemen-pengelola">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('pengelola.mahasiswa.index') }}">Data Mahasiswa</a>
@@ -154,21 +152,23 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan" aria-expanded="false"
-                    aria-controls="data-pengajuan">
+                <a class="nav-link" data-bs-toggle="collapse" href="#data-pengajuan-pengelola" aria-expanded="false"
+                    aria-controls="data-pengajuan-pengelola">
                     <span class="menu-title">Data Pengajuan</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-note-text-outline menu-icon"></i>
                 </a>
-                <div class="collapse" id="data-pengajuan">
+                <div class="collapse" id="data-pengajuan-pengelola">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-sertifikat') }}">Data Pengajuan
-                                Sertifikat</a>
+                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-sertifikat') }}">
+                                Data Pengajuan Sertifikat
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-skpi') }}">Data Pengajuan
-                                SKPI</a>
+                            <a class="nav-link" href="{{ route('pengelola.data-pengajuan-skpi') }}">
+                                Data Pengajuan SKPI
+                            </a>
                         </li>
                     </ul>
                 </div>
