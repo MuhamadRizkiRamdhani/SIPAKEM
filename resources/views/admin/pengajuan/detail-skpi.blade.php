@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-note-search-outline"></i>
+                </span> Detail Pengajuan SKPI
+            </h3>
+        </div>
 
         <div class="col-12">
 

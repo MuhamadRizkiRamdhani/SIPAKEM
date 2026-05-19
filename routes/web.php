@@ -217,6 +217,12 @@ Route::prefix('mahasiswa')
         Route::get('/riwayat-pengajuan', [PengajuanController::class, 'riwayat'])
             ->name('riwayat-pengajuan');
 
+        Route::get('/riwayat-pengajuan/detail-sertifikat/{id_pengajuan}', [PengajuanController::class, 'detailSertifikat'])
+            ->name('detail-sertifikat');
+
+        Route::get('/riwayat-pengajuan/print-skpi/{id_pengajuan_skpi}', [PengajuanController::class, 'printSKPI'])
+            ->name('print-skpi');
+
         Route::get('/pengajuan-sertifikat', [PengajuanController::class, 'formSertifikat'])->name('pengajuan-sertifikat');
 
         Route::post('/pengajuan-sertifikat', [PengajuanController::class, 'storeSertifikat'])->name('pengajuan-sertifikat.store');

@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-domain"></i>
+                </span> Data Fakultas
+            </h3>
+        </div>
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -63,11 +70,11 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.fakultas.edit', $f->id_fakultas) }}"
-                                                class="btn btn-primary btn-sm">Edit</a>
+                                                class="btn btn-primary btn-sm"><i class="mdi mdi-pencil"></i> Edit</a>
 
                                             <button type="button" class="btn btn-danger btn-sm delete-btn"
                                                 data-id="{{ $f->id_fakultas }}" data-nama="{{ $f->nama_fakultas }}">
-                                                Delete
+                                                <i class="mdi mdi-trash-can"></i> Delete
                                             </button>
 
                                             <form id="delete-form-{{ $f->id_fakultas }}"

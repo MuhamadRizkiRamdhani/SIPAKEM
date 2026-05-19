@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Detail Pengajuan Sertifikat</h3>
-
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-note-search-outline"></i>
+                </span> Detail Pengajuan Sertifikat
+            </h3>
+        </div>
 
         {{-- LEFT: PREVIEW FILE --}}
         <div class="col-md-6">

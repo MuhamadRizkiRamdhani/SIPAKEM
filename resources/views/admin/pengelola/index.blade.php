@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-security"></i>
+                </span> Data Pengelola
+            </h3>
+        </div>
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -62,13 +69,11 @@
 
                                         <td>
                                             <a href="{{ route('admin.pengelola.edit', $pg->id_pengelola) }}"
-                                                class="btn btn-primary btn-sm">
-                                                Edit
-                                            </a>
+                                                class="btn btn-primary btn-sm"><i class="mdi mdi-pencil"></i> Edit</a>
 
                                             <button type="button" class="btn btn-danger btn-sm delete-btn"
                                                 data-id="{{ $pg->id_pengelola }}" data-nama="{{ $pg->nama_pengelola }}">
-                                                Delete
+                                                <i class="mdi mdi-trash-can"></i> Delete
                                             </button>
 
                                             <form id="delete-form-{{ $pg->id_pengelola }}"

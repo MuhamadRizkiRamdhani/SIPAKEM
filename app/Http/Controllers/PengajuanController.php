@@ -145,19 +145,75 @@ class PengajuanController extends Controller
 
 
     // Riwayat
-    public function riwayat()
+    public function riwayat(Request $request)
     {
         $mahasiswa = auth()->user()->mahasiswa;
+        $status = $request->get('status');
+        $jenis = $request->get('jenis');
 
-        $pengajuanSertifikat = \App\Models\PengajuanSertifikat::where('nim', $mahasiswa->nim)
-            ->latest()
-            ->get();
+        // Jika filter jenis = sertifikat
+        if ($jenis == 'sertifikat') {
+            $pengajuanSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim);
+            if ($status) {
+                $pengajuanSertifikat->where('status', $status);
+            }
+            $pengajuanSertifikat = $pengajuanSertifikat->latest()->paginate(10);
+            $pengajuanSKPI = collect();
+        }
+        // Jika filter jenis = skpi
+        elseif ($jenis == 'skpi') {
+            $pengajuanSKPI = PengajuanSKPI::where('nim', $mahasiswa->nim);
+            if ($status) {
+                $pengajuanSKPI->where('status', $status);
+            }
+            $pengajuanSKPI = $pengajuanSKPI->latest()->paginate(10);
+            $pengajuanSertifikat = collect();
+        }
+        // Jika tidak ada filter jenis, tampilkan keduanya
+        else {
+            $pengajuanSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim);
+            if ($status) {
+                $pengajuanSertifikat->where('status', $status);
+            }
+            $pengajuanSertifikat = $pengajuanSertifikat->latest()->get();
 
-        $pengajuanSKPI = \App\Models\PengajuanSKPI::where('nim', $mahasiswa->nim)
-            ->latest()
-            ->get();
+            $pengajuanSKPI = PengajuanSKPI::where('nim', $mahasiswa->nim);
+            if ($status) {
+                $pengajuanSKPI->where('status', $status);
+            }
+            $pengajuanSKPI = $pengajuanSKPI->latest()->get();
+        }
 
         return view('mahasiswa.riwayat.index', compact('pengajuanSertifikat', 'pengajuanSKPI'));
+    }
+
+    // Detail Pengajuan Sertifikat
+    public function detailSertifikat($id_pengajuan)
+    {
+        $mahasiswa = auth()->user()->mahasiswa;
+        $pengajuan = PengajuanSertifikat::where('id_pengajuan', $id_pengajuan)
+            ->where('nim', $mahasiswa->nim)
+            ->firstOrFail();
+
+        return view('mahasiswa.riwayat.detail.riwayat', compact('pengajuan'));
+    }
+
+    // Print SKPI
+    public function printSKPI($id_pengajuan_skpi)
+    {
+        $mahasiswa = auth()->user()->mahasiswa;
+        $pengajuanSKPI = PengajuanSKPI::where('id_pengajuan_skpi', $id_pengajuan_skpi)
+            ->where('nim', $mahasiswa->nim)
+            ->firstOrFail();
+
+        // Ambil semua sertifikat yang sudah diterima
+        $sertifikatDiterima = PengajuanSertifikat::where('nim', $mahasiswa->nim)
+            ->where('status', 'diterima')
+            ->get();
+
+        $totalPoin = $sertifikatDiterima->sum('poin_akhir');
+
+        return view('mahasiswa.riwayat.print.skpi', compact('pengajuanSKPI', 'mahasiswa', 'sertifikatDiterima', 'totalPoin'));
     }
 
 

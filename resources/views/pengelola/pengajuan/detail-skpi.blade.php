@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-note-search-outline"></i>
+                </span> Detail Pengajuan SKPI
+            </h3>
+        </div>
 
         <div class="col-12">
 
@@ -89,8 +96,6 @@
                                     <select name="status" class="form-control">
                                         <option value="pending" {{ $pengajuan->status == 'pending' ? 'selected' : '' }}>
                                             Pending</option>
-                                        <option value="diproses" {{ $pengajuan->status == 'diproses' ? 'selected' : '' }}>
-                                            Diproses</option>
                                         <option value="diterima" {{ $pengajuan->status == 'diterima' ? 'selected' : '' }}>
                                             Diterima</option>
                                         <option value="ditolak" {{ $pengajuan->status == 'ditolak' ? 'selected' : '' }}>

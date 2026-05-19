@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-note-search-outline"></i>
+                </span> Pengajuan SKPI
+            </h3>
+        </div>
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -128,12 +135,12 @@
 
                                             <a href="{{ route($role . '.pengajuan-skpi.show', $psk->id_pengajuan_skpi) }}"
                                                 class="btn btn-primary btn-sm">
-                                                Tinjau
+                                                <i class="mdi mdi-eye"></i> Tinjau
                                             </a>
 
                                             <button type="button" class="btn btn-danger btn-sm delete-btn"
                                                 data-id="{{ $psk->id_pengajuan_skpi }}">
-                                                Delete
+                                                <i class="mdi mdi-trash-can"></i> Delete
                                             </button>
 
                                             <form id="delete-form-{{ $psk->id_pengajuan_skpi }}"

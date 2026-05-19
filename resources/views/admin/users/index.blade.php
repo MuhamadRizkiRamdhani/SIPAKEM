@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-account"></i>
+                </span> Data Pengguna
+            </h3>
+        </div>
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -74,10 +81,11 @@
                                         </td>
                                         <td class="align-middle text-nowrap">
                                             <a href="{{ route('admin.pengguna.edit', $u->id_user) }}"
-                                                class="btn btn-primary btn-sm">Edit</a>
+                                                class="btn btn-primary btn-sm"><i class="mdi mdi-pencil"></i> Edit</a>
 
                                             <button type="button" class="btn btn-danger btn-sm delete-btn"
-                                                data-id="{{ $u->id_user }}" data-nama="{{ $u->username }}">
+                                                data-id="{{ $u->id_user }}" data-nama="{{ $u->username }}"><i
+                                                    class="mdi mdi-trash-can"></i>
                                                 Delete
                                             </button>
 

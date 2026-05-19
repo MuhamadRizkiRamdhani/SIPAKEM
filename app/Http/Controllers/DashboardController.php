@@ -77,15 +77,16 @@ class DashboardController extends Controller
 
         $totalPoin = $mahasiswa->poin_kredit ?? 0;
 
+        // Hitung total pengajuan yang disetujui dari sertifikat dan SKPI
         $totalApprovedSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim)
-            ->where('status', 'disetujui')
+            ->where('status', 'diterima')
             ->count();
 
         $totalApprovedSKPI = PengajuanSKPI::where('nim', $mahasiswa->nim)
-            ->where('status', 'disetujui')
+            ->where('status', 'diterima')
             ->count();
 
-        $totalApproved = $totalApprovedSertifikat + $totalApprovedSKPI;
+        $totalApproved = (int) $totalApprovedSertifikat + (int) $totalApprovedSKPI;
 
         // Ambil data pengajuan
         $pengajuanSertifikat = PengajuanSertifikat::where('nim', $mahasiswa->nim)
