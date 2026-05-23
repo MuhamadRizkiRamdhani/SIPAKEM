@@ -77,7 +77,7 @@
                     </form>
 
                     <div class="d-flex justify-content-end mb-3 gap-3">
-                        <a href="{{ route('pengelola.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a>
+                        <!-- <a href="{{ route('pengelola.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a> -->
                         <a href="{{ route($role.'.mahasiswa.exportPdf', request()->query()) }}" 
                         class="btn btn-sm btn-success">Export PDF</a>
                     </div>
@@ -91,7 +91,7 @@
                                     <th>Prodi</th>
                                     <th>Fakultas</th>
                                     <th>Poin Kredit</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,7 +103,7 @@
                                         <td>{{ $m->prodi->nama_prodi ?? '-' }}</td>
                                         <td>{{ $m->prodi->fakultas->nama_fakultas ?? '-' }}</td>
                                         <td>{{ $m->poin_kredit }}</td>
-                                        <td>
+                                        <!-- <td>
                                             <a href="{{ route('pengelola.mahasiswa.edit', $m->nim) }}"
                                                 class="btn btn-primary btn-sm">
                                                 <i class="mdi mdi-pencil"></i> Edit
@@ -118,7 +118,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 @empty
                                     <tr>

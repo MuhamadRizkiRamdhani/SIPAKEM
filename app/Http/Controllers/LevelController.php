@@ -39,7 +39,7 @@ class LevelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_level' => 'required|string|max:255|unique:level,nama_level'
+            'nama_level' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:level,nama_level'
         ]);
 
         Level::create($validated);
@@ -70,7 +70,7 @@ class LevelController extends Controller
     public function update(Request $request, Level $level)
     {
         $validated = $request->validate([
-            'nama_level' => 'required|string|max:255|unique:level,nama_level,' . $level->id_level . ',id_level'
+            'nama_level' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:level,nama_level,' . $level->id_level . ',id_level'
         ]);
 
         $level->update($validated);

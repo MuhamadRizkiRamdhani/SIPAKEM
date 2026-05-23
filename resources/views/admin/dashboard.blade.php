@@ -73,8 +73,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Permintaan Pengajuan Terbaru</h4>
-                        <div class="table-responsive">
-                            <table class="table">
+                        <div class="table-responsive" style="max-height: 260px; overflow-y: auto;">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nama Mahasiswa</th>

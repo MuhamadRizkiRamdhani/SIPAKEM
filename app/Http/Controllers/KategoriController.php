@@ -45,7 +45,7 @@ class KategoriController extends Controller
     {
         try {
             $validated = $request->validate([
-                'nama_kategori' => 'required|string|max:255|unique:kategori,nama_kategori'
+                'nama_kategori' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:kategori,nama_kategori'
             ]);
 
             Kategori::create($validated);
@@ -86,7 +86,7 @@ class KategoriController extends Controller
         $kategori = Kategori::findOrFail($id);
 
         $validated = $request->validate([
-            'nama_kategori' => 'required|string|max:255|unique:kategori,nama_kategori,' . $id . ',id_kategori'
+            'nama_kategori' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:kategori,nama_kategori,' . $id . ',id_kategori'
         ]);
 
         $kategori->update($validated);

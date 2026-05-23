@@ -83,21 +83,21 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label>Beasiswa</label>
-                            <div class="form-check">
-                                <input class="form-check-input @error('beasiswa') is-invalid @enderror" type="radio" name="beasiswa" id="beasiswa_tidak" value="0" {{ old('beasiswa', '0') == '0' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="beasiswa_tidak">
+                        <label>Beasiswa</label>
+                            <div style="display: flex; gap: 24px; margin-top: 8px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: normal; margin: 0;">
+                                    <input type="radio" name="beasiswa" id="beasiswa_tidak" value="0"
+                                        {{ old('beasiswa', '0') == '0' ? 'checked' : '' }}>
                                     Bukan Penerima Beasiswa
                                 </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input @error('beasiswa') is-invalid @enderror" type="radio" name="beasiswa" id="beasiswa_ya" value="1" {{ old('beasiswa') == '1' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="beasiswa_ya">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: normal; margin: 0;">
+                                    <input type="radio" name="beasiswa" id="beasiswa_ya" value="1"
+                                        {{ old('beasiswa') == '1' ? 'checked' : '' }}>
                                     Penerima Beasiswa
                                 </label>
                             </div>
                             @error('beasiswa')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                                <span class="text-danger d-block mt-1" style="font-size: 13px;">{{ $message }}</span>
                             @enderror
                         </div>
 

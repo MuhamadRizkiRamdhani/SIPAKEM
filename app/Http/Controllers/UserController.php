@@ -40,7 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'required|string|min:5|max:50|unique:users|regex:/^[a-zA-Z0-9_]+$/',
             'password' => 'required|string|min:8',
             'role' => 'required|in:admin,pengelola,mahasiswa'
         ]);
@@ -67,7 +67,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_user',
+            'username' => 'required|string|min:5|max:50|regex:/^[a-zA-Z0-9_]+$/|unique:users,username,' . $id . ',id_user',
             'password' => 'nullable|string|min:8',
             'role' => 'required|in:admin,pengelola,mahasiswa'
         ]);

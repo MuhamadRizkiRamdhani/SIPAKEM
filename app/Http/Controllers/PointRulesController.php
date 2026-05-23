@@ -62,7 +62,7 @@ class PointRulesController extends Controller
             'id_kategori' => 'required|exists:kategori,id_kategori',
             'id_sub_kategori' => 'nullable|exists:sub_kategori,id_sub_kategori',
             'id_level' => 'nullable|exists:level,id_level',
-            'poin_akhir' => 'required|integer|min:0'
+            'poin_akhir' => 'required|integer|min:0|regex:/^[a-zA-Z0-9\s.,!?-]*$/'
         ]);
 
         // ✅ VALIDASI RELASI
@@ -122,7 +122,7 @@ class PointRulesController extends Controller
             'id_kategori' => 'required|exists:kategori,id_kategori',
             'id_sub_kategori' => 'nullable|exists:sub_kategori,id_sub_kategori',
             'id_level' => 'nullable|exists:level,id_level',
-            'poin_akhir' => 'required|integer|min:0'
+            'poin_akhir' => 'required|integer|min:0|regex:/^[a-zA-Z0-9\s.,!?-]*$/'
         ]);
 
         // ✅ VALIDASI RELASI

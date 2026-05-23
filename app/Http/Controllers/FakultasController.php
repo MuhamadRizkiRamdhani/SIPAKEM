@@ -33,7 +33,7 @@ class FakultasController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_fakultas' => 'required|string|max:255|unique:fakultas,nama_fakultas'
+            'nama_fakultas' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:fakultas,nama_fakultas'
         ]);
 
         Fakultas::create($validated);
@@ -54,7 +54,7 @@ class FakultasController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nama_fakultas' => 'required|string|max:255|unique:fakultas,nama_fakultas,' . $id . ',id_fakultas'
+            'nama_fakultas' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:fakultas,nama_fakultas,' . $id . ',id_fakultas'
         ]);
 
         $fakultas = Fakultas::findOrFail($id);

@@ -38,7 +38,7 @@ class PengelolaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_pengelola' => 'required|string|max:255',
+            'nama_pengelola' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/',
             'id_user' => 'required|exists:users,id_user'
         ]);
 
@@ -61,7 +61,7 @@ class PengelolaController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nama_pengelola' => 'required|string|max:255',
+            'nama_pengelola' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/',
             'id_user' => 'required|exists:users,id_user'
         ]);
 

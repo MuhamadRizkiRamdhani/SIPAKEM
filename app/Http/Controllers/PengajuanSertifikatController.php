@@ -112,7 +112,7 @@ class PengajuanSertifikatController extends Controller
     {
         $request->validate([
             'status' => 'required|in:pending,diproses,diterima,ditolak',
-            'feedback' => 'nullable|string'
+            'feedback' => 'nullable|string|max:255|regex:/^[a-zA-Z0-9\s.,!?-]*$/',
         ]);
 
         // SIMPAN STATUS LAMA

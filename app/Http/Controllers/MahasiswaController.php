@@ -69,12 +69,12 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nim' => 'required|string|max:20|unique:mahasiswa,nim',
-            'nama_mhs' => 'required|string|max:255',
+            'nim' => 'required|string|max:10|min:8|regex:/^[a-zA-Z\s]+$/|unique:mahasiswa,nim',
+            'nama_mhs' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/',
             'id_user' => 'required|exists:users,id_user',
             'id_prodi' => 'required|exists:prodi,id_prodi',
             'poin_kredit' => 'required|integer|min:0',
-            'tahun_angkatan' => 'required|digits:4|integer|min:2000|max:' . date('Y'),
+            'tahun_angkatan' => 'required|digits:4|integer|regex:/^[a-zA-Z\s]+$/|min:2000|max:' . date('Y'),
             'beasiswa' => 'required|in:0,1'
         ]);
 
@@ -112,12 +112,12 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
 
         $validated = $request->validate([
-            'nim' => 'required|string|max:20|unique:mahasiswa,nim,' . $id . ',nim',
-            'nama_mhs' => 'required|string|max:255',
+            'nim' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/|unique:mahasiswa,nim,' . $id . ',nim',
+            'nama_mhs' => 'required|string|max:50|min:5|regex:/^[a-zA-Z\s]+$/',
             'id_user' => 'required|exists:users,id_user',
             'id_prodi' => 'required|exists:prodi,id_prodi',
             'poin_kredit' => 'required|integer|min:0',
-            'tahun_angkatan' => 'required|digits:4|integer|min:2000|max:' . date('Y'),
+            'tahun_angkatan' => 'required|digits:4|integer|regex:/^[a-zA-Z\s]+$/|min:2000|max:' . date('Y'),
             'beasiswa' => 'required|in:0,1'
         ]);
 
