@@ -41,7 +41,7 @@ class PengajuanController extends Controller
     {
         try {
             $validated = $request->validate([
-                'nama_sertifikat' => 'required|string|max:255',
+                'nama_sertifikat' => 'required|string|max:50|regex:/^[a-zA-Z0-9\s\.\-]+$/|min:5',
                 'id_kategori' => 'required|exists:kategori,id_kategori',
                 'id_sub_kategori' => 'nullable|exists:sub_kategori,id_sub_kategori',
                 'id_level' => 'nullable|exists:level,id_level',
@@ -59,7 +59,7 @@ class PengajuanController extends Controller
                 $filePath = $file->storeAs('pengajuan_sertifikat', $filename, 'public');
             }
 
-            // 🔥 CARI POINT RULES BERDASARKAN KATEGORI, SUB-KATEGORI, DAN LEVEL
+            // CARI POINT RULES BERDASARKAN KATEGORI, SUB-KATEGORI, DAN LEVEL
             $pointRule = PointRules::where('id_kategori', $validated['id_kategori'])
                 ->when($validated['id_sub_kategori'] ?? null, function ($q) use ($validated) {
                     return $q->where('id_sub_kategori', $validated['id_sub_kategori']);

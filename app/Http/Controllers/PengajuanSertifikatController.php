@@ -115,7 +115,7 @@ class PengajuanSertifikatController extends Controller
             'feedback' => 'nullable|string'
         ]);
 
-        // 🧠 SIMPAN STATUS LAMA
+        // SIMPAN STATUS LAMA
         $statusLama = $pengajuanSertifikat->status;
 
         // UPDATE DATA

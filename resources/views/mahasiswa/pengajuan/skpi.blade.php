@@ -133,4 +133,48 @@
             </div>
         </div>
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = this;
+
+            Swal.fire({
+                title: 'Konfirmasi Pengajuan SKPI',
+                html: `
+                                <div style="text-align: left; padding: 4px 0;">
+                                    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px 16px; margin-bottom: 4px;">
+                                        <div style="margin-bottom: 12px;">
+                                            <div style="font-size:12px; font-weight:600; color:#adb5bd; text-transform:uppercase; letter-spacing:0.5px;">NIM</div>
+                                            <div style="font-size:14px; color:#212529; margin-top:2px;">{{ $mahasiswa->nim }}</div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <div style="font-size:12px; font-weight:600; color:#adb5bd; text-transform:uppercase; letter-spacing:0.5px;">Nama Mahasiswa</div>
+                                            <div style="font-size:14px; color:#212529; margin-top:2px;">{{ $mahasiswa->nama_mhs }}</div>
+                                        </div>
+                                        <div style="margin-bottom: 12px;">
+                                            <div style="font-size:12px; font-weight:600; color:#adb5bd; text-transform:uppercase; letter-spacing:0.5px;">Program Studi</div>
+                                            <div style="font-size:14px; color:#212529; margin-top:2px;">{{ $mahasiswa->prodi->nama_prodi ?? '-' }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size:12px; font-weight:600; color:#adb5bd; text-transform:uppercase; letter-spacing:0.5px;">Poin Kredit</div>
+                                            <div style="font-size:14px; color:#198754; font-weight:600; margin-top:2px;">{{ $mahasiswa->poin_kredit }} / {{ $maxPoin }}</div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size:13px; color:#6c757d; margin:10px 0 0; text-align:center;">
+                                        Pastikan semua data sudah benar sebelum mengajukan.
+                                    </p>
+                                </div>
+                            `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Ajukan',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#2C5EAD',
+                cancelButtonColor: '#6c757d',
+                reverseButtons: true,
+            }).then(result => {
+                if (result.isConfirmed) form.submit();
+            });
+        });
+    </script>
 @endsection

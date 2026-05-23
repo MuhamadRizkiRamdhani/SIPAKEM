@@ -50,11 +50,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+            'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:5', 'max:50'],
             'password' => ['required', 'string'],
         ], [
             'username.required' => 'Username harus diisi',
             'username.alpha' => 'Username hanya boleh huruf tanpa simbol',
+            'username.min' => 'Username minimal 5 karakter',
             'username.max' => 'Username maksimal 50 karakter',
             'password.required' => 'Password harus diisi',
         ]);
@@ -91,38 +92,57 @@ class AuthController extends Controller
     {
         try {
             $request->validate([
-                'nama_mahasiswa' => ['required', 'string', 'max:255'],
+                'nama_mahasiswa' => ['required', 'string', 'min:5', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
 
-                'username' => ['required', 'string', 'max:50', 'unique:users,username'],
+                'username' => [
+                    'required',
+                    'string',
+                    'min:10',
+                    'max:50',
+                    'unique:users,username',
+                    'regex:/^[a-zA-Z\s]+$/'
+                ],
 
                 'password' => ['required', 'string', 'min:6'],
 
-                'nim' => ['required', 'digits_between:1,10', 'unique:mahasiswa,nim'],
+                'nim' => [
+                    'required',
+                    'digits_between:8,10',
+                    'unique:mahasiswa,nim',
+                    'regex:/^[a-zA-Z\s]+$/'
+                ],
 
                 'prodi' => ['required', 'exists:prodi,id_prodi'],
 
                 'penerima_beasiswa' => ['required', 'boolean'],
 
-                // kalau mau manual isi, aktifkan ini:
-                // 'tahun_angkatan' => ['required','digits:4','integer','min:2000','max:' . date('Y')],
+                'tahun_angkatan' => ['required', 'digits:4', 'integer', 'min:2000', 'max:' . date('Y'), 'regex:/^[a-zA-Z\s]+$/'],
             ], [
                 'nama_mahasiswa.required' => 'Nama harus diisi',
-                'nama_mahasiswa.max' => 'Nama maksimal 255 karakter',
+                'nama_mahasiswa.min' => 'Nama minimal 5 karakter',
+                'nama_mahasiswa.max' => 'Nama maksimal 50 karakter',
 
                 'username.required' => 'Username harus diisi',
+                'username.min' => 'Username minimal 10 karakter',
+                'username.max' => 'Username maksimal 50 karakter',
                 'username.unique' => 'Username sudah digunakan',
 
                 'password.required' => 'Password harus diisi',
                 'password.min' => 'Password minimal 6 karakter',
 
                 'nim.required' => 'NIM harus diisi',
-                'nim.digits_between' => 'NIM maksimal 10 digit',
+                'nim.digits_between' => 'NIM harus antara 8 sampai 10 digit',
                 'nim.unique' => 'NIM sudah terdaftar',
 
                 'prodi.required' => 'Program studi harus dipilih',
                 'prodi.exists' => 'Prodi tidak valid',
 
                 'penerima_beasiswa.required' => 'Status beasiswa harus dipilih',
+                'tahun_angkatan.required' => 'Tahun angkatan harus diisi',
+                'tahun_angkatan.digits' => 'Tahun angkatan harus 4 digit',
+                'tahun_angkatan.integer' => 'Tahun angkatan harus berupa angka',
+                'tahun_angkatan.min' => 'Tahun angkatan tidak valid',
+                'tahun_angkatan.max' => 'Tahun angkatan tidak valid',
             ]);
 
             // BUAT USER
@@ -141,10 +161,10 @@ class AuthController extends Controller
                 'poin_kredit' => 0,
                 'beasiswa' => (bool) $request->penerima_beasiswa,
 
-                // 👉 AUTO (RECOMMENDED)
+                // AUTO (RECOMMENDED)
                 'tahun_angkatan' => now()->year
 
-                // 👉 ATAU kalau mau dari input:
+                // ATAU kalau mau dari input:
                 // 'tahun_angkatan' => $request->tahun_angkatan
             ]);
 
@@ -189,25 +209,4 @@ class AuthController extends Controller
             default => '/'
         };
     }
-
-    /**
-     * Generate NIM (Nomor Induk Mahasiswa)
-     * Format: YYYYNNNN (tahun + angka urut)
-     */
-    // private function generateNIM()
-    // {
-    //     $year = now()->year;
-    //     $lastMahasiswa = Mahasiswa::where('nim', 'like', $year . '%')
-    //         ->orderBy('nim', 'desc')
-    //         ->first();
-
-    //     if ($lastMahasiswa) {
-    //         $lastNum = (int) substr($lastMahasiswa->nim, 4);
-    //         $newNum = $lastNum + 1;
-    //     } else {
-    //         $newNum = 1;
-    //     }
-
-    //     return $year . str_pad($newNum, 4, '0', STR_PAD_LEFT);
-    // }
 }

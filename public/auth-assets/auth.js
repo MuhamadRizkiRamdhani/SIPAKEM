@@ -249,7 +249,7 @@ async function handleLoginSubmit(e) {
         }
     } catch (err) {
         console.error('Login error:', err);
-        showFeedback(feedback, 'Kesalahan jaringan. Coba lagi.', true);
+        showFeedback(feedback, 'Login Gagal', true);
         resetButton(submitBtn, 'Masuk');
     }
 }
@@ -356,7 +356,7 @@ async function handleRegisterSubmit(e) {
         }
     } catch (err) {
         console.error('Register error:', err);
-        showFeedback(feedbackReg, 'Kesalahan jaringan. Coba lagi.', true);
+        showFeedback(feedbackReg, 'Registrasi Gagal', true);
         resetButton(submitBtn, 'Daftar');
     }
 }

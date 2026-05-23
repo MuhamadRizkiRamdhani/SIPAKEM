@@ -107,6 +107,200 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+
+.upload-zone {
+    border: 2px dashed #ced4da;
+    border-radius: 12px;
+    background: #f8f9fa;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        background 0.2s;
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upload-zone.drag-over {
+    border-color: #0d6efd;
+    background: #e8f0fe;
+}
+.upload-zone.has-file {
+    border-style: solid;
+    border-color: #198754;
+    background: #f0faf4;
+    cursor: default;
+}
+.upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.upload-zone.has-file input[type="file"] {
+    pointer-events: none;
+}
+
+/* Konten kosong (default) */
+.upload-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.upload-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: transform 0.2s;
+}
+.upload-zone:hover:not(.has-file) .upload-icon {
+    transform: translateY(-3px);
+}
+.upload-zone.drag-over .upload-icon {
+    transform: scale(1.1);
+}
+.upload-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #343a40;
+    margin: 0 0 4px;
+}
+.upload-sub {
+    font-size: 13px;
+    color: #6c757d;
+    margin: 0 0 10px;
+}
+.upload-formats {
+    font-size: 12px;
+    color: #adb5bd;
+    margin: 0;
+}
+.btn-browse-label {
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    color: #495057;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.15s;
+}
+.upload-zone:hover:not(.has-file) .btn-browse-label {
+    background: #e9ecef;
+}
+
+/* Preview di dalam kotak */
+.upload-preview-inner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.upload-preview-inner .file-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upload-preview-inner .file-icon-box.pdf {
+    background: #fff3ef;
+}
+.upload-preview-inner .file-icon-box.img {
+    background: #edf7f2;
+}
+.upload-preview-inner .file-name-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.upload-preview-inner .file-size-text {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 2px;
+    text-align: center;
+}
+.progress-thin {
+    width: 200px;
+    height: 4px;
+    background: #dee2e6;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.progress-thin-bar {
+    height: 100%;
+    width: 0;
+    background: #198754;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+.badge-ready {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 6px;
+    background: #edf7f2;
+    color: #198754;
+    display: none;
+}
+.btn-remove-file {
+    background: none;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+    color: #6c757d;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    transition:
+        color 0.15s,
+        background 0.15s,
+        border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.btn-remove-file:hover {
+    color: #dc3545;
+    background: #fff5f5;
+    border-color: #f5c6cb;
+}
+
 .navbar .navbar-brand-wrapper {
     width: 260px; /* Lebar standar sidebar terbuka */
     transition: width 0.3s ease;

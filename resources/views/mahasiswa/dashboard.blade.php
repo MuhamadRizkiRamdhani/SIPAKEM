@@ -91,7 +91,9 @@
                         <p class="card-description">
                             Berikut adalah panduan untuk melakukan pengajuan sertifikat dan SKPI.
                         </p>
-                        <button class="btn btn-primary">Baca Panduan</button>
+                        <a href="{{ asset('assets/files/panduan-pengajuan.pdf') }}" target="_blank" class="btn btn-primary">
+                            Baca Panduan
+                        </a>
                     </div>
                 </div>
             </div>
@@ -100,8 +102,8 @@
                     <div class="card-body">
                         <h4 class="card-title">Status Pengajuan</h4>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div class="table-responsive" style="max-height: 260px; overflow-y: auto;">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Jenis Pengajuan</th>
