@@ -24,7 +24,7 @@ class RoleMiddleware
 
         // Check if user role is in allowed roles
         if (!in_array($user->role, $roles)) {
-            return redirect('/')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+            abort(403, 'Anda tidak memiliki akses');
         }
 
         return $next($request);

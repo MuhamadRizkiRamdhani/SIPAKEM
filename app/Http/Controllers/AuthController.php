@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
@@ -50,13 +51,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:5', 'max:50'],
+            'username' => [
+                'required',
+                'regex:/^[a-zA-Z0-9_]+$/',
+                'min:5',
+                'max:50'
+            ],
             'password' => ['required', 'string'],
         ], [
             'username.required' => 'Username harus diisi',
             'username.alpha' => 'Username hanya boleh huruf tanpa simbol',
             'username.min' => 'Username minimal 5 karakter',
             'username.max' => 'Username maksimal 50 karakter',
+            'username.regex' => 'Username hanya boleh huruf, angka, dan underscore',
             'password.required' => 'Password harus diisi',
         ]);
 
@@ -92,46 +99,53 @@ class AuthController extends Controller
     {
         try {
             $request->validate([
-                'nama_mahasiswa' => ['required', 'string', 'min:5', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
+                'nama_mahasiswa' => ['required', 'string', 'min:5', 'max:50', 'regex:/^[a-zA-Z\s\.\'\-]+$/'],
 
                 'username' => [
                     'required',
                     'string',
-                    'min:10',
+                    'min:5',
                     'max:50',
                     'unique:users,username',
-                    'regex:/^[a-zA-Z\s]+$/'
+                    'regex:/^[a-zA-Z0-9_]+$/'
                 ],
 
                 'password' => ['required', 'string', 'min:6'],
 
                 'nim' => [
                     'required',
-                    'digits_between:8,10',
+                    'numeric',
+                    'digits_between:8,15',
                     'unique:mahasiswa,nim',
-                    'regex:/^[a-zA-Z\s]+$/'
                 ],
 
                 'prodi' => ['required', 'exists:prodi,id_prodi'],
 
                 'penerima_beasiswa' => ['required', 'boolean'],
 
-                'tahun_angkatan' => ['required', 'digits:4', 'integer', 'min:2000', 'max:' . date('Y'), 'regex:/^[a-zA-Z\s]+$/'],
+                'tahun_angkatan' => [
+                    'required',
+                    'numeric',
+                    'digits:4',
+                    'between:2000,' . date('Y'),
+                ],
             ], [
                 'nama_mahasiswa.required' => 'Nama harus diisi',
                 'nama_mahasiswa.min' => 'Nama minimal 5 karakter',
                 'nama_mahasiswa.max' => 'Nama maksimal 50 karakter',
 
                 'username.required' => 'Username harus diisi',
-                'username.min' => 'Username minimal 10 karakter',
+                'username.min' => 'Username minimal 5 karakter',
                 'username.max' => 'Username maksimal 50 karakter',
                 'username.unique' => 'Username sudah digunakan',
+                'username.regex' => 'Username hanya boleh huruf, angka, dan underscore',
 
                 'password.required' => 'Password harus diisi',
                 'password.min' => 'Password minimal 6 karakter',
 
                 'nim.required' => 'NIM harus diisi',
-                'nim.digits_between' => 'NIM harus antara 8 sampai 10 digit',
+                'nim.numeric' => 'NIM hanya boleh angka',
+                'nim.digits_between' => 'NIM harus antara 8 sampai 15 digit',
                 'nim.unique' => 'NIM sudah terdaftar',
 
                 'prodi.required' => 'Program studi harus dipilih',
@@ -181,9 +195,12 @@ class AuthController extends Controller
             ], 422);
 
         } catch (\Exception $e) {
+
+            Log::error('Register Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'Registrasi gagal: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan server'
             ], 500);
         }
     }
