@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="page-header">
+        <div class="col-12 page-header">
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                     <i class="mdi mdi-security"></i>
@@ -50,13 +50,13 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-hover table-borderless">
+                        <table class="table table-hover table-borderless" style="width: 100%; table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th>Nama Pengelola</th>
-                                    <th>ID_Pengelola</th>
-                                    <th>Username</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Nama Pengelola</th>
+                                    <th style="width: 15%;">ID_Pengelola</th>
+                                    <th style="width: 30%;">Username</th>
+                                    <th style="width: 25%;" class="text-nowrap">Action</th>
                                 </tr>
                             </thead>
 

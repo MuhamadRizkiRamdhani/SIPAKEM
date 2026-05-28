@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="id_user">User Mahasiswa</label>
+                            <label for="id_user">Akun Mahasiswa</label>
                             <select class="form-control @error('id_user') is-invalid @enderror" id="id_user" name="id_user"
                                 required>
                                 <option value="">-- Pilih User --</option>

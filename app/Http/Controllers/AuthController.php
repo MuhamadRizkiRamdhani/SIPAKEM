@@ -133,6 +133,7 @@ class AuthController extends Controller
                 'nama_mahasiswa.required' => 'Nama harus diisi',
                 'nama_mahasiswa.min' => 'Nama minimal 5 karakter',
                 'nama_mahasiswa.max' => 'Nama maksimal 50 karakter',
+                'nama_mahasiswa.regex' => 'Nama hanya boleh huruf, spasi, titik, dan strip',
 
                 'username.required' => 'Username harus diisi',
                 'username.min' => 'Username minimal 5 karakter',
@@ -157,6 +158,7 @@ class AuthController extends Controller
                 'tahun_angkatan.integer' => 'Tahun angkatan harus berupa angka',
                 'tahun_angkatan.min' => 'Tahun angkatan tidak valid',
                 'tahun_angkatan.max' => 'Tahun angkatan tidak valid',
+                'tahun_angkatan.between' => 'Tahun angkatan harus antara 2000 sampai ' . date('Y'),
             ]);
 
             // BUAT USER

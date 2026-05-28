@@ -112,7 +112,7 @@
         </div>
 
         <div class="row">
-            <div class="col-12 grid-margin">
+            <div class="col-md-15 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Top 5 Mahasiswa Poin Tertinggi</h4>

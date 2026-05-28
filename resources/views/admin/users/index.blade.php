@@ -59,13 +59,13 @@
 
                     {{-- TABLE --}}
                     <div class="table-responsive">
-                        <table class="table table-hover table-borderless">
+                        <table class="table table-hover table-borderless" style="width: 100%; table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap">Username</th>
-                                    <th class="text-nowrap">ID_User</th>
-                                    <th class="text-nowrap">Role</th>
-                                    <th class="text-nowrap">Action</th>
+                                    <th class="text-nowrap" style="width: 30%;">Username</th>
+                                    <th class="text-nowrap" style="width: 15%;">ID_User</th>
+                                    <th class="text-nowrap" style="width: 30%;">Role</th>
+                                    <th class="text-nowrap" style="width: 25%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

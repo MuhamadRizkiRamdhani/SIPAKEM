@@ -16,26 +16,26 @@ class MahasiswaSeeder extends Seeder
      */
     public function run(): void
     {
-        $prodi = Prodi::first(); // ambil 1 prodi
+        // $prodi = Prodi::first(); // ambil 1 prodi
 
-        for ($i = 1; $i <= 5; $i++) {
+        // for ($i = 1; $i <= 5; $i++) {
 
-            $user = User::create([
-                'username' => 'mhs' . $i,
-                'password' => Hash::make('password'),
-                'role' => 'mahasiswa'
-            ]);
+        //     $user = User::create([
+        //         'username' => 'mhs' . $i,
+        //         'password' => Hash::make('password'),
+        //         'role' => 'mahasiswa'
+        //     ]);
 
-            Mahasiswa::create([
-                'nim' => '202300' . $i,
-                'nama_mhs' => 'Mahasiswa ' . $i,
-                'id_user' => $user->id_user,
-                'id_prodi' => $prodi->id_prodi,
-                'poin_kredit' => 0,
-                'beasiswa' => false,
-                'tahun_angkatan' => 2023
-            ]);
-        }
+        //     Mahasiswa::create([
+        //         'nim' => '202300' . $i,
+        //         'nama_mhs' => 'Mahasiswa ' . $i,
+        //         'id_user' => $user->id_user,
+        //         'id_prodi' => $prodi->id_prodi,
+        //         'poin_kredit' => 0,
+        //         'beasiswa' => false,
+        //         'tahun_angkatan' => 2023
+        //     ]);
+        // }
     }
 }
 

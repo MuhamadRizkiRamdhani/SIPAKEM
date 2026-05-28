@@ -28,6 +28,32 @@
     /* ===== PERBAIKAN NAVBAR & SIDEBAR ===== */
 
     /* Navbar full width - override col-lg-12 */
+    .content-wrapper .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    .content-wrapper .col-lg-12,
+    .content-wrapper .col-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+    @media (max-width: 768px) {
+        .table {
+            table-layout: auto !important;
+        }
+
+        .table th,
+        .table td {
+            width: auto !important;
+        }
+    }
+
     .navbar.default-layout-navbar {
         width: 100vw !important;
         left: 0 !important;

@@ -34,12 +34,12 @@
 
                 {{-- TABLE --}}
                 <div class="table-responsive">
-                    <table class="table table-hover table-borderless">
+                    <table class="table table-hover table-borderless" style="width: 100%; table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nama Level</th>
-                                <th>Action</th>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 60%;">Nama Level</th>
+                                <th style="width: 30%;">Action</th>
                             </tr>
                         </thead>
                         <tbody>

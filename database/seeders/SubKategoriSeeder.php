@@ -14,17 +14,56 @@ class SubKategoriSeeder extends Seeder
      */
     public function run(): void
     {
-        $perlombaan = Kategori::where('nama_kategori', 'Perlombaan')->first();
-        $organisasi = Kategori::where('nama_kategori', 'Organisasi')->first();
+        $bem = Kategori::where('nama_kategori', 'BEM')->first();
+        $dpm = Kategori::where('nama_kategori', 'DPM')->first();
+        $hima = Kategori::where('nama_kategori', 'HIMA')->first();
+        $ukm = Kategori::where('nama_kategori', 'UKM')->first();
+        $magang = Kategori::where('nama_kategori', 'MAGANG')->first();
+        $seminar = Kategori::where('nama_kategori', 'SEMINAR')->first();
+        $kepanitiaan = Kategori::where('nama_kategori', 'KEPANITIAAN ACARA')->first();
+        $perlombaan = Kategori::where('nama_kategori', 'PERLOMBAAN')->first();
+        $workshop = Kategori::where('nama_kategori', 'WORKSHOP')->first();
+
 
         SubKategori::insert([
-            // Perlombaan
-            ['nama_sub_kategori' => 'Nasional', 'id_kategori' => $perlombaan->id_kategori],
-            ['nama_sub_kategori' => 'Internasional', 'id_kategori' => $perlombaan->id_kategori],
+            // BEM
+            ['nama_sub_kategori' => 'Presiden Mahasiswa', 'id_kategori' => $bem->id_kategori],
+            ['nama_sub_kategori' => 'Wakil Presiden Mahasiswa', 'id_kategori' => $bem->id_kategori],
+            ['nama_sub_kategori' => 'Anggota', 'id_kategori' => $bem->id_kategori],
 
-            // Organisasi
-            ['nama_sub_kategori' => 'Ketua', 'id_kategori' => $organisasi->id_kategori],
-            ['nama_sub_kategori' => 'Anggota', 'id_kategori' => $organisasi->id_kategori],
+            // DPM
+            ['nama_sub_kategori' => 'Ketua', 'id_kategori' => $dpm->id_kategori],
+            ['nama_sub_kategori' => 'Pengurus', 'id_kategori' => $dpm->id_kategori],
+
+            // HIMA
+            ['nama_sub_kategori' => 'Ketua', 'id_kategori' => $hima->id_kategori],
+            ['nama_sub_kategori' => 'Pengurus', 'id_kategori' => $hima->id_kategori],
+
+            // UKM
+            ['nama_sub_kategori' => 'Ketua', 'id_kategori' => $ukm->id_kategori],
+            ['nama_sub_kategori' => 'Anggota', 'id_kategori' => $ukm->id_kategori],
+
+            // Magang
+            ['nama_sub_kategori' => 'Internal', 'id_kategori' => $magang->id_kategori],
+            ['nama_sub_kategori' => 'Eksternal', 'id_kategori' => $magang->id_kategori],
+
+            // Seminar
+            ['nama_sub_kategori' => 'Internal', 'id_kategori' => $seminar->id_kategori],
+            ['nama_sub_kategori' => 'Eksternal', 'id_kategori' => $seminar->id_kategori],
+
+            // Perlombaan
+            ['nama_sub_kategori' => 'Internasional', 'id_kategori' => $perlombaan->id_kategori],
+            ['nama_sub_kategori' => 'Nasional', 'id_kategori' => $perlombaan->id_kategori],
+            ['nama_sub_kategori' => 'Provinsi', 'id_kategori' => $perlombaan->id_kategori],
+            ['nama_sub_kategori' => 'Kabupaten/Kota', 'id_kategori' => $perlombaan->id_kategori],
+
+            // Kepanitiaan Acara
+            ['nama_sub_kategori' => 'Ketua', 'id_kategori' => $kepanitiaan->id_kategori],
+            ['nama_sub_kategori' => 'Anggota', 'id_kategori' => $kepanitiaan->id_kategori],
+
+            //Workshop
+            ['nama_sub_kategori' => 'Internal', 'id_kategori' => $workshop->id_kategori],
+            ['nama_sub_kategori' => 'Eksternal', 'id_kategori' => $workshop->id_kategori],
         ]);
     }
 }

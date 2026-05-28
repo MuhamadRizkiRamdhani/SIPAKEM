@@ -59,13 +59,13 @@
 
                     {{-- TABLE --}}
                     <div class="table-responsive">
-                        <table class="table table-hover table-borderless">
+                        <table class="table table-hover table-borderless" style="width: 100%; table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th>Nama Sub Kategori</th>
-                                    <th>ID Sub Kategori</th>
-                                    <th>Kategori</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Nama Sub Kategori</th>
+                                    <th style="width: 20%;">ID Sub Kategori</th>
+                                    <th style="width: 20%;">Kategori</th>
+                                    <th style="width: 30%;" class="text-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
