@@ -78,8 +78,12 @@
 
                     <div class="d-flex justify-content-end mb-3 gap-3">
                         <a href="{{ route('admin.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a>
-                        <a href="{{ route($role.'.mahasiswa.exportPdf', request()->query()) }}" 
-                        class="btn btn-sm btn-success">Export PDF</a>
+                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalImport">
+                            <i class="mdi mdi-upload"></i> Import Excel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalExport">
+                            <i class="mdi mdi-download"></i> Export PDF
+                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-borderless">
@@ -141,12 +145,128 @@
             </div>
         </div>
     </div>
+
+    {{-- ========== MODAL IMPORT ========== --}}
+    <div class="modal fade" id="modalImport" tabindex="-1" aria-labelledby="modalImportLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalImportLabel">
+                        <i class="mdi mdi-upload me-1"></i> Import Data Mahasiswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{{ route($role.'.mahasiswa.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+
+                        @if(session('import_errors'))
+                            <div class="alert alert-warning py-2">
+                                <strong><i class="mdi mdi-alert"></i> Beberapa baris dilewati:</strong>
+                                <ul class="mb-0 mt-1 ps-3" style="font-size: 13px; max-height: 120px; overflow-y: auto;">
+                                    @foreach(session('import_errors') as $err)
+                                        <li>{{ $err }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Pilih File <span class="text-danger">*</span></label>
+                            <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required>
+                            <small class="text-muted">Format: .xlsx, .xls, atau .csv. Maksimal 10MB.</small>
+                        </div>
+
+                        <div class="alert alert-info py-2 mb-0" style="font-size: 13px;">
+                            <strong><i class="mdi mdi-information-outline"></i> Format kolom yang diperlukan:</strong>
+                            <ul class="mb-0 mt-2 ps-3">
+                                <li><code>nim</code> — 8–10 digit angka <span class="text-danger">*</span></li>
+                                <li><code>nama_mhs</code> — Nama lengkap <span class="text-danger">*</span></li>
+                                <li><code>username</code> — Username akun <span class="text-danger">*</span></li>
+                                <li><code>password</code> — Min. 8 karakter</li>
+                                <li><code>id_prodi</code> — ID program studi <span class="text-danger">*</span></li>
+                                <li><code>tahun_angkatan</code> — Format YYYY <span class="text-danger">*</span></li>
+                                <li><code>poin_kredit</code> — Angka <em>(opsional, default: 0)</em></li>
+                                <li><code>beasiswa</code> — <code>0</code> = Bukan Penerima, <code>1</code> = Penerima <em>(opsional)</em></li>
+                            </ul>
+                            <small class="text-danger d-block mt-1">* wajib diisi</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary"><i class=""></i> Import</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========== MODAL EXPORT PDF ========== --}}
+    <div class="modal fade" id="modalExport" tabindex="-1" aria-labelledby="modalExportLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalExportLabel">
+                        <i class="mdi mdi-download me-1"></i> Export PDF Mahasiswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3" style="font-size: 13px;">
+                        Pilih filter yang ingin diterapkan pada PDF. Kosongkan untuk export semua data.
+                    </p>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Fakultas</label>
+                        <select id="export-fakultas" class="form-control">
+                            <option value="">Semua Fakultas</option>
+                            @foreach($fakultas as $f)
+                                <option value="{{ $f->id_fakultas }}">{{ $f->nama_fakultas }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Program Studi</label>
+                        <select id="export-prodi" class="form-control">
+                            <option value="">Semua Prodi</option>
+                            @foreach($prodis as $p)
+                                <option value="{{ $p->id_prodi }}" data-fakultas="{{ $p->id_fakultas }}">
+                                    {{ $p->nama_prodi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tahun Angkatan</label>
+                        <input type="text" id="export-tahun" class="form-control" placeholder="cth: 2022">
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label fw-semibold">Status Beasiswa</label>
+                        <select id="export-beasiswa" class="form-control">
+                            <option value="">Semua</option>
+                            <option value="1">Penerima Beasiswa</option>
+                            <option value="0">Bukan Penerima</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-export-pdf">
+                        <i class="mdi mdi-file-pdf"></i> Export PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Alert untuk success message
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
@@ -157,12 +277,10 @@
             });
         @endif
 
-        // Delete confirmation
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const nama = this.getAttribute('data-nama');
-
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: `Anda akan menghapus mahasiswa "${nama}"`,
@@ -179,27 +297,51 @@
                 });
             });
         });
-    </script>
 
-    <script>
-    const fakultasSelect = document.getElementById('fakultas');
-    const prodiSelect = document.getElementById('prodi');
-
-    fakultasSelect.addEventListener('change', function () {
-        const selectedFakultas = this.value;
-
-        Array.from(prodiSelect.options).forEach(option => {
-            if (!option.value) return;
-
-            if (!selectedFakultas || option.dataset.fakultas === selectedFakultas) {
-                option.style.display = 'block';
-            } else {
-                option.style.display = 'none';
-            }
+        // Filter prodi by fakultas (tabel utama)
+        const fakultasSelect = document.getElementById('fakultas');
+        const prodiSelect = document.getElementById('prodi');
+        fakultasSelect.addEventListener('change', function () {
+            const selected = this.value;
+            Array.from(prodiSelect.options).forEach(option => {
+                if (!option.value) return;
+                option.style.display = (!selected || option.dataset.fakultas === selected) ? 'block' : 'none';
+            });
+            prodiSelect.value = '';
         });
 
-        // reset prodi kalau tidak sesuai
-        prodiSelect.value = '';
-    });
+        // Filter prodi by fakultas (modal export)
+        const exportFakultasSelect = document.getElementById('export-fakultas');
+        const exportProdiSelect = document.getElementById('export-prodi');
+        exportFakultasSelect.addEventListener('change', function () {
+            const selected = this.value;
+            Array.from(exportProdiSelect.options).forEach(option => {
+                if (!option.value) return;
+                option.style.display = (!selected || option.dataset.fakultas === selected) ? 'block' : 'none';
+            });
+            exportProdiSelect.value = '';
+        });
+
+        // Tombol export PDF — build URL dengan query params dari modal
+        document.getElementById('btn-export-pdf').addEventListener('click', function () {
+            const params = new URLSearchParams();
+            const fakultas = exportFakultasSelect.value;
+            const prodi = exportProdiSelect.value;
+            const tahun = document.getElementById('export-tahun').value;
+            const beasiswa = document.getElementById('export-beasiswa').value;
+
+            if (fakultas) params.append('fakultas', fakultas);
+            if (prodi) params.append('prodi', prodi);
+            if (tahun) params.append('tahun_angkatan', tahun);
+            if (beasiswa !== '') params.append('beasiswa', beasiswa);
+
+            const baseUrl = "{{ route($role.'.mahasiswa.exportPdf') }}";
+            window.location.href = baseUrl + '?' + params.toString();
+        });
+
+        @if(session('import_errors'))
+            var modalImport = new bootstrap.Modal(document.getElementById('modalImport'));
+            modalImport.show();
+        @endif
     </script>
 @endpush

@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Fakultas;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\MahasiswaImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MahasiswaController extends Controller
 {
@@ -54,6 +56,36 @@ class MahasiswaController extends Controller
         $role = auth()->user()->role;
 
         return view("$role.mahasiswa.index", compact('mahasiswas', 'prodis', 'fakultas', 'role'));
+    }
+
+    public function importForm()
+    {
+        $role = auth()->user()->role;
+        return view("$role.mahasiswa.import");
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:10240'
+        ]);
+
+        $import = new MahasiswaImport();
+        Excel::import($import, $request->file('file'));
+
+        $role = auth()->user()->role;
+
+        $message = "Berhasil mengimport {$import->successCount} mahasiswa.";
+
+        if (!empty($import->importErrors)) {
+            $message .= ' Beberapa baris dilewati.';
+            return redirect()->route("$role.mahasiswa.index")
+                ->with('success', $message)
+                ->with('import_errors', $import->importErrors);
+        }
+
+        return redirect()->route("$role.mahasiswa.index")
+            ->with('success', $message);
     }
 
     public function create()
@@ -169,6 +201,10 @@ class MahasiswaController extends Controller
 
         if ($request->filled('tahun_angkatan')) {
             $query->where('tahun_angkatan', $request->tahun_angkatan);
+        }
+
+        if ($request->filled('beasiswa')) {
+            $query->where('beasiswa', $request->beasiswa);
         }
 
         $mahasiswas = $query->orderBy('nama_mhs')->get();

@@ -131,6 +131,10 @@ Route::prefix('admin')
         Route::get('/pengelola/export-pdf', [PengelolaController::class, 'exportPdf'])
             ->name('pengelola.exportPdf');
 
+        // Tambahkan di sini ↓
+        Route::post('/mahasiswa/import', [MahasiswaController::class, 'import'])
+            ->name('mahasiswa.import');
+
         // Pengelola CRUD Routes
         Route::resource('pengelola', PengelolaController::class)->names([
             'index' => 'pengelola.index',
