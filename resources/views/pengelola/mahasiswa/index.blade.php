@@ -91,6 +91,7 @@
                                     <th>Prodi</th>
                                     <th>Fakultas</th>
                                     <th>Poin Kredit</th>
+                                    <th>Status Beasiswa</th>
                                     <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
@@ -103,6 +104,13 @@
                                         <td>{{ $m->prodi->nama_prodi ?? '-' }}</td>
                                         <td>{{ $m->prodi->fakultas->nama_fakultas ?? '-' }}</td>
                                         <td>{{ $m->poin_kredit }}</td>
+                                        <td> 
+                                            @if($m->beasiswa == 1)
+                                                <span class="badge bg-success">Penerima</span>
+                                            @else
+                                                <span class="badge bg-secondary">Bukan Penerima</span>
+                                            @endif
+                                        </td>
                                         <!-- <td>
                                             <a href="{{ route('pengelola.mahasiswa.edit', $m->nim) }}"
                                                 class="btn btn-primary btn-sm">

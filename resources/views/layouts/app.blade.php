@@ -109,6 +109,46 @@
         padding-top: 0 !important;
     }
 
+    /* Saat sidebar diminimize, non-aktifkan submenu */
+    .sidebar-icon-only .sidebar .nav-item .collapse {
+        display: none !important;
+        pointer-events: none !important;
+    }
+
+    /* Hover popup submenu saat minimize */
+    .sidebar-icon-only .sidebar .nav-item {
+        position: relative;
+    }
+
+    .sidebar-icon-only .sidebar .nav-item:hover .collapse {
+        display: block !important;
+        pointer-events: auto !important;
+        position: absolute;
+        left: 70px;
+        top: 0;
+        width: 200px;
+        background: #fff;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 999;
+        padding: 8px 0;
+    }
+
+    .sidebar-icon-only .sidebar .nav-item:hover .collapse .nav-item .nav-link {
+        padding: 10px 20px !important;
+        font-size: 13px;
+        white-space: nowrap;
+        color: #333;
+        display: block;
+    }
+
+    .sidebar-icon-only .sidebar .nav-item:hover .collapse .nav-item .nav-link:hover {
+        background: #f0f4ff;
+        color: #4b7cf3;
+        padding-left: 25px !important;
+        transition: all 0.2s ease;
+    }
+
     /* === SAAT SIDEBAR MINIMIZE === */
     .sidebar-mini .navbar-brand-wrapper,
     .sidebar-icon-only .navbar-brand-wrapper {
@@ -293,6 +333,25 @@
     <script src=" {{ asset('assets/js/dashboard.js') }}"></script>
     <!-- End custom js for this page -->
     @stack('scripts')
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggler = document.querySelector('.sidebar-toggler');
+
+        if (sidebarToggler) {
+            sidebarToggler.addEventListener('click', function () {
+                setTimeout(() => {
+                    const isMinimized = document.body.classList.contains('sidebar-icon-only');
+                    if (isMinimized) {
+                        sidebar.querySelectorAll('.collapse.show').forEach(el => {
+                            const instance = bootstrap.Collapse.getInstance(el);
+                            if (instance) instance.hide();
+                        });
+                    }
+                }, 50);
+            });
+        }
+    </script>
+
 </body>
 
 </html>

@@ -74,7 +74,7 @@ class MahasiswaController extends Controller
             'id_user' => 'required|exists:users,id_user',
             'id_prodi' => 'required|exists:prodi,id_prodi',
             'poin_kredit' => 'required|integer|min:0',
-            'tahun_angkatan' => 'required|digits:4|integer|regex:/^[a-zA-Z\s]+$/|min:2000|max:' . date('Y'),
+            'tahun_angkatan' => 'required|digits:4|integer|min:2000|max:' . date('Y'),
             'beasiswa' => 'required|in:0,1'
         ]);
 

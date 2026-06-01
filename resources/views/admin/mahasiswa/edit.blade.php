@@ -93,12 +93,12 @@
                             <div style="display: flex; gap: 24px; margin-top: 8px;">
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: normal; margin: 0;">
                                     <input type="radio" name="beasiswa" id="beasiswa_tidak" value="0"
-                                        {{ old('beasiswa', '0') == '0' ? 'checked' : '' }}>
+                                        {{ old('beasiswa', $mahasiswa->beasiswa) == '0' ? 'checked' : '' }}>
                                     Bukan Penerima Beasiswa
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: normal; margin: 0;">
                                     <input type="radio" name="beasiswa" id="beasiswa_ya" value="1"
-                                        {{ old('beasiswa') == '1' ? 'checked' : '' }}>
+                                        {{ old('beasiswa', $mahasiswa->beasiswa) == '1' ? 'checked' : '' }}>
                                     Penerima Beasiswa
                                 </label>
                             </div>
@@ -108,7 +108,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="button" id="btn-update" class="btn btn-primary">Update</button>
                             <a href="{{ route('admin.mahasiswa.index') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </form>
@@ -116,4 +116,26 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.getElementById('btn-update').addEventListener('click', function () {
+                Swal.fire({
+                    title: 'Konfirmasi Update',
+                    text: 'Apakah Anda yakin ingin menyimpan perubahan data mahasiswa ini?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Update!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.querySelector('form').submit();
+                    }
+                });
+            });
+        </script>
+    @endpush
+
 @endsection
