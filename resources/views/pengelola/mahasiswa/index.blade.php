@@ -78,8 +78,9 @@
 
                     <div class="d-flex justify-content-end mb-3 gap-3">
                         <!-- <a href="{{ route('pengelola.mahasiswa.create') }}" class="btn btn-sm btn-primary">Tambah Mahasiswa</a> -->
-                        <a href="{{ route($role.'.mahasiswa.exportPdf', request()->query()) }}" 
-                        class="btn btn-sm btn-success">Export PDF</a>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalExport">
+                            <i class="mdi mdi-download"></i> Export PDF
+                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-borderless">
@@ -139,6 +140,67 @@
                             {{ $mahasiswas->links() }}
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========== MODAL EXPORT PDF ========== --}}
+    <div class="modal fade" id="modalExport" tabindex="-1" aria-labelledby="modalExportLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalExportLabel">
+                        <i class="mdi mdi-download me-1"></i> Export PDF Mahasiswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3" style="font-size: 13px;">
+                        Pilih filter yang ingin diterapkan pada PDF. Kosongkan untuk export semua data.
+                    </p>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Fakultas</label>
+                        <select id="export-fakultas" class="form-control">
+                            <option value="">Semua Fakultas</option>
+                            @foreach($fakultas as $f)
+                                <option value="{{ $f->id_fakultas }}">{{ $f->nama_fakultas }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Program Studi</label>
+                        <select id="export-prodi" class="form-control">
+                            <option value="">Semua Prodi</option>
+                            @foreach($prodis as $p)
+                                <option value="{{ $p->id_prodi }}" data-fakultas="{{ $p->id_fakultas }}">
+                                    {{ $p->nama_prodi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tahun Angkatan</label>
+                        <input type="text" id="export-tahun" class="form-control" placeholder="cth: 2022">
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label fw-semibold">Status Beasiswa</label>
+                        <select id="export-beasiswa" class="form-control">
+                            <option value="">Semua</option>
+                            <option value="1">Penerima Beasiswa</option>
+                            <option value="0">Bukan Penerima</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-export-pdf">
+                        <i class="mdi mdi-file-pdf"></i> Export PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 </div>
             </div>
         </div>
@@ -203,5 +265,34 @@
         // reset prodi kalau tidak sesuai
         prodiSelect.value = '';
     });
+
+    // Filter prodi by fakultas (modal export)
+        const exportFakultasSelect = document.getElementById('export-fakultas');
+        const exportProdiSelect = document.getElementById('export-prodi');
+        exportFakultasSelect.addEventListener('change', function () {
+            const selected = this.value;
+            Array.from(exportProdiSelect.options).forEach(option => {
+                if (!option.value) return;
+                option.style.display = (!selected || option.dataset.fakultas === selected) ? 'block' : 'none';
+            });
+            exportProdiSelect.value = '';
+        });
+
+        // Tombol export PDF — build URL dengan query params dari modal
+        document.getElementById('btn-export-pdf').addEventListener('click', function () {
+            const params = new URLSearchParams();
+            const fakultas = exportFakultasSelect.value;
+            const prodi = exportProdiSelect.value;
+            const tahun = document.getElementById('export-tahun').value;
+            const beasiswa = document.getElementById('export-beasiswa').value;
+
+            if (fakultas) params.append('fakultas', fakultas);
+            if (prodi) params.append('prodi', prodi);
+            if (tahun) params.append('tahun_angkatan', tahun);
+            if (beasiswa !== '') params.append('beasiswa', beasiswa);
+
+            const baseUrl = "{{ route($role.'.mahasiswa.exportPdf') }}";
+            window.location.href = baseUrl + '?' + params.toString();
+        });
     </script>
 @endpush
