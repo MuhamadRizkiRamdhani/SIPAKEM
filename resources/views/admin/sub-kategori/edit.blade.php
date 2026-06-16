@@ -59,7 +59,7 @@
 
                     {{-- BUTTON --}}
                     <div class="form-group">
-                        <button type="submit" id="btn-update" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                         <a href="{{ route('admin.sub-kategori.index') }}"
                            class="btn btn-secondary">Batal</a>
                     </div>
@@ -72,22 +72,28 @@
  @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.getElementById('btn-update').addEventListener('click', function () {
-                Swal.fire({
-                    title: 'Konfirmasi Update',
-                    text: 'Apakah Anda yakin ingin menyimpan perubahan data sub kategori ini?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Update!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
+            document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = this;
+            const btn = document.querySelector('button[type="submit"]');
+
+            Swal.fire({
+                title: 'Konfirmasi Update',
+                text: 'Apakah Anda yakin ingin menyimpan perubahan data pengguna ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Simpan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    btn.disabled = true;
+                    btn.textContent = 'Menyimpan...';
+                    form.submit();
+                }
             });
+        });
         </script>
     @endpush
 

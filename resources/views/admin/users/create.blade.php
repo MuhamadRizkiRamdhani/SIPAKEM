@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" id="btn-submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="{{ route('admin.pengguna.index') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </form>
@@ -65,7 +65,11 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.getElementById('btn-submit').addEventListener('click', function () {
+            document.querySelector('form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const form = this;
+                const btn = document.querySelector('button[type="submit"]');
+
                 Swal.fire({
                     title: 'Konfirmasi Simpan',
                     text: 'Apakah Anda yakin ingin menyimpan data pengguna ini?',
@@ -77,7 +81,9 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.querySelector('form').submit();
+                        btn.disabled = true;
+                        btn.textContent = 'Menyimpan...';
+                        form.submit();
                     }
                 });
             });

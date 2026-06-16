@@ -95,7 +95,7 @@
 
                     {{-- BUTTON --}}
                     <div class="form-group">
-                        <button type="submit" id="btn-update" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                         <a href="{{ route('admin.poin.index') }}" class="btn btn-secondary">Batal</a>
                     </div>
 
@@ -136,21 +136,27 @@
 
     window.addEventListener('DOMContentLoaded', filterSubKategori);
 
-    document.getElementById('btn-update').addEventListener('click', function () {
-                Swal.fire({
-                    title: 'Konfirmasi Update',
-                    text: 'Apakah Anda yakin ingin menyimpan perubahan data poin ini?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Update!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            });
+    document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+    const btn = document.querySelector('button[type="submit"]');
+
+    Swal.fire({
+        title: 'Konfirmasi Update',
+        text: 'Apakah Anda yakin ingin menyimpan perubahan data poin ini?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Simpan!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            btn.disabled = true;
+            btn.textContent = 'Menyimpan...';
+            form.submit();
+        }
+    });
+});
 </script>
 @endpush

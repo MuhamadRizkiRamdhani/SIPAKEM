@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" id="btn-submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="{{ route('admin.prodi.index') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </form>
@@ -56,22 +56,28 @@
     @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById('btn-submit').addEventListener('click', function () {
-            Swal.fire({
-                title: 'Konfirmasi Simpan',
-                text: 'Apakah Anda yakin ingin menyimpan data program studi ini?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Simpan!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.querySelector('form').submit();
-                }
-            });
+        document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const form = this;
+        const btn = document.querySelector('button[type="submit"]');
+
+        Swal.fire({
+            title: 'Konfirmasi Simpan',
+            text: 'Apakah Anda yakin ingin menyimpan data program studi ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Simpan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                btn.disabled = true;
+                btn.textContent = 'Menyimpan...';
+                form.submit();
+            }
         });
+    });
     </script>
     @endpush
 @endsection
