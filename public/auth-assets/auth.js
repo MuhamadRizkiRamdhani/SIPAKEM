@@ -6,6 +6,7 @@ const rightPanelContainer = document.getElementById('rightPanelContent');
 
 let regSection = null;
 let activeMode = 'login';
+let loginCooldownTimer = null;
 
 // ==================== UTILITY FUNCTIONS ====================
 
@@ -44,6 +45,43 @@ function resetButton(button, originalText) {
     button.style.cursor = 'pointer';
 }
 
+function startLoginCooldown(seconds) {
+    const submitBtn = document.getElementById('signInBtn');
+    const feedback = document.getElementById('loginFeedback');
+
+    if (loginCooldownTimer) {
+        clearInterval(loginCooldownTimer);
+    }
+
+    const endTime = Date.now() + (seconds * 1000);
+
+    const updateCountdown = () => {
+        const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-clock"></i> ${remaining}s`;
+            submitBtn.style.opacity = '0.7';
+            submitBtn.style.cursor = 'not-allowed';
+        }
+
+        if (feedback) {
+            feedback.style.display = 'none';
+        }
+
+        if (remaining <= 0) {
+            clearInterval(loginCooldownTimer);
+            loginCooldownTimer = null;
+            if (submitBtn) {
+                resetButton(submitBtn, 'Masuk');
+            }
+        }
+    };
+
+    updateCountdown();
+    loginCooldownTimer = setInterval(updateCountdown, 1000);
+}
+
 /**
  * Validasi input login
  */
@@ -66,13 +104,13 @@ function validateRegisterForm(data) {
     if (data.nim.length < 8) return { valid: false, message: 'NIM minimal 8 digit' };
     if (data.nim.length > 15) return { valid: false, message: 'NIM maksimal 15 digit' };
 
-    // Nama: huruf, spasi, titik, apostrof, strip
+    // Nama
     if (!data.fullname) return { valid: false, message: 'Nama lengkap harus diisi' };
     if (data.fullname.length < 5) return { valid: false, message: 'Nama minimal 5 karakter' };
     if (data.fullname.length > 50) return { valid: false, message: 'Nama maksimal 50 karakter' };
     if (!/^[a-zA-Z\s.\'\-]+$/.test(data.fullname)) return { valid: false, message: 'Nama hanya boleh huruf, spasi, titik, dan strip' };
 
-    // Username: huruf, angka, underscore
+    // Username
     if (!data.username) return { valid: false, message: 'Username harus diisi' };
     if (data.username.length < 5) return { valid: false, message: 'Username minimal 5 karakter' };
     if (data.username.length > 50) return { valid: false, message: 'Username maksimal 50 karakter' };
@@ -232,6 +270,11 @@ async function handleLoginSubmit(e) {
         });
 
         const result = await response.json();
+
+        if (response.status === 429 && result.retry_after) {
+            startLoginCooldown(result.retry_after);
+            return;
+        }
 
         if (response.ok && result.success) {
             showFeedback(feedback, 'Login berhasil! Mengalihkan...', false);

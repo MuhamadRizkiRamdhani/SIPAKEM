@@ -9,22 +9,18 @@ use App\Models\Pengelola;
 use App\Models\Fakultas;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Menampilkan halaman login dengan data fakultas dan prodi
-     */
     public function showLogin()
     {
-        // Ambil semua fakultas
         $fakultasData = Fakultas::select('id_fakultas as id', 'nama_fakultas as nama')->get();
 
-        // Ambil semua prodi dan kelompokkan by fakultas
         $prodiMap = [];
         $prodiList = Prodi::select('id_prodi', 'id_fakultas', 'nama_prodi')->get();
 
@@ -67,17 +63,36 @@ class AuthController extends Controller
             'password.required' => 'Password harus diisi',
         ]);
 
+        $key = strtolower($request->username) . '|' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = max(1, RateLimiter::availableIn($key));
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $seconds . ' detik.',
+                'retry_after' => $seconds,
+            ], 429);
+        }
+
         $user = User::where('username', $request->username)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
+            RateLimiter::hit($key, 60);
+
+            $remaining = RateLimiter::remaining($key, 5);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Username atau password salah'
+                'message' => 'Username atau password salah',
+                'remaining_attempts' => $remaining,
             ], 401);
         }
 
+        RateLimiter::clear($key);
+
         // Generate session atau token jika menggunakan API
-        auth()->login($user);
+        Auth::login($user);
 
         // Return user data dengan role
         return response()->json([
@@ -212,7 +227,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        Auth::logout();
         return redirect('/')->with('message', 'Logout berhasil');
     }
 
